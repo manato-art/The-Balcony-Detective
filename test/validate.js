@@ -1,0 +1,128 @@
+// データ整合性 + ロジックのシミュレーション検証（node test/validate.js）
+const { VT_ICON_PATHS } = require('../js/icons.js');
+const { VT_RESIDENTS, VT_CATS } = require('../js/data/residents.js');
+const { VT_MANSIONS, VT_ROOMS } = require('../js/data/mansions.js');
+const ev = require('../js/data/events.js');
+
+Object.assign(globalThis, {
+  VT_RESIDENTS, VT_CATS, VT_MANSIONS, VT_ROOMS,
+  VT_WAIT_EVENTS: ev.VT_WAIT_EVENTS,
+  VT_CAUGHT_POST: ev.VT_CAUGHT_POST,
+  VT_TIMEOUT_ROAST: ev.VT_TIMEOUT_ROAST,
+});
+const G = require('../js/game.js');
+
+let fails = 0;
+function ok(cond, msg) {
+  if (!cond) { fails++; console.error('  NG: ' + msg); }
+}
+
+// 再現可能な乱数（LCG）
+function lcg(seed) {
+  let s = seed >>> 0;
+  return () => {
+    s = (s * 1664525 + 1013904223) >>> 0;
+    return s / 4294967296;
+  };
+}
+
+console.log('[1] 住人データ');
+const ids = new Set();
+const validCats = Object.keys(VT_CATS);
+for (const r of VT_RESIDENTS) {
+  ok(!ids.has(r.id), 'id重複: ' + r.id); ids.add(r.id);
+  ok(validCats.includes(r.cat), r.id + ': catが不正 ' + r.cat);
+  ok(VT_ICON_PATHS[r.icon], r.id + ': アイコン欠落 ' + r.icon);
+  ok(r.hints.length >= 5, r.id + ': hintsが少ない ' + r.hints.length);
+  ok(r.strong.length >= 2, r.id + ': strongが少ない');
+  ok(r.rumor.length >= 2, r.id + ': rumorが少ない');
+  ok(r.roastWrong.length >= 1 && r.roastRight.length >= 1, r.id + ': 煽り文欠落');
+  ok(r.confuse.length >= 3, r.id + ': confuseが少ない');
+  for (const h of r.hints.concat(r.strong)) ok(VT_ICON_PATHS[h[1]], r.id + ': ヒントアイコン欠落 ' + h[1]);
+  for (const c of r.confuse) ok(VT_RESIDENTS.some((x) => x.id === c), r.id + ': confuse不明id ' + c);
+}
+ok(VT_RESIDENTS.length === 33, '住人が33種でない: ' + VT_RESIDENTS.length);
+
+console.log('[2] マンションデータ');
+const mids = new Set();
+for (const m of VT_MANSIONS) {
+  ok(!mids.has(m.id), 'マンションid重複: ' + m.id); mids.add(m.id);
+  ok(VT_ICON_PATHS[m.icon], m.id + ': アイコン欠落');
+  const cats = new Set();
+  for (const [id, w] of m.pool) {
+    const r = VT_RESIDENTS.find((x) => x.id === id);
+    ok(r, m.id + ': pool不明id ' + id);
+    ok(w > 0, m.id + ': 重みが0以下 ' + id);
+    if (r) cats.add(r.cat);
+  }
+  ok(cats.size >= 3, m.id + ': カテゴリの多様性不足');
+}
+ok(VT_MANSIONS.length === 10, 'マンションが10種でない');
+ok(VT_ROOMS.length === 20, '部屋が20でない: ' + VT_ROOMS.length);
+
+console.log('[3] ゲームシミュレーション（各マンション×300ターン）');
+const rng = lcg(20260704);
+G.setRng(rng);
+const kinds = ['observe', 'post', 'wait', 'neighbor'];
+let turns = 0, timers = 0, caughts = 0, corrects = 0;
+for (const m of VT_MANSIONS) {
+  G.newGame({ players: ['A', 'B', 'C'], rounds: 5, mansionId: m.id });
+  for (let i = 0; i < 300; i++) {
+    G.state.queue.push(i % 3); // ターンを無限に補給
+    const t = G.startTurn();
+    ok(t, m.id + ': startTurn失敗');
+    ok(/^[1-4]0[1-5]$/.test(t.room), '部屋番号が不正: ' + t.room);
+    ok(t.choices.length === 4, '4択でない: ' + t.choices.length);
+    ok(new Set(t.choices.map((c) => c.id)).size === 4, '4択に重複');
+    ok(t.choices[t.answerIdx].id === t.resident.id, 'answerIdx不整合');
+    ok(t.shown.length === 3, '初期ヒントが3でない');
+    // ランダムに0〜4回調査
+    const n = Math.floor(rng() * 5);
+    for (let a = 0; a < n; a++) {
+      const e = G.doAction(kinds[Math.floor(rng() * 4)]);
+      if (e && e.type === 'caught') caughts++;
+      if (e && e.type === 'timer') timers++;
+    }
+    // 回答 or タイムアウト
+    let r;
+    if (G.state.turn.timered && rng() < 0.5) {
+      r = G.timeout();
+      ok(r && !r.correct && r.timedOut, 'timeoutの結果が不正');
+    } else {
+      const pickIdx = Math.floor(rng() * 4);
+      const conf = rng() < 0.3;
+      r = G.answer(pickIdx, conf);
+      ok(r, 'answerがnull');
+      ok(r.correct === (pickIdx === t.answerIdx), 'correct判定不整合');
+      if (!r.correct) ok(r.sips >= (conf ? 2 : 1), '不正解なのに飲みが少ない');
+      if (r.correct) ok(r.points >= 100, '正解なのに100点未満');
+    }
+    ok(typeof r.roast === 'string' && r.roast.length > 0, '煽り文が空');
+    ok(G.answer(0, false) === null, '二重回答が通ってしまう');
+    turns++;
+    G.nextTurn();
+  }
+  const res = G.results();
+  ok(res.rank.length === 3 && res.mvp, m.id + ': results不正');
+}
+console.log('  ' + turns + 'ターン実行 / 発覚' + caughts + '回 / 帰宅タイマー' + timers + '回');
+ok(caughts > 0 && timers > 0, 'イベント分岐が一度も発生していない（確率ロジック疑い）');
+
+console.log('[4] キャラクター描画');
+const CH = require('../js/characters.js');
+for (const r of VT_RESIDENTS) {
+  ok(CH.AVATARS[r.id], r.id + ': アバター定義なし');
+  const svg = CH.avatar(r.id, 96);
+  ok(typeof svg === 'string' && svg.indexOf('<svg') === 0 && svg.indexOf('</svg>') > 0, r.id + ': アバターSVG不正');
+}
+for (const pose of ['base', 'point', 'happy', 'shock']) {
+  const svg = CH.mascot(pose, 160);
+  ok(svg.indexOf('<svg') === 0 && svg.indexOf('</svg>') > 0, 'マスコット' + pose + 'が不正');
+}
+ok(CH.avatar('unknown-id', 96).indexOf('<svg') === 0, '未知IDでフォールバックしない');
+
+if (fails > 0) {
+  console.error('\nFAIL: ' + fails + '件');
+  process.exit(1);
+}
+console.log('\nPASS: 全チェック緑');

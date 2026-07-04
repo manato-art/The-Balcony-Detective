@@ -1,0 +1,274 @@
+// ベランダ探偵 — キャラクター描画（マスコット + 住人アバター / フラットSVG）
+(function (root) {
+
+  /* ================= マスコット: ハト探偵ポッポ ================= */
+  // pose: base(虫眼鏡) / point(指差し) / happy(喜び) / shock(驚き)
+  function mascot(pose, size) {
+    size = size || 160;
+    const P = pose || 'base';
+    let wings = '', extras = '', eyes = '', beak = '';
+
+    if (P === 'happy') {
+      wings = '<path d="M46 96 Q18 70 26 48 Q46 58 56 84 Z" fill="#9fb4d1"/>' +
+              '<path d="M154 96 Q182 70 174 48 Q154 58 144 84 Z" fill="#9fb4d1"/>';
+      eyes = '<path d="M64 88 q12 -14 24 0" stroke="#2e3a4d" stroke-width="6" fill="none" stroke-linecap="round"/>' +
+             '<path d="M112 88 q12 -14 24 0" stroke="#2e3a4d" stroke-width="6" fill="none" stroke-linecap="round"/>';
+      beak = '<path d="M88 100 q12 14 24 0 l-12 12 Z" fill="#f5a623"/><path d="M90 103 q10 10 20 0 q-4 9 -10 9 t-10 -9Z" fill="#d9822b"/>';
+      extras = star(30, 42, 7, '#ffc800') + star(172, 36, 9, '#ffc800') + star(184, 92, 6, '#ff86d0');
+    } else if (P === 'shock') {
+      wings = '<path d="M52 110 Q34 92 44 78 Q60 86 62 104 Z" fill="#9fb4d1"/>' +
+              '<path d="M148 110 Q166 92 156 78 Q140 86 138 104 Z" fill="#9fb4d1"/>';
+      eyes = eye(76, 88, 17, 4.5) + eye(124, 88, 17, 4.5);
+      beak = '<ellipse cx="100" cy="108" rx="10" ry="12" fill="#d9822b"/><path d="M88 100 l12 -6 12 6 -12 6 Z" fill="#f5a623"/>';
+      extras = '<path d="M170 60 q6 10 0 16 q-6 -6 0 -16Z" fill="#7cc7ff"/>' +
+               '<path d="M56 40 l6 10 M68 34 l2 12 M44 50 l10 6" stroke="#8fa3bd" stroke-width="4" stroke-linecap="round"/>';
+    } else if (P === 'point') {
+      wings = '<path d="M46 118 Q28 108 30 92 Q46 96 54 110 Z" fill="#9fb4d1"/>' +
+              '<path d="M140 92 Q168 60 186 52 Q184 74 156 100 Z" fill="#9fb4d1"/>' +
+              '<circle cx="184" cy="52" r="9" fill="#9fb4d1"/>';
+      eyes = eye(76, 88, 16, 7) + eye(124, 88, 16, 7);
+      beak = '<path d="M86 100 l14 -5 14 5 -14 9 Z" fill="#f5a623"/><path d="M92 106 q8 8 16 0 l-8 8 Z" fill="#d9822b"/>';
+    } else {
+      wings = '<path d="M46 118 Q28 108 30 92 Q46 96 54 110 Z" fill="#9fb4d1"/>' +
+              '<path d="M138 100 Q150 84 148 72 Q160 80 158 96 Q152 106 142 108 Z" fill="#9fb4d1"/>';
+      eyes = eye(76, 88, 16, 7) + eye(124, 88, 16, 7);
+      beak = '<path d="M86 100 l14 -5 14 5 -14 9 Z" fill="#f5a623"/>';
+      extras = '<circle cx="158" cy="86" r="17" fill="#bfe6ff" fill-opacity=".45" stroke="#5b6b7f" stroke-width="6"/>' +
+               '<path d="M170 99 L184 120" stroke="#8a5a3a" stroke-width="9" stroke-linecap="round"/>';
+    }
+
+    return '<svg viewBox="0 0 200 200" width="' + size + '" height="' + size + '" aria-hidden="true">' +
+      '<ellipse cx="100" cy="190" rx="52" ry="7" fill="#000" opacity=".08"/>' +
+      '<path d="M64 168 Q46 182 34 180 Q44 168 56 158 Z" fill="#8fa6c4"/>' +
+      '<ellipse cx="100" cy="120" rx="62" ry="66" fill="#c3d3e8"/>' +
+      '<ellipse cx="100" cy="146" rx="40" ry="36" fill="#e9f0fa"/>' +
+      '<path d="M68 118 q32 -18 64 0 q-10 -16 -32 -16 t-32 16Z" fill="#35d0ba"/>' +
+      '<path d="M76 112 q24 -12 48 0 q-8 -10 -24 -10 t-24 10Z" fill="#b892ff" opacity=".85"/>' +
+      wings +
+      '<path d="M84 182 l-4 12 M90 182 l0 12 M96 182 l4 12" stroke="#f0925a" stroke-width="5" stroke-linecap="round" fill="none"/>' +
+      '<path d="M104 182 l-4 12 M110 182 l0 12 M116 182 l4 12" stroke="#f0925a" stroke-width="5" stroke-linecap="round" fill="none"/>' +
+      eyes + '<ellipse cx="100" cy="97" rx="6" ry="4" fill="#f4f7fc"/>' + beak +
+      // ディアストーカー帽
+      '<path d="M50 62 Q50 26 100 26 Q150 26 150 62 L150 68 Q100 56 50 68 Z" fill="#c99b66"/>' +
+      '<path d="M50 64 Q100 52 150 64 L150 72 Q100 60 50 72 Z" fill="#96683a"/>' +
+      '<ellipse cx="44" cy="66" rx="14" ry="7" fill="#b8875a" transform="rotate(-14 44 66)"/>' +
+      '<ellipse cx="156" cy="66" rx="14" ry="7" fill="#b8875a" transform="rotate(14 156 66)"/>' +
+      '<circle cx="100" cy="26" r="6" fill="#96683a"/>' +
+      '<path d="M72 38 Q100 30 128 38 M62 50 Q100 40 138 50" stroke="#b8875a" stroke-width="3" fill="none" opacity=".8"/>' +
+      extras +
+      '</svg>';
+  }
+
+  function eye(cx, cy, r, pr) {
+    return '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="#fff"/>' +
+      '<circle cx="' + cx + '" cy="' + (cy + 2) + '" r="' + pr + '" fill="#2e3a4d"/>' +
+      '<circle cx="' + (cx + 2.5) + '" cy="' + (cy - 1) + '" r="' + (pr * .35) + '" fill="#fff"/>';
+  }
+  function star(cx, cy, r, c) {
+    return '<path d="M' + cx + ' ' + (cy - r) + ' L' + (cx + r * .3) + ' ' + (cy - r * .3) + ' L' + (cx + r) + ' ' + cy +
+      ' L' + (cx + r * .3) + ' ' + (cy + r * .3) + ' L' + cx + ' ' + (cy + r) + ' L' + (cx - r * .3) + ' ' + (cy + r * .3) +
+      ' L' + (cx - r) + ' ' + cy + ' L' + (cx - r * .3) + ' ' + (cy - r * .3) + ' Z" fill="' + c + '"/>';
+  }
+
+  /* ================= 住人アバター ================= */
+  const SKIN = { light: '#ffd9b3', tan: '#e8a86c', pale: '#f3e3d3', ghost: '#e4eef0' };
+
+  // 髪 (style, color) — head: circle cx60 cy56 r32
+  function hair(style, c) {
+    const half = '<path d="M28 56 A32 32 0 0 1 92 56 Z" fill="' + c + '"/>';
+    switch (style) {
+      case 'short': return half;
+      case 'messy': return half + '<path d="M28 56 l8 8 8 -8 8 8 8 -8 8 8 8 -8 8 8 8 -8 Z" fill="' + c + '" transform="translate(0 -1)"/>';
+      case 'spiky': return half + '<path d="M34 40 l4 -14 6 12 6 -16 6 14 6 -16 6 16 6 -12 4 12" stroke="' + c + '" stroke-width="8" fill="' + c + '" stroke-linejoin="round"/>';
+      case 'bob': return half + '<path d="M28 54 h10 v26 q-10 -2 -10 -12 Z" fill="' + c + '"/><path d="M92 54 h-10 v26 q10 -2 10 -12 Z" fill="' + c + '"/>';
+      case 'mash': return '<path d="M28 60 A32 32 0 0 1 92 60 L92 64 Q60 56 28 64 Z" fill="' + c + '"/>';
+      case 'long': return '<path d="M24 56 q0 -34 36 -34 t36 34 v40 q0 12 -12 12 h-48 q-12 0 -12 -12 Z" fill="' + c + '" opacity=".999"/>';
+      case 'bun': return half + '<circle cx="60" cy="20" r="11" fill="' + c + '"/>';
+      case 'twin': return half + '<ellipse cx="20" cy="76" rx="10" ry="20" fill="' + c + '"/><ellipse cx="100" cy="76" rx="10" ry="20" fill="' + c + '"/>';
+      case 'pony': return half + '<ellipse cx="94" cy="82" rx="9" ry="22" fill="' + c + '" transform="rotate(-18 94 82)"/>';
+      case 'curly': return half + '<circle cx="30" cy="52" r="9" fill="' + c + '"/><circle cx="42" cy="40" r="9" fill="' + c + '"/><circle cx="60" cy="34" r="10" fill="' + c + '"/><circle cx="78" cy="40" r="9" fill="' + c + '"/><circle cx="90" cy="52" r="9" fill="' + c + '"/>';
+      case 'bald': return '<path d="M30 50 q4 -6 10 -6 v10 q-6 0 -10 -4Z" fill="' + c + '"/><path d="M90 50 q-4 -6 -10 -6 v10 q6 0 10 -4Z" fill="' + c + '"/>';
+      case 'thin': return '<path d="M28 54 q2 -10 12 -14 v18 q-8 0 -12 -4Z" fill="' + c + '"/><path d="M92 54 q-2 -10 -12 -14 v18 q8 0 12 -4Z" fill="' + c + '"/><ellipse cx="60" cy="30" rx="12" ry="5" fill="' + c + '"/>';
+      case 'center': return '<path d="M28 56 A32 32 0 0 1 92 56 Z" fill="' + c + '"/><path d="M60 24 l-6 20 h12 Z" fill="' + (style === 'center' ? '#00000000' : c) + '"/><path d="M60 26 l-5 16 10 0 Z" fill="rgba(0,0,0,.12)"/>';
+      default: return half;
+    }
+  }
+
+  // 帽子・被り物
+  function hat(type, c) {
+    switch (type) {
+      case 'cap': return '<path d="M30 46 Q30 20 60 20 T90 46 Z" fill="' + c + '"/><path d="M84 42 q22 -2 26 6 q-14 6 -28 2 Z" fill="' + c + '"/>';
+      case 'police': return '<path d="M28 44 Q28 22 60 22 T92 44 L92 50 H28 Z" fill="' + c + '"/><path d="M40 50 h40 q10 0 12 6 h-64 q2 -6 12 -6Z" fill="#22304a"/><circle cx="60" cy="36" r="6" fill="#ffc800"/>';
+      case 'hood': return '<path d="M20 66 Q16 14 60 14 T100 66 Q100 78 88 76 Q92 34 60 34 T32 76 Q20 78 20 66Z" fill="' + c + '"/>';
+      case 'crown': return '<path d="M40 26 l6 -14 8 10 6 -14 6 14 8 -10 6 14 Z" fill="#ffc800"/><rect x="40" y="24" width="40" height="6" rx="3" fill="#e6a800"/>';
+      case 'band': return '<rect x="27" y="40" width="66" height="10" rx="5" fill="' + c + '"/>';
+      case 'nurse': return '<path d="M42 26 h36 l-4 12 h-28 Z" fill="#fff" stroke="#e5e5e5"/><path d="M60 29 v6 M57 32 h6" stroke="#ff4b4b" stroke-width="2.5"/>';
+      default: return '';
+    }
+  }
+
+  // 小物
+  function acc(a) {
+    switch (a) {
+      case 'glasses': return '<circle cx="49" cy="58" r="8" fill="none" stroke="#3c3c3c" stroke-width="2.5"/><circle cx="71" cy="58" r="8" fill="none" stroke="#3c3c3c" stroke-width="2.5"/><path d="M57 58 h6" stroke="#3c3c3c" stroke-width="2.5"/>';
+      case 'sunglasses': return '<rect x="40" y="52" width="17" height="12" rx="5" fill="#2e2e3e"/><rect x="63" y="52" width="17" height="12" rx="5" fill="#2e2e3e"/><path d="M57 57 h6" stroke="#2e2e3e" stroke-width="3"/>';
+      case 'mask': return '<rect x="44" y="62" width="32" height="18" rx="8" fill="#fff" stroke="#e5e5e5"/><path d="M44 66 L30 60 M76 66 L90 60" stroke="#d8d8d8" stroke-width="2"/>';
+      case 'lashes': return '<path d="M42 54 l-5 -3 M45 51 l-4 -4 M78 54 l5 -3 M75 51 l4 -4" stroke="#3c3c3c" stroke-width="2" stroke-linecap="round"/>';
+      case 'stubble': return '<g fill="#7a6a5a" opacity=".55"><circle cx="52" cy="74" r="1.4"/><circle cx="58" cy="77" r="1.4"/><circle cx="64" cy="77" r="1.4"/><circle cx="70" cy="74" r="1.4"/><circle cx="55" cy="80" r="1.4"/><circle cx="66" cy="80" r="1.4"/></g>';
+      case 'earring': return '<circle cx="30" cy="66" r="3" fill="#ffc800"/><circle cx="90" cy="66" r="3" fill="#ffc800"/>';
+      case 'tear': return '<path d="M76 66 q5 6 0 10 q-5 -4 0 -10Z" fill="#7cc7ff"/>';
+      case 'sweat': return '<path d="M88 44 q5 7 0 11 q-5 -4 0 -11Z" fill="#7cc7ff"/>';
+      case 'mic': return '<rect x="92" y="108" width="7" height="22" rx="3" fill="#5b6b7f" transform="rotate(14 95 118)"/><circle cx="98" cy="104" r="9" fill="#3c3c3c"/><circle cx="98" cy="104" r="9" fill="none" stroke="#8a8a8a" stroke-width="2" stroke-dasharray="2.5 2.5"/>';
+      case 'dumbbell': return '<g transform="translate(0 4)"><rect x="10" y="112" width="8" height="22" rx="3" fill="#5b6b7f"/><rect x="30" y="112" width="8" height="22" rx="3" fill="#5b6b7f"/><rect x="15" y="119" width="18" height="7" rx="3" fill="#8a9bb0"/></g>';
+      case 'scissors': return '<g transform="rotate(-30 96 116)"><path d="M96 100 l0 22 M90 104 l12 16" stroke="#8a9bb0" stroke-width="3" stroke-linecap="round"/><circle cx="94" cy="124" r="4" fill="none" stroke="#8a9bb0" stroke-width="3"/><circle cx="104" cy="122" r="4" fill="none" stroke="#8a9bb0" stroke-width="3"/></g>';
+      case 'crystal': return '<circle cx="60" cy="128" r="14" fill="#ce82ff" opacity=".85"/><circle cx="55" cy="123" r="4" fill="#fff" opacity=".7"/><path d="M44 138 h32 l3 6 h-38 Z" fill="#8a63b8"/>';
+      case 'glass': return '<path d="M94 100 l10 0 -3 12 -4 0 Z" fill="#fff2cf" stroke="#e0c98f"/><path d="M99 112 v12 M94 126 h10" stroke="#e0c98f" stroke-width="2.5"/>';
+      case 'guitar': return '<path d="M18 96 L44 128" stroke="#8a5a3a" stroke-width="5" stroke-linecap="round"/><circle cx="20" cy="94" r="4" fill="#5b3d26"/><ellipse cx="46" cy="132" rx="13" ry="11" fill="#c99b66"/><circle cx="46" cy="132" r="4" fill="#5b3d26"/>';
+      case 'ofuda': return '<g transform="rotate(8 92 116)"><rect x="86" y="100" width="14" height="30" rx="2" fill="#fff" stroke="#e5e5e5"/><path d="M93 104 v20 M89 108 h8 M89 114 h8" stroke="#ff4b4b" stroke-width="2"/></g>';
+      case 'rose': return '<circle cx="42" cy="104" r="6" fill="#ff4b4b"/><circle cx="42" cy="104" r="2.5" fill="#c53030"/><path d="M42 110 v6" stroke="#3a7f3a" stroke-width="2"/>';
+      case 'cloth': return '<path d="M88 104 q14 -4 22 4 q-4 12 -16 12 q-8 -2 -6 -16Z" fill="#ffb8d1"/><path d="M92 108 q8 -2 14 2" stroke="#ff8fb5" stroke-width="2" fill="none"/>';
+      case 'armband': return '<rect x="22" y="100" width="14" height="10" rx="3" fill="#ff4b4b"/>';
+      case 'sparkle': return star(26, 36, 6, '#ffc800') + star(96, 30, 7, '#ffc800') + star(104, 76, 5, '#ff86d0');
+      case 'chart': return '<g transform="translate(84 100)"><rect x="0" y="0" width="26" height="20" rx="3" fill="#fff" stroke="#e5e5e5"/><path d="M4 14 l6 -6 4 3 8 -8" stroke="#58cc02" stroke-width="2.5" fill="none"/></g>';
+      case 'badge': return '<circle cx="42" cy="102" r="5" fill="#ffc800"/><path d="M42 99 l1 2 2 0 -1.6 1.4 .6 2.2 -2 -1.3 -2 1.3 .6 -2.2 -1.6 -1.4 2 0Z" fill="#e6a800"/>';
+      case 'leopard': return '<g fill="#7a5514" opacity=".8"><circle cx="42" cy="106" r="3"/><circle cx="56" cy="116" r="3"/><circle cx="72" cy="106" r="3"/><circle cx="64" cy="130" r="3"/><circle cx="46" cy="128" r="3"/><circle cx="78" cy="122" r="3"/></g>';
+      case 'ribbon': return '<path d="M52 96 l8 5 8 -5 -2 8 2 8 -8 -5 -8 5 2 -8 Z" fill="#ff86d0"/>';
+      case 'necklace': return '<path d="M46 96 q14 12 28 0" stroke="#ffc800" stroke-width="2.5" fill="none"/><circle cx="60" cy="103" r="3" fill="#ffc800"/>';
+      default: return '';
+    }
+  }
+
+  // 口
+  function mouth(type) {
+    if (type === 'open') return '<ellipse cx="60" cy="71" rx="6" ry="5" fill="#a2543f"/>';
+    if (type === 'flat') return '<path d="M54 71 h12" stroke="#a2543f" stroke-width="2.5" stroke-linecap="round"/>';
+    if (type === 'frown') return '<path d="M54 73 q6 -5 12 0" stroke="#a2543f" stroke-width="2.5" fill="none" stroke-linecap="round"/>';
+    return '<path d="M54 69 q6 5 12 0" stroke="#a2543f" stroke-width="2.5" fill="none" stroke-linecap="round"/>';
+  }
+
+  function torso(c, opts) {
+    opts = opts || {};
+    let t = '<path d="M26 150 v-24 q0 -24 34 -24 t34 24 v24 Z" fill="' + c + '"/>';
+    if (opts.wide) t = '<path d="M14 150 v-20 q0 -30 46 -30 t46 30 v20 Z" fill="' + c + '"/>' +
+      '<circle cx="18" cy="122" r="12" fill="' + (opts.skin || SKIN.light) + '"/><circle cx="102" cy="122" r="12" fill="' + (opts.skin || SKIN.light) + '"/>';
+    if (opts.vneck) t += '<path d="M48 102 l12 14 12 -14 Z" fill="' + (opts.skin || SKIN.light) + '"/>';
+    if (opts.tie) t += '<path d="M56 102 h8 l-2 6 h-4 Z" fill="' + opts.tie + '"/><path d="M58 108 h4 l3 22 -5 8 -5 -8 Z" fill="' + opts.tie + '"/>';
+    if (opts.collar) t += '<path d="M46 102 l14 10 14 -10 -6 -4 -8 6 -8 -6 Z" fill="#fff"/>';
+    if (opts.apron) t += '<path d="M38 116 h44 v34 h-44 Z" fill="' + opts.apron + '"/><path d="M38 116 q22 -8 44 0" stroke="' + opts.apron + '" stroke-width="5" fill="none"/>';
+    if (opts.buttons) t += '<circle cx="60" cy="116" r="2.2" fill="#fff"/><circle cx="60" cy="128" r="2.2" fill="#fff"/><circle cx="60" cy="140" r="2.2" fill="#fff"/>';
+    return t;
+  }
+
+  function head(skin) { return '<circle cx="60" cy="56" r="32" fill="' + skin + '"/>'; }
+  function neck(skin) { return '<rect x="51" y="76" width="18" height="30" rx="5" fill="' + skin + '"/>'; }
+
+  function face(cfg) {
+    let e;
+    if (cfg.eye === 'happy') e = '<path d="M44 58 q5 -6 10 0 M66 58 q5 -6 10 0" stroke="#3c3c3c" stroke-width="2.5" fill="none" stroke-linecap="round"/>';
+    else if (cfg.eye === 'sleepy') e = '<path d="M45 58 h8 M67 58 h8" stroke="#3c3c3c" stroke-width="2.5" stroke-linecap="round"/>';
+    else if (cfg.eye === 'sharp') e = '<circle cx="49" cy="59" r="3.2" fill="#3c3c3c"/><circle cx="71" cy="59" r="3.2" fill="#3c3c3c"/><path d="M43 51 l12 3 M77 51 l-12 3" stroke="#3c3c3c" stroke-width="2.5" stroke-linecap="round"/>';
+    else e = '<circle cx="49" cy="58" r="3.4" fill="#3c3c3c"/><circle cx="71" cy="58" r="3.4" fill="#3c3c3c"/>';
+    const b = cfg.blush === false ? '' : '<circle cx="42" cy="66" r="4.5" fill="#ff9d9d" opacity=".4"/><circle cx="78" cy="66" r="4.5" fill="#ff9d9d" opacity=".4"/>';
+    return e + b + mouth(cfg.mouth);
+  }
+
+  /* ---- 住人ごとの見た目定義 ---- */
+  const AVATARS = {
+    joshidai:  { skin: 'light', hair: ['long', '#a06a45'], top: '#ffd3e0', accs: [], f: {} },
+    danshidai: { skin: 'light', hair: ['messy', '#3b3b3b'], top: '#6ea8fe', accs: [], f: { mouth: 'open' } },
+    ol:        { skin: 'light', hair: ['bob', '#3b3b3b'], top: '#fff2cf', topOpts: { collar: true }, accs: ['earring'], f: {} },
+    kaishain:  { skin: 'light', hair: ['short', '#3b3b3b'], top: '#44546e', topOpts: { tie: '#d64545' }, accs: [], f: { eye: 'sleepy', mouth: 'flat', blush: false } },
+    shufu:     { skin: 'light', hair: ['bun', '#5a4632'], top: '#fff', topOpts: { apron: '#8fd694' }, accs: [], f: {} },
+    family:    { special: 'family' },
+    obachan:   { skin: 'light', hair: ['curly', '#b28fc9'], top: '#e0a437', accs: ['leopard', 'lashes', 'earring'], f: { mouth: 'open' } },
+    ojisan:    { skin: 'light', hair: ['thin', '#6b6b6b'], top: '#dfe6ee', accs: ['stubble'], f: { eye: 'sleepy', mouth: 'flat', blush: false } },
+    kyaba:     { skin: 'light', hair: ['curly', '#f7c948'], top: '#ff5c8a', accs: ['lashes', 'earring', 'necklace', 'sparkle'], f: {} },
+    host:      { skin: 'light', hair: ['spiky', '#d9dde3'], top: '#2e2e3e', topOpts: { vneck: true }, accs: ['rose'], f: { eye: 'sharp', blush: false } },
+    minatoku:  { skin: 'light', hair: ['long', '#4a3728'], top: '#fff', topOpts: { collar: false }, accs: ['earring', 'necklace', 'glass'], f: { eye: 'happy' } },
+    influencer:{ skin: 'light', hair: ['bob', '#3b3b3b'], top: '#fff', accs: ['sparkle', 'earring'], f: { mouth: 'open' } },
+    jirai:     { skin: 'pale', hair: ['twin', '#3b3b3b'], top: '#2e2e3e', accs: ['ribbon', 'tear', 'lashes'], f: { mouth: 'frown' } },
+    gyaru:     { skin: 'tan', hair: ['long', '#ffe08a'], top: '#e0a437', accs: ['leopard', 'lashes'], f: { mouth: 'open' } },
+    kinniku:   { special: 'muscle' },
+    biyoshi:   { skin: 'light', hair: ['mash', '#a8b6c8'], top: '#2e2e3e', topOpts: { apron: '#454554' }, accs: ['scissors'], f: {} },
+    band:      { skin: 'light', hair: ['long', '#3b3b3b'], top: '#2e2e3e', accs: ['guitar'], f: { eye: 'sleepy', blush: false } },
+    nurse:     { skin: 'light', hair: ['pony', '#5a4632'], top: '#9fd8e8', accs: [], hat: ['nurse'], f: { eye: 'sleepy', mouth: 'flat' } },
+    kanrinin:  { skin: 'light', hair: ['bald', '#8a8a8a'], top: '#98a7b5', topOpts: { buttons: true }, hat: ['cap', '#5d6d7e'], accs: ['glasses', 'armband'], f: { mouth: 'flat', blush: false } },
+    police:    { skin: 'light', hair: ['short', '#3b3b3b'], top: '#2e3f5c', topOpts: { buttons: true }, hat: ['police', '#2e3f5c'], accs: ['badge'], f: { eye: 'sharp', mouth: 'flat', blush: false } },
+    chonaikai: { skin: 'light', hair: ['bald', '#e8e8e8'], top: '#7d8b74', accs: ['armband'], f: { eye: 'happy', mouth: 'open' } },
+    minimalist:{ skin: 'light', hair: ['center', '#3b3b3b'], top: '#f5f5f5', accs: [], f: { mouth: 'flat', blush: false } },
+    akiya:     { special: 'empty' },
+    sharehouse:{ special: 'share' },
+    papa:      { skin: 'light', hair: ['thin', '#6b6b6b'], top: '#7d9c86', accs: ['glasses', 'cloth', 'sweat'], f: { mouth: 'frown' } },
+    mama:      { skin: 'light', hair: ['bun', '#8a8a8a'], top: '#fff', topOpts: { apron: '#ffb8c6' }, accs: [], f: { eye: 'sleepy', mouth: 'flat' } },
+    exidol:    { skin: 'light', hair: ['twin', '#ff9ad5'], top: '#fff', accs: ['mic', 'sparkle', 'ribbon'], f: { eye: 'happy', mouth: 'open' } },
+    geino:     { skin: 'light', hair: ['short', '#3b3b3b'], top: '#2e2e3e', hat: ['cap', '#1f1f2b'], accs: ['sunglasses', 'mask'], f: { blush: false } },
+    uranai:    { skin: 'light', hair: ['long', '#5a4a6b'], top: '#7d5bb5', hat: ['hood', '#7d5bb5'], accs: ['crystal'], f: { eye: 'sharp', blush: false } },
+    reibai:    { skin: 'pale', hair: ['long', '#2e2e3e'], top: '#f5f5ef', accs: ['ofuda'], f: { eye: 'sleepy', mouth: 'flat', blush: false } },
+    legendhost:{ skin: 'light', hair: ['spiky', '#e8e2d5'], top: '#f5f5ef', topOpts: { vneck: true }, hat: ['crown'], accs: ['rose', 'necklace', 'sparkle'], f: { eye: 'sharp' } },
+    toshika:   { skin: 'light', hair: ['short', '#3b3b3b'], top: '#2e2e3e', accs: ['glasses', 'chart'], f: { mouth: 'flat', blush: false } },
+    jiko:      { special: 'ghost' },
+  };
+
+  function buildStandard(cfg, size) {
+    const skin = SKIN[cfg.skin] || SKIN.light;
+    const topOpts = Object.assign({ skin: skin }, cfg.topOpts || {});
+    let s = '';
+    if (cfg.hair && cfg.hair[0] === 'long') s += hair('long', cfg.hair[1]); // 後ろ髪
+    s += neck(skin);
+    s += torso(cfg.top, topOpts);
+    s += head(skin);
+    if (cfg.hair && cfg.hair[0] !== 'long') s += hair(cfg.hair[0], cfg.hair[1]);
+    else if (cfg.hair) s += '<path d="M28 56 A32 32 0 0 1 92 56 L92 50 Q60 24 28 50 Z" fill="' + cfg.hair[1] + '"/>';
+    if (cfg.hat) s += hat(cfg.hat[0], cfg.hat[1]);
+    s += face(cfg.f || {});
+    (cfg.accs || []).forEach((a) => { s += acc(a); });
+    return s;
+  }
+
+  function buildSpecial(kind) {
+    if (kind === 'empty') {
+      return '<circle cx="60" cy="56" r="32" fill="none" stroke="#c8d0dc" stroke-width="3" stroke-dasharray="7 7"/>' +
+        '<path d="M26 150 v-24 q0 -24 34 -24 t34 24 v24 Z" fill="none" stroke="#c8d0dc" stroke-width="3" stroke-dasharray="7 7"/>' +
+        '<text x="60" y="70" text-anchor="middle" font-size="38" font-weight="900" fill="#aab4c4">?</text>';
+    }
+    if (kind === 'ghost') {
+      return '<g opacity=".8">' +
+        neck(SKIN.ghost) +
+        '<path d="M26 150 v-24 q0 -24 34 -24 t34 24 v24 Z" fill="#9fb3c8"/>' +
+        head(SKIN.ghost) + hair('messy', '#4a5568') +
+        '<circle cx="49" cy="58" r="3.4" fill="#3c3c3c"/><circle cx="71" cy="58" r="3.4" fill="#3c3c3c"/>' + mouth('flat') +
+        '</g>' +
+        '<circle cx="22" cy="100" r="6" fill="#cfe3ef" opacity=".8"/><path d="M22 106 q-6 8 2 14" stroke="#cfe3ef" stroke-width="4" fill="none" opacity=".7"/>' +
+        '<circle cx="100" cy="80" r="5" fill="#cfe3ef" opacity=".8"/><path d="M100 85 q6 8 -2 12" stroke="#cfe3ef" stroke-width="3.5" fill="none" opacity=".7"/>';
+    }
+    if (kind === 'share') {
+      const p1 = '<g transform="translate(-24 26) scale(.72)">' + neck(SKIN.light) + torso('#6ea8fe') + head(SKIN.light) + hair('short', '#3b3b3b') + face({}) + '</g>';
+      const p2 = '<g transform="translate(24 26) scale(.72)">' + neck(SKIN.tan) + torso('#8fd694') + head(SKIN.tan) + hair('bob', '#5a4632') + face({ eye: 'happy' }) + '</g>';
+      const p3 = '<g transform="translate(0 10) scale(.78)">' + neck(SKIN.light) + torso('#ffc800') + head(SKIN.light) + hair('messy', '#8b5a3c') + face({ mouth: 'open' }) + '</g>';
+      return p1 + p2 + p3;
+    }
+    if (kind === 'family') {
+      const parent = '<g transform="translate(-16 12) scale(.86)">' + neck(SKIN.light) + torso('#7d9c86') + head(SKIN.light) + hair('short', '#3b3b3b') + face({ eye: 'happy' }) + '</g>';
+      const kid = '<g transform="translate(34 74) scale(.48)">' + neck(SKIN.light) + torso('#ffc800') + head(SKIN.light) + hair('messy', '#5a4632') + face({ mouth: 'open' }) + '</g>';
+      return parent + kid;
+    }
+    if (kind === 'muscle') {
+      const skin = SKIN.tan;
+      return neck(skin) + torso('#fff', { wide: true, skin: skin }) + head(skin) + hair('short', '#3b3b3b') +
+        face({ eye: 'sharp', mouth: 'open' }) + acc('dumbbell') + acc('sweat');
+    }
+    return '';
+  }
+
+  function avatar(id, size) {
+    size = size || 96;
+    const cfg = AVATARS[id];
+    const inner = !cfg ? buildSpecial('empty') : (cfg.special ? buildSpecial(cfg.special) : buildStandard(cfg));
+    return '<svg viewBox="0 0 120 150" width="' + size + '" height="' + Math.round(size * 1.25) + '" aria-hidden="true">' + inner + '</svg>';
+  }
+
+  root.VT_mascot = mascot;
+  root.VT_avatar = avatar;
+  root.VT_AVATARS = AVATARS;
+  if (typeof module !== 'undefined') module.exports = { mascot, avatar, AVATARS };
+})(typeof window !== 'undefined' ? window : globalThis);
