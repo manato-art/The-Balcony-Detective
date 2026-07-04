@@ -267,8 +267,102 @@
     return '<svg viewBox="0 0 120 150" width="' + size + '" height="' + Math.round(size * 1.25) + '" aria-hidden="true">' + inner + '</svg>';
   }
 
+  /* ================= マンション デフォルメイラスト ================= */
+  function win(x, y, w, h, c) { return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="2" fill="' + (c || '#eaf6ff') + '"/>'; }
+
+  const BUILDINGS = {
+    boro:
+      '<rect x="30" y="30" width="76" height="70" rx="3" fill="#e6d3b0"/>' +
+      '<rect x="26" y="23" width="84" height="10" rx="3" fill="#a98f6d"/>' +
+      '<rect x="36" y="60" width="8" height="26" fill="#d3bd93"/><rect x="92" y="42" width="7" height="34" fill="#d3bd93"/>' +
+      win(40, 40, 15, 13, '#cfe3f0') + win(80, 40, 15, 13, '#cfe3f0') + win(40, 62, 15, 13, '#ffe08a') +
+      '<rect x="62" y="74" width="16" height="26" rx="2" fill="#8a6f4d"/><circle cx="74" cy="88" r="1.6" fill="#e6d3b0"/>' +
+      '<path d="M70 30 l-4 12 5 8" stroke="#b09b74" stroke-width="2" fill="none"/>' +
+      '<path d="M96 23 l8 -13 M104 10 l7 5" stroke="#7d8b96" stroke-width="2.5" stroke-linecap="round" fill="none"/>' +
+      '<path d="M32 100 q4 -7 10 0 Z" fill="#8fbf6a"/>',
+    gakusei:
+      '<rect x="36" y="20" width="72" height="80" rx="4" fill="#7ec3f7"/>' +
+      '<rect x="36" y="20" width="72" height="9" rx="4" fill="#5ba7e0"/>' +
+      win(46, 36, 16, 13) + win(78, 36, 16, 13) + win(46, 56, 16, 13, '#ffe08a') + win(78, 56, 16, 13) +
+      '<rect x="62" y="78" width="18" height="22" rx="2" fill="#4a90cd"/><path d="M71 78 v22" stroke="#7ec3f7" stroke-width="2"/>' +
+      '<circle cx="22" cy="94" r="7" fill="none" stroke="#5b6b7f" stroke-width="2.5"/><circle cx="38" cy="94" r="7" fill="none" stroke="#5b6b7f" stroke-width="2.5"/>' +
+      '<path d="M22 94 l7 -12 h6 l3 12 M29 82 h-6" stroke="#5b6b7f" stroke-width="2.5" fill="none" stroke-linecap="round"/>',
+    hankagai:
+      '<rect x="54" y="14" width="44" height="86" rx="3" fill="#f791be"/>' +
+      win(62, 24, 12, 10, '#ffe9f4') + win(80, 24, 12, 10, '#ffe08a') + win(62, 42, 12, 10, '#ffe9f4') + win(80, 42, 12, 10, '#ffe9f4') +
+      '<rect x="36" y="22" width="16" height="12" rx="2" fill="#ffc800"/><rect x="36" y="38" width="16" height="12" rx="2" fill="#b892f5"/><rect x="36" y="54" width="16" height="12" rx="2" fill="#6fc7e8"/>' +
+      '<path d="M40 26 h8 M40 30 h8 M40 42 h8 M40 46 h8 M40 58 h8 M40 62 h8" stroke="#fff" stroke-width="2"/>' +
+      '<path d="M54 78 h44 l-4 10 h-36 Z" fill="#fff"/><path d="M58 78 l-3 10 M66 78 l-2 10 M74 78 l-1 10 M82 78 l0 10 M90 78 l1 10" stroke="#f76e9c" stroke-width="3"/>' +
+      '<rect x="66" y="88" width="14" height="12" fill="#d16693"/>' + star(76, 8, 7, '#ffc800'),
+    tawaman:
+      '<rect x="52" y="8" width="40" height="92" rx="4" fill="#b892f5"/>' +
+      '<rect x="58" y="14" width="7" height="80" rx="2" fill="#d3bcfa"/><rect x="70" y="14" width="7" height="80" rx="2" fill="#d3bcfa"/><rect x="82" y="14" width="5" height="80" rx="2" fill="#d3bcfa"/>' +
+      '<path d="M72 8 v-6" stroke="#8a63b8" stroke-width="3" stroke-linecap="round"/><circle cx="72" cy="1.5" r="2" fill="#ff4b4b"/>' +
+      '<rect x="64" y="88" width="16" height="12" rx="2" fill="#e6c368"/>' +
+      '<circle cx="26" cy="28" r="8" fill="#fff" opacity=".95"/><circle cx="36" cy="31" r="6" fill="#fff" opacity=".95"/><rect x="18" y="30" width="26" height="6" rx="3" fill="#fff" opacity=".95"/>',
+    kogai:
+      '<rect x="32" y="34" width="78" height="66" rx="4" fill="#fdeccb"/>' +
+      '<rect x="32" y="34" width="78" height="9" rx="4" fill="#8fd694"/>' +
+      win(40, 50, 17, 14, '#fff') + win(63, 50, 17, 14, '#fff') + win(86, 50, 17, 14, '#fff') +
+      win(40, 74, 17, 14, '#fff') + win(63, 74, 17, 14, '#ffe08a') + win(86, 74, 17, 14, '#fff') +
+      '<path d="M40 60 h17 M63 60 h17 M86 60 h17 M40 84 h17 M63 84 h17 M86 84 h17" stroke="#d9c49a" stroke-width="2"/>' +
+      '<rect x="17" y="76" width="5" height="24" fill="#8a5a3a"/><circle cx="19" cy="70" r="11" fill="#7ec95e"/><circle cx="12" cy="78" r="7" fill="#8fd694"/>' +
+      '<circle cx="124" cy="16" r="8" fill="#ffd166"/><path d="M124 3 v-2 M135 16 h2 M132 8 l2 -2 M132 24 l2 2" stroke="#ffd166" stroke-width="2.5" stroke-linecap="round"/>',
+    designers:
+      '<rect x="42" y="16" width="58" height="84" rx="2" fill="#cdd4dc"/>' +
+      '<rect x="28" y="42" width="48" height="58" rx="2" fill="#aeb7c2"/>' +
+      '<rect x="36" y="52" width="26" height="24" rx="2" fill="#eef3f7"/>' +
+      '<circle cx="88" cy="30" r="8" fill="#eef3f7"/>' +
+      '<rect x="84" y="60" width="10" height="40" fill="#7b8794"/>' +
+      '<path d="M28 42 h48" stroke="#98a3b0" stroke-width="2"/>',
+    shataku:
+      '<rect x="22" y="30" width="96" height="70" rx="3" fill="#f2e3c2"/>' +
+      '<rect x="64" y="30" width="13" height="70" fill="#dcc9a2"/>' +
+      win(30, 40, 24, 14, '#fff') + win(86, 40, 24, 14, '#fff') + win(30, 64, 24, 14, '#fff') + win(86, 64, 24, 14, '#ffe08a') +
+      '<path d="M30 49 h24 M86 49 h24 M30 73 h24 M86 73 h24" stroke="#c9b58c" stroke-width="2.5"/>' +
+      '<rect x="66" y="86" width="9" height="14" fill="#8a7a5c"/>' +
+      '<rect x="94" y="18" width="16" height="12" rx="3" fill="#98a7b5"/><rect x="98" y="14" width="8" height="5" rx="2" fill="#7b8794"/>' +
+      '<rect x="26" y="34" width="10" height="8" rx="2" fill="#4a90cd"/><path d="M29 38 h4" stroke="#fff" stroke-width="2"/>',
+    koukyu:
+      '<rect x="28" y="36" width="88" height="64" rx="6" fill="#f8f4ec"/>' +
+      '<path d="M36 46 h12 v18 a6 6 0 0 1 -12 0 Z" fill="#dceafb" transform="translate(0 0)"/>' +
+      '<path d="M58 46 h12 v18 a6 6 0 0 1 -12 0 Z" fill="#dceafb"/>' +
+      '<path d="M96 46 h12 v18 a6 6 0 0 1 -12 0 Z" fill="#dceafb"/>' +
+      '<path d="M60 82 h24 l4 8 h-32 Z" fill="#e6c368"/><path d="M66 82 l-2 8 M72 82 l0 8 M78 82 l2 8" stroke="#f8f4ec" stroke-width="2"/>' +
+      '<rect x="66" y="90" width="12" height="10" fill="#9c8a5f"/>' +
+      '<circle cx="34" cy="96" r="6" fill="#6fbf5a"/><circle cx="46" cy="97" r="5" fill="#7ec95e"/><circle cx="108" cy="96" r="6" fill="#6fbf5a"/>' +
+      '<path d="M18 100 v-22" stroke="#9c8a5f" stroke-width="3"/><circle cx="18" cy="74" r="4" fill="#ffe08a"/>',
+    zakkyo:
+      '<rect x="50" y="10" width="44" height="90" rx="3" fill="#7a6da3"/>' +
+      win(58, 20, 12, 10, '#5d5382') + win(76, 20, 12, 10, '#ffe08a') + win(58, 38, 12, 10, '#5d5382') + win(76, 38, 12, 10, '#5d5382') +
+      '<rect x="96" y="26" width="18" height="14" rx="2" fill="#4a4066"/><circle cx="105" cy="33" r="4.5" fill="#ce82ff"/>' +
+      '<rect x="96" y="46" width="18" height="14" rx="2" fill="#3c3455"/><path d="M108 49 a5 5 0 1 0 0 8 a4 4 0 0 1 0 -8Z" fill="#ffc800"/>' +
+      '<rect x="96" y="66" width="18" height="14" rx="2" fill="#54486e"/><path d="M99 73 q6 -6 12 0 q-6 6 -12 0Z" fill="#fff"/><circle cx="105" cy="73" r="2" fill="#3c3455"/>' +
+      '<rect x="58" y="80" width="28" height="20" fill="#4a4066"/><path d="M62 90 h20" stroke="#8d7fb8" stroke-width="2"/>' +
+      '<path d="M60 10 l-6 -8 M54 2 l8 2" stroke="#5d5382" stroke-width="2.5" stroke-linecap="round"/>' +
+      '<path d="M84 6 l5 4 5 -4 v4 l-5 3 -5 -3Z" fill="#3c3455"/>',
+    resort:
+      '<rect x="42" y="26" width="70" height="74" rx="6" fill="#fff"/>' +
+      '<rect x="42" y="26" width="70" height="9" rx="4" fill="#6fc7e8"/>' +
+      '<path d="M52 44 h14 v14 a7 7 0 0 1 -14 0Z" fill="#cfe8f7"/><path d="M74 44 h14 v14 a7 7 0 0 1 -14 0Z" fill="#cfe8f7"/><path d="M96 44 h10 v14 a5 5 0 0 1 -10 0Z" fill="#cfe8f7"/>' +
+      '<path d="M68 100 v-18 a8 8 0 0 1 16 0 v18Z" fill="#6fc7e8"/>' +
+      '<path d="M24 100 q-2 -26 6 -42" stroke="#b8804f" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+      '<path d="M30 58 q-14 -8 -24 -2 q10 8 24 2Z" fill="#58cc74"/><path d="M30 58 q0 -14 12 -20 q2 12 -12 20Z" fill="#58cc74"/><path d="M30 58 q14 -6 22 4 q-12 6 -22 -4Z" fill="#47b062"/>' +
+      '<circle cx="126" cy="14" r="8" fill="#ffd166"/>' +
+      '<path d="M20 104 q8 -6 16 0 t16 0 t16 0" stroke="#a8dcf2" stroke-width="3" fill="none" stroke-linecap="round"/>',
+  };
+
+  function building(id, size) {
+    size = size || 92;
+    const inner = BUILDINGS[id] || BUILDINGS.gakusei;
+    return '<svg viewBox="0 0 140 110" width="' + size + '" height="' + Math.round(size * 110 / 140) + '" aria-hidden="true">' +
+      '<ellipse cx="70" cy="103" rx="54" ry="6" fill="#000" opacity=".07"/>' + inner + '</svg>';
+  }
+
   root.VT_mascot = mascot;
   root.VT_avatar = avatar;
   root.VT_AVATARS = AVATARS;
-  if (typeof module !== 'undefined') module.exports = { mascot, avatar, AVATARS };
+  root.VT_building = building;
+  root.VT_BUILDINGS = BUILDINGS;
+  if (typeof module !== 'undefined') module.exports = { mascot, avatar, AVATARS, building, BUILDINGS };
 })(typeof window !== 'undefined' ? window : globalThis);

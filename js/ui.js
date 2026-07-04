@@ -4,6 +4,7 @@
   const I = window.VT_icon;
   const M = window.VT_mascot;
   const AV = window.VT_avatar;
+  const B = window.VT_building;
   const CATS = window.VT_CATS;
   const MANSIONS = window.VT_MANSIONS;
   const RULES = window.VT_DRINK_RULES;
@@ -73,21 +74,30 @@
   UI.setRounds = function (d) { cfg.rounds = Math.min(5, Math.max(1, cfg.rounds + d)); renderSetup(); };
 
   /* ============ マンション選択 ============ */
+  let starting = false;
   UI.goMansion = function () {
     cfg.players = cfg.players.map((p, i) => p.trim() || 'プレイヤー' + (i + 1));
+    starting = false;
     renderMansion(); show('mansion');
   };
   function renderMansion() {
     const cards = MANSIONS.map((m, i) =>
-      '<button class="m-card c-' + m.accent + (cfg.mansionId === m.id ? ' sel' : '') + '" style="animation-delay:' + (i * 45) + 'ms" onclick="UI.pickMansion(\'' + m.id + '\')">' +
-      '<span class="mi">' + I(m.icon) + '</span>' +
+      '<button class="m-card' + (cfg.mansionId === m.id ? ' sel' : '') + '" data-mid="' + m.id + '" style="animation-delay:' + (i * 45) + 'ms" onclick="UI.pickMansion(\'' + m.id + '\')">' +
+      '<span class="bld">' + B(m.id, 104) + '</span>' +
       '<div class="nm">' + m.name + '</div><div class="ds">' + m.desc + '</div></button>').join('');
     $('#scr-mansion').innerHTML =
       '<div class="head"><button class="back" aria-label="戻る" onclick="UI.goSetup()">' + I('arrow') + '</button><h1>現場を選べ</h1></div>' +
-      '<div class="m-grid">' + cards + '</div>' +
-      '<div class="foot"><button class="btn" id="mansionGo" ' + (cfg.mansionId ? '' : 'disabled') + ' onclick="UI.startGame()">' + I('search') + '潜入開始</button></div>';
+      '<p class="pick-hint">タップした現場に、そのまま潜入するよ。</p>' +
+      '<div class="m-grid">' + cards + '</div>';
   }
-  UI.pickMansion = function (id) { cfg.mansionId = id; renderMansion(); };
+  UI.pickMansion = function (id) {
+    if (starting) return;
+    starting = true;
+    cfg.mansionId = id;
+    document.querySelectorAll('.m-card').forEach((el) => el.classList.toggle('sel', el.dataset.mid === id));
+    vibrate([25]);
+    setTimeout(() => { UI.startGame(); }, 340);
+  };
   UI.startGame = function () {
     G.newGame({ players: cfg.players, rounds: cfg.rounds, mansionId: cfg.mansionId });
     beginTurn();
@@ -173,10 +183,9 @@
       lockActions();
     } else if (ev.type === 'timer') {
       addLog(ev.text, 'bad');
-      vibrate([120]);
+      vibrate([200, 80, 200]);
       lockActions();
-      startTimer(10);
-      UI.openAnswer(true);
+      showPanic();
     } else if (ev.type === 'hints' || ev.type === 'strong') {
       addLog(ev.text, 'good');
       (ev.hints || []).forEach((h, i) => addHint(h, ev.type === 'strong', i * 100));
@@ -188,6 +197,16 @@
   };
 
   /* ============ タイマー ============ */
+  // 住人帰宅: ハトが焦って乱入 → 10秒回答モードへ
+  function showPanic() {
+    const ov = document.createElement('div');
+    ov.className = 'panic-back';
+    ov.innerHTML = '<div class="panic-box">' + M('shock', 150) +
+      '<div class="panic-txt">住人が帰ってきた！！</div>' +
+      '<div class="panic-sub">10秒以内に回答しろ！</div></div>';
+    document.body.appendChild(ov);
+    setTimeout(() => { ov.remove(); startTimer(10); UI.openAnswer(true); }, 1600);
+  }
   function startTimer(sec) {
     let left = sec;
     const ov = $('#timer-overlay');
@@ -298,6 +317,9 @@
       '<div class="badge-card mvp">' + I('trophy') + '<div class="bl">MVP名探偵</div><div class="bn">' + esc(res.mvp.name) + '</div></div>' +
       (res.ikenie ? '<div class="badge-card ikenie">' + I('beer') + '<div class="bl">今夜の生贄</div><div class="bn">' + esc(res.ikenie.name) + '</div></div>' : '') +
       '</div>' +
+      '<div class="final-point">' + bubbleRow('point', 100, res.ikenie
+        ? '今夜の生贄は…<b>' + esc(res.ikenie.name) + '</b>、キミだ！<br>責任を持って飲むように。'
+        : '全員ほぼ無傷…！？優秀すぎる捜査班だ。') + '</div>' +
       '<div class="henken">最後の審判：全員で「一番偏見がキモかった人」を同時に指差せ。<br>一番指を集めた人は一口。</div>' +
       '<div class="foot" style="display:flex;flex-direction:column;gap:10px">' +
       '<button class="btn" onclick="UI.replay()">' + I('dice') + '同じメンバーでもう一回</button>' +
@@ -306,7 +328,7 @@
       '</div>';
     show('final');
   }
-  UI.replay = function () { cfg.mansionId = null; renderMansion(); show('mansion'); };
+  UI.replay = function () { cfg.mansionId = null; starting = false; renderMansion(); show('mansion'); };
 
   /* ============ モーダル ============ */
   UI.modal = function (kind) {

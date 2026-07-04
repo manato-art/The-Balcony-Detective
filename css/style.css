@@ -122,7 +122,9 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .foot { margin-top: auto; padding-top: 18px; }
 
 /* ---------- マンション選択 ---------- */
+.pick-hint { font-size: 12px; color: var(--text2); font-weight: 800; margin: -4px 0 10px; }
 .m-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.m-card .bld { display: block; margin: 0 auto 4px; line-height: 0; }
 .m-card {
   background: #fff; border: 2px solid var(--border); border-bottom-width: 5px; border-radius: var(--radius);
   padding: 16px 12px; text-align: center; cursor: pointer; font: inherit;
@@ -239,6 +241,14 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .conf-toggle.on .box { border-color: var(--pink); background: #ffe4f4; color: var(--pink-t); }
 .conf-toggle .icon { width: 15px; height: 15px; }
 
+/* ---------- 住人帰宅パニック ---------- */
+.panic-back { position: fixed; inset: 0; z-index: 95; background: rgba(255, 75, 75, .3); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; animation: fadeIn .15s ease-out; }
+.panic-box { background: #fff; border: 3px solid var(--red); border-radius: 24px; padding: 22px 30px; text-align: center; box-shadow: 0 6px 0 var(--red-d); animation: slam .45s cubic-bezier(.34, 1.56, .64, 1); }
+.panic-box svg { animation: shake .4s ease-in-out 2; }
+.panic-txt { font-size: 22px; font-weight: 900; color: var(--red-t); margin-top: 2px; }
+.panic-sub { font-size: 14px; font-weight: 900; color: var(--text); }
+@keyframes slam { 0% { transform: scale(1.7); opacity: 0; } 60% { transform: scale(.94); opacity: 1; } 100% { transform: scale(1); } }
+
 /* ---------- タイマー ---------- */
 #timer-overlay { position: fixed; top: max(10px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); z-index: 90; }
 #timer-overlay.hidden { display: none; }
@@ -294,6 +304,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .badge-card.ikenie .icon { color: var(--red); }
 .badge-card .bl { font-size: 10.5px; color: var(--text2); font-weight: 800; letter-spacing: .08em; }
 .badge-card .bn { font-size: 15px; font-weight: 900; margin-top: 2px; }
+.final-point { margin: 2px 0 14px; text-align: left; }
 .henken { border: 2px dashed var(--pink); border-radius: 16px; padding: 14px; text-align: center; font-size: 13.5px; font-weight: 800; color: var(--pink-t); background: #fff5fb; margin-bottom: 14px; }
 
 /* ---------- モーダル ---------- */

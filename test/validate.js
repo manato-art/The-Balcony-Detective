@@ -120,6 +120,11 @@ for (const pose of ['base', 'point', 'happy', 'shock']) {
   ok(svg.indexOf('<svg') === 0 && svg.indexOf('</svg>') > 0, 'マスコット' + pose + 'が不正');
 }
 ok(CH.avatar('unknown-id', 96).indexOf('<svg') === 0, '未知IDでフォールバックしない');
+for (const m of VT_MANSIONS) {
+  ok(CH.BUILDINGS[m.id], m.id + ': ビルイラスト定義なし');
+  const svg = CH.building(m.id, 92);
+  ok(svg.indexOf('<svg') === 0 && svg.indexOf('</svg>') > 0, m.id + ': ビルSVG不正');
+}
 
 if (fails > 0) {
   console.error('\nFAIL: ' + fails + '件');
