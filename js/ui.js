@@ -17,7 +17,7 @@
   const UI = {};
   window.UI = UI;
 
-  const cfg = { players: ['', ''], rounds: 3, mansionId: null };
+  const cfg = { players: ['プレイヤー1', 'プレイヤー2'], rounds: 3, mansionId: null };
   let confOn = false;
   let timerInt = null;
 
@@ -54,7 +54,7 @@
   function renderSetup() {
     const rows = cfg.players.map((p, i) =>
       '<div class="player-row">' +
-      '<input type="text" maxlength="10" placeholder="プレイヤー' + (i + 1) + '" value="' + esc(p) + '" oninput="UI.setName(' + i + ', this.value)">' +
+      '<input type="text" maxlength="10" placeholder="プレイヤー' + (i + 1) + '" value="' + esc(p) + '" onfocus="var i=this;setTimeout(function(){i.select()},0)" oninput="UI.setName(' + i + ', this.value)">' +
       (cfg.players.length > 1 ? '<button class="del" aria-label="削除" onclick="UI.delPlayer(' + i + ')">' + I('x') + '</button>' : '') +
       '</div>').join('');
     $('#scr-setup').innerHTML =
@@ -73,7 +73,7 @@
   }
   UI.goTitle = function () { show('title'); };
   UI.setName = function (i, v) { cfg.players[i] = v; };
-  UI.addPlayer = function () { if (cfg.players.length < 8) { cfg.players.push(''); renderSetup(); } };
+  UI.addPlayer = function () { if (cfg.players.length < 8) { cfg.players.push('プレイヤー' + (cfg.players.length + 1)); renderSetup(); } };
   UI.delPlayer = function (i) { if (cfg.players.length > 1) { cfg.players.splice(i, 1); renderSetup(); } };
   UI.setRounds = function (d) { cfg.rounds = Math.min(5, Math.max(1, cfg.rounds + d)); renderSetup(); };
 
