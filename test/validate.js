@@ -146,6 +146,23 @@ for (const m of VT_MANSIONS) {
   ok(svg.indexOf('<svg') === 0 && svg.indexOf('</svg>') > 0, m.id + ': ビルSVG不正');
 }
 
+console.log('[5] シーン描画・建物全景');
+const SC = require('../js/scene.js');
+for (const r of VT_RESIDENTS) {
+  for (const h of r.hints.concat(r.strong)) {
+    ok(h[1] === 'curtain' || SC.ITEM_KINDS.indexOf(h[1]) !== -1, r.id + ': イラスト未定義のヒント種別 ' + h[1]);
+  }
+}
+const testItems = SC.ITEM_KINDS.map((k, i) => ({ kind: k, color: '#ccc', label: k, slot: i % 5, hang: SC.HANG_KINDS.indexOf(k) !== -1, strong: false, fresh: false }));
+const ssvg = SC.scene({ accent: 'cyan', curtain: { color: '#fff', label: 'c' }, curtainClosed: true, light: true, rain: true, silhouette: true, items: testItems });
+ok(ssvg.indexOf('<svg') === 0 && ssvg.split('sc-item').length - 1 >= SC.ITEM_KINDS.length, 'シーンSVG生成不正');
+for (const room of VT_ROOMS) {
+  const fsvg = CH.facade(VT_MANSIONS[0], room, 300);
+  ok(fsvg.indexOf('fc-target') > 0 && fsvg.indexOf('<svg') === 0, room + ': 全景SVG不正');
+  const p = CH.roomPos(room);
+  ok(p.x > 0 && p.x < 100 && p.y > 0 && p.y < 100, room + ': roomPos範囲外 ' + JSON.stringify(p));
+}
+
 if (fails > 0) {
   console.error('\nFAIL: ' + fails + '件');
   process.exit(1);

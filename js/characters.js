@@ -359,10 +359,60 @@
       '<ellipse cx="70" cy="103" rx="54" ry="6" fill="#000" opacity=".07"/>' + inner + '</svg>';
   }
 
+  /* ================= 建物全景（ターン開始時・対象部屋ハイライト） ================= */
+  const FACADE_SKY = { amber: '#fff3d6', pink: '#ffe4f0', cyan: '#ddf4ff', purple: '#f0e5ff', green: '#e4f7dd' };
+  const FACADE_ROOF = { amber: '#e6b95c', pink: '#f791be', cyan: '#6fb9e8', purple: '#b892f5', green: '#8fd694' };
+
+  function facadeCell(room) {
+    const n = parseInt(room, 10);
+    const c = (n % 10) - 1;          // 0..4
+    const f = Math.floor(n / 100);   // 1..4
+    return { x: 40 + c * 50, y: 42 + (4 - f) * 52, w: 42, h: 44 };
+  }
+
+  // ズーム原点（%）
+  function roomPos(room) {
+    const cl = facadeCell(room);
+    return { x: Math.round((cl.x + cl.w / 2) / 320 * 100), y: Math.round((cl.y + cl.h / 2) / 292 * 100) };
+  }
+
+  function facade(mansion, room, size) {
+    size = size || 300;
+    const sky = FACADE_SKY[mansion.accent] || '#ddf4ff';
+    const roof = FACADE_ROOF[mansion.accent] || '#6fb9e8';
+    let cells = '';
+    for (let f = 1; f <= 4; f++) {
+      for (let c = 0; c < 5; c++) {
+        const x = 40 + c * 50, y = 42 + (4 - f) * 52;
+        const lit = (f * 5 + c) % 4 === 1;
+        cells += '<rect x="' + (x + 5) + '" y="' + (y + 3) + '" width="32" height="20" rx="2" fill="' + (lit ? '#ffe9a8' : '#bcd6e8') + '"/>' +
+          '<rect x="' + x + '" y="' + (y + 25) + '" width="42" height="17" rx="2" fill="#cfe6f4" opacity=".85"/>' +
+          '<path d="M' + x + ' ' + (y + 25) + ' h42" stroke="#aebccb" stroke-width="2.5"/>';
+      }
+    }
+    const t = facadeCell(room);
+    const target = '<rect x="' + (t.x - 4) + '" y="' + (t.y - 3) + '" width="' + (t.w + 8) + '" height="' + (t.h + 8) + '" rx="6" fill="#ff960022" stroke="#ff9600" stroke-width="3.5" class="fc-target"/>';
+    return '<svg viewBox="0 0 320 292" width="' + size + '" aria-hidden="true">' +
+      '<rect x="0" y="0" width="320" height="292" rx="16" fill="' + sky + '"/>' +
+      '<circle cx="285" cy="34" r="12" fill="#fff" opacity=".9"/><circle cx="270" cy="39" r="8" fill="#fff" opacity=".9"/>' +
+      '<rect x="30" y="34" width="260" height="230" rx="5" fill="#f4f1ec"/>' +
+      '<rect x="24" y="24" width="272" height="14" rx="5" fill="' + roof + '"/>' +
+      cells + target +
+      '<path d="M140 264 h40 v-22 a6 6 0 0 1 6 -6 h-52 a6 6 0 0 1 6 6 Z" fill="#e8e2d5"/>' +
+      '<rect x="150" y="244" width="20" height="20" rx="2" fill="#8a7a5c"/>' +
+      '<rect x="128" y="236" width="64" height="7" rx="3" fill="' + roof + '"/>' +
+      '<circle cx="112" cy="252" r="9" fill="#6fbf5a"/><circle cx="210" cy="252" r="9" fill="#6fbf5a"/>' +
+      '<rect x="0" y="264" width="320" height="28" rx="10" fill="#d8dade"/>' +
+      '<path d="M20 278 h30 M70 278 h30 M120 278 h30 M170 278 h30 M220 278 h30 M270 278 h30" stroke="#fff" stroke-width="3" stroke-dasharray="12 18"/>' +
+      '</svg>';
+  }
+
   root.VT_mascot = mascot;
+  root.VT_facade = facade;
+  root.VT_roomPos = roomPos;
   root.VT_avatar = avatar;
   root.VT_AVATARS = AVATARS;
   root.VT_building = building;
   root.VT_BUILDINGS = BUILDINGS;
-  if (typeof module !== 'undefined') module.exports = { mascot, avatar, AVATARS, building, BUILDINGS };
+  if (typeof module !== 'undefined') module.exports = { mascot, avatar, AVATARS, building, BUILDINGS, facade, roomPos };
 })(typeof window !== 'undefined' ? window : globalThis);

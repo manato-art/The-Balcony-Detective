@@ -169,6 +169,7 @@
         t.timered = true;
         ev = { type: 'timer', text: evd.text };
       }
+      ev.id = evd.id;
     } else if (kind === 'neighbor') {
       if (rng() < 0.65) {
         ev = { type: 'rumor', text: '隣人の噂: 「' + pick(t.resident.rumor) + '」' };

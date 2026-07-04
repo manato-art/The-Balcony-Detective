@@ -4,7 +4,11 @@
   const I = window.VT_icon;
   const M = window.VT_mascot;
   const AV = window.VT_avatar;
-  const B = window.VT_building;
+  const F = window.VT_facade;
+  const RP = window.VT_roomPos;
+  const SC = window.VT_scene;
+  const HC = window.VT_hintColor;
+  const HK = window.VT_HANG_KINDS;
   const CATS = window.VT_CATS;
   const MANSIONS = window.VT_MANSIONS;
   const RULES = window.VT_DRINK_RULES;
@@ -65,7 +69,7 @@
       '<div class="val">' + cfg.rounds + '<small>回 × ' + cfg.players.length + '人</small></div>' +
       '<button aria-label="増やす" onclick="UI.setRounds(1)">＋</button>' +
       '</div>' +
-      '<div class="foot"><button class="btn" onclick="UI.goMansion()">' + I('building') + 'マンションを選ぶ</button></div>';
+      '<div class="foot"><button class="btn" onclick="UI.startGame()">' + I('search') + '捜査開始</button></div>';
   }
   UI.goTitle = function () { show('title'); };
   UI.setName = function (i, v) { cfg.players[i] = v; };
@@ -73,51 +77,38 @@
   UI.delPlayer = function (i) { if (cfg.players.length > 1) { cfg.players.splice(i, 1); renderSetup(); } };
   UI.setRounds = function (d) { cfg.rounds = Math.min(5, Math.max(1, cfg.rounds + d)); renderSetup(); };
 
-  /* ============ マンション選択 ============ */
-  let starting = false;
-  UI.goMansion = function () {
-    cfg.players = cfg.players.map((p, i) => p.trim() || 'プレイヤー' + (i + 1));
-    starting = false;
-    renderMansion(); show('mansion');
-  };
-  function renderMansion() {
-    const cards = MANSIONS.map((m, i) =>
-      '<button class="m-card' + (cfg.mansionId === m.id ? ' sel' : '') + '" data-mid="' + m.id + '" style="animation-delay:' + (i * 45) + 'ms" onclick="UI.pickMansion(\'' + m.id + '\')">' +
-      '<span class="bld">' + B(m.id, 104) + '</span>' +
-      '<div class="nm">' + m.name + '</div><div class="ds">' + m.desc + '</div></button>').join('');
-    $('#scr-mansion').innerHTML =
-      '<div class="head"><button class="back" aria-label="戻る" onclick="UI.goSetup()">' + I('arrow') + '</button><h1>現場を選べ</h1></div>' +
-      '<p class="pick-hint">タップした現場に、そのまま潜入するよ。</p>' +
-      '<div class="m-grid">' + cards + '</div>';
-  }
-  UI.pickMansion = function (id) {
-    if (starting) return;
-    starting = true;
-    cfg.mansionId = id;
-    document.querySelectorAll('.m-card').forEach((el) => el.classList.toggle('sel', el.dataset.mid === id));
-    vibrate([25]);
-    setTimeout(() => { UI.startGame(); }, 340);
-  };
+  /* ============ ゲーム開始（マンションはランダム選定） ============ */
   UI.startGame = function () {
+    cfg.players = cfg.players.map((p, i) => p.trim() || 'プレイヤー' + (i + 1));
+    cfg.mansionId = MANSIONS[Math.floor(Math.random() * MANSIONS.length)].id;
     G.newGame({ players: cfg.players, rounds: cfg.rounds, mansionId: cfg.mansionId });
     beginTurn();
   };
 
-  /* ============ ターン開始（パス画面） ============ */
+  /* ============ ターン開始（建物全景→対象部屋にズーム） ============ */
   function beginTurn() {
     const t = G.startTurn();
     const s = G.state;
     const name = s.players[t.playerIdx].name;
+    const pos = RP(t.room);
     $('#scr-pass').innerHTML =
-      '<div style="margin:0 auto">' + M('point', 150) + '</div>' +
-      '<div class="bubble" style="max-width:320px;margin:8px auto 14px">「<b>' + t.room + '号室</b>の住人を当てて！<br>ベランダに証拠が残ってるはずだよ」</div>' +
+      '<div class="pass-top">' + bubbleRow('point', 86, '「<b>' + t.room + '号室</b>のベランダを調べて、<br>住人を当てて！」') + '</div>' +
+      '<div class="facade-wrap" id="facadeWrap" style="transform-origin:' + pos.x + '% ' + pos.y + '%">' + F(s.mansion, t.room, 320) + '</div>' +
+      '<div class="mname">' + s.mansion.name + '（' + (s.turnNo + 1) + '/' + s.queue.length + '件目）</div>' +
       '<div class="pass-label">スマホを渡して</div>' +
       '<div class="pass-name">' + esc(name) + '</div>' +
-      '<div class="pass-room">' + t.room + '号室 担当</div>' +
-      '<div class="mname">' + s.mansion.name + '（' + (s.turnNo + 1) + '/' + s.queue.length + '件目）</div>' +
-      '<button class="btn" onclick="UI.goPlay()">' + I('eye') + '張り込み開始</button>';
+      '<button class="btn" id="zoomBtn" onclick="UI.zoomIn()">' + I('eye') + '張り込み開始</button>';
     show('pass');
   }
+  UI.zoomIn = function () {
+    const w = $('#facadeWrap');
+    if (!w || w.classList.contains('zoom')) return;
+    const b = $('#zoomBtn');
+    if (b) b.disabled = true;
+    vibrate([30]);
+    w.classList.add('zoom');
+    setTimeout(() => UI.goPlay(), 680);
+  };
 
   /* ============ 捜査画面 ============ */
   const ACTIONS = [
@@ -138,10 +129,8 @@
       (s.combo >= 2 ? '<span class="combo-pill">' + I('star') + s.combo + 'コンボ中</span>' : '') +
       '<div class="room-chip">' + t.room + '号室</div>' +
       '</div>' +
-      '<div class="balcony" id="balcony">' +
-      '<div class="b-label">' + I('eye') + 'ベランダの様子</div>' +
-      '<div class="hints" id="hints"></div>' +
-      '</div>' +
+      '<div class="scene-box" id="sceneBox"><div id="scene"></div><div class="scene-tip" id="sceneTip"></div></div>' +
+      '<p class="scene-note">気になるアイテムはタップで確認</p>' +
       '<div class="section-label">捜査ログ</div>' +
       '<div class="log" id="log"><div class="log-line">' + t.room + '号室の張り込みを開始した。</div></div>' +
       '<div class="section-label">追加調査（各1回まで）</div>' +
@@ -151,15 +140,64 @@
         I(a.icon) + '<div class="nm">' + a.nm + '</div><div class="risk">' + a.risk + '</div></button>').join('') +
       '</div>' +
       '<div class="cta-bar"><button class="btn" id="answerBtn" onclick="UI.openAnswer()">' + I('search') + '回答する</button></div>';
-    t.shown.forEach((h, i) => addHint(h, false, i * 90));
+    newScene(t, s);
+    renderScene();
     show('play');
   };
-  function addHint(h, strong, delay) {
+
+  /* ---- ベランダシーン管理 ---- */
+  let scene = null;
+  function newScene(t, s) {
+    scene = {
+      accent: s.mansion.accent,
+      curtain: null, curtainClosed: false,
+      light: false, rain: false, silhouette: false,
+      items: [], freeHang: [0, 1, 2], freeFloor: [0, 1, 2, 3, 4],
+    };
+    t.shown.forEach((h) => pushItem(h, false, false));
+  }
+  function pushItem(h, strong, fresh) {
+    const kind = h[1], label = h[0];
+    const color = HC(label, kind);
+    if (kind === 'curtain') {
+      scene.curtain = { color, label };
+      scene.curtainClosed = true;
+      return;
+    }
+    let hang = HK.indexOf(kind) !== -1;
+    let slot;
+    if (hang && scene.freeHang.length) slot = scene.freeHang.shift();
+    else if (!hang && scene.freeFloor.length) slot = scene.freeFloor.shift();
+    else if (scene.freeFloor.length) { hang = false; slot = scene.freeFloor.shift(); }
+    else if (scene.freeHang.length) { hang = true; slot = scene.freeHang.shift(); }
+    else return;
+    scene.items.push({ kind, color, label, slot, hang, strong: !!strong, fresh: !!fresh });
+  }
+  function renderScene() {
+    $('#scene').innerHTML = SC(scene);
+    scene.items.forEach((it) => { it.fresh = false; });
+  }
+  UI.itemTap = function (i) {
+    const label = i === -1
+      ? (scene.curtain && scene.curtain.label)
+      : (scene.items[i] && scene.items[i].label);
+    if (!label) return;
+    const tip = $('#sceneTip');
+    tip.textContent = label;
+    tip.classList.add('on');
+    clearTimeout(UI._tipT);
+    UI._tipT = setTimeout(() => tip.classList.remove('on'), 2000);
+  };
+  function sceneFx(kind) {
+    const box = $('#sceneBox');
+    if (!box) return;
     const el = document.createElement('div');
-    el.className = 'hint-chip' + (strong ? ' strong' : '');
-    el.style.animationDelay = (delay || 0) + 'ms';
-    el.innerHTML = I(h[1]) + '<span>' + h[0] + '</span>';
-    $('#hints').appendChild(el);
+    el.className = 'scene-fx ' + kind;
+    el.innerHTML = kind === 'crow'
+      ? '<svg viewBox="0 0 60 40" width="58"><path d="M8 24 Q17 10 30 20 Q43 10 52 24 L30 19 Z" fill="#3c3c46"/><circle cx="30" cy="15" r="6" fill="#3c3c46"/><path d="M34 14 l8 2 -8 2Z" fill="#ffc800"/></svg>'
+      : '<svg viewBox="0 0 70 44" width="66"><ellipse cx="28" cy="30" rx="19" ry="11" fill="#8a93a5"/><circle cx="51" cy="22" r="9" fill="#8a93a5"/><path d="M45 15 l3 -7 4 6Z M53 14 l4 -6 3 7Z" fill="#8a93a5"/><path d="M10 28 q-9 -2 -6 -11" stroke="#8a93a5" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="48" cy="21" r="1.5" fill="#2e3a4d"/><circle cx="55" cy="21" r="1.5" fill="#2e3a4d"/></svg>';
+    box.appendChild(el);
+    setTimeout(() => el.remove(), 2300);
   }
   function addLog(text, cls) {
     const el = document.createElement('div');
@@ -178,17 +216,25 @@
     if (ev.type === 'caught') {
       addLog(ev.text, 'bad');
       addLog('見つかった！一口飲め。ここからは回答のみ。', 'bad');
-      $('#balcony').classList.add('shake');
+      $('#sceneBox').classList.add('shake');
       vibrate([80, 50, 80]);
       lockActions();
     } else if (ev.type === 'timer') {
       addLog(ev.text, 'bad');
       vibrate([200, 80, 200]);
       lockActions();
-      showPanic();
+      // 窓に人影＋電気ON→ハト乱入
+      scene.silhouette = true;
+      scene.light = true;
+      scene.curtainClosed = false;
+      renderScene();
+      setTimeout(showPanic, 700);
     } else if (ev.type === 'hints' || ev.type === 'strong') {
       addLog(ev.text, 'good');
-      (ev.hints || []).forEach((h, i) => addHint(h, ev.type === 'strong', i * 100));
+      if (ev.id === 'curtain') { scene.curtainClosed = false; scene.light = true; }
+      if (ev.id === 'light') scene.light = true;
+      (ev.hints || []).forEach((h) => pushItem(h, ev.type === 'strong', true));
+      renderScene();
     } else if (ev.type === 'rumor') {
       addLog(ev.text, 'rumor');
     } else if (ev.type === 'alert') {
@@ -198,8 +244,13 @@
       if (r) r.textContent = '強ヒント／発覚率80%!';
     } else if (ev.type === 'rain') {
       addLog(ev.text, 'warn');
+      scene.rain = true;
+      renderScene();
     } else {
       addLog(ev.text);
+      if (ev.id === 'light') { scene.light = true; renderScene(); }
+      if (ev.id === 'crow') sceneFx('crow');
+      if (ev.id === 'cat') sceneFx('cat');
     }
   };
 
@@ -335,7 +386,7 @@
       '</div>';
     show('final');
   }
-  UI.replay = function () { cfg.mansionId = null; starting = false; renderMansion(); show('mansion'); };
+  UI.replay = function () { UI.startGame(); };
 
   /* ============ モーダル ============ */
   UI.modal = function (kind) {
