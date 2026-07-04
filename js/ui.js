@@ -191,6 +191,13 @@
       (ev.hints || []).forEach((h, i) => addHint(h, ev.type === 'strong', i * 100));
     } else if (ev.type === 'rumor') {
       addLog(ev.text, 'rumor');
+    } else if (ev.type === 'alert') {
+      addLog(ev.text, 'warn');
+      vibrate([60]);
+      const r = document.querySelector('#act-post .risk');
+      if (r) r.textContent = '強ヒント／発覚率80%!';
+    } else if (ev.type === 'rain') {
+      addLog(ev.text, 'warn');
     } else {
       addLog(ev.text);
     }

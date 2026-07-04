@@ -4,7 +4,7 @@
   const CATS_KEYS = ['normal', 'hot', 'trap', 'rare'];
   const MANSIONS = root.VT_MANSIONS;
   const ROOMS = root.VT_ROOMS;
-  const WAIT = root.VT_WAIT_EVENTS;
+  const WAIT_TABLE = root.VT_WAIT_TABLE;
   const CAUGHT_POST = root.VT_CAUGHT_POST;
   const TIMEOUT_ROAST = root.VT_TIMEOUT_ROAST;
 
@@ -44,6 +44,7 @@
       mansion,
       roomsLeft: shuffle(ROOMS),
       queue,
+      waitUsed: [],
       combo: 0,
       turnNo: 0,
       turn: null,
@@ -118,7 +119,7 @@
         : { type: 'none', text: 'これ以上ベランダから読み取れるものはない。' };
       got.forEach((h) => t.shown.push(h));
     } else if (kind === 'post') {
-      if (rng() < 0.5) {
+      if (rng() < (t.alerted ? 0.2 : 0.5)) {
         const p = popHint(t);
         ev = p
           ? { type: 'strong', text: 'ポスト周りを確認した。決定的な情報だ。', hints: [p.hint] }
@@ -130,22 +131,43 @@
         ev = { type: 'caught', text: pick(CAUGHT_POST) };
       }
     } else if (kind === 'wait') {
-      const x = rng();
-      if (x < 0.4) {
-        const p = popHint(t);
-        ev = p
-          ? { type: 'hints', text: pick(WAIT.hint), hints: [p.hint] }
-          : { type: 'none', text: pick(WAIT.none) };
-        if (p) t.shown.push(p.hint);
-      } else if (x < 0.65) {
-        ev = { type: 'none', text: pick(WAIT.none) };
-      } else if (x < 0.85) {
+      // 同一ゲーム内で全12種を消化するまで重複しない
+      const s = G.state;
+      let cands = WAIT_TABLE.filter((e) => s.waitUsed.indexOf(e.id) === -1);
+      if (!cands.length) { s.waitUsed = []; cands = WAIT_TABLE.slice(); }
+      const total = cands.reduce((a, e) => a + e.w, 0);
+      let x = rng() * total;
+      let evd = cands[cands.length - 1];
+      for (const e of cands) { x -= e.w; if (x < 0) { evd = e; break; } }
+      s.waitUsed.push(evd.id);
+
+      if (evd.type === 'hint' || evd.type === 'strong') {
+        const p = evd.type === 'strong' && t.strongQueue.length
+          ? { hint: t.strongQueue.shift(), strong: true }
+          : popHint(t);
+        if (p) {
+          t.shown.push(p.hint);
+          ev = { type: p.strong ? 'strong' : 'hints', text: evd.text, hints: [p.hint] };
+        } else {
+          ev = { type: 'none', text: evd.text + ' …が、新しい発見はなかった。' };
+        }
+      } else if (evd.type === 'rumor') {
+        ev = { type: 'rumor', text: evd.text + ' 噂: 「' + pick(t.resident.rumor) + '」' };
+      } else if (evd.type === 'alert') {
+        t.alerted = true;
+        ev = { type: 'alert', text: evd.text };
+      } else if (evd.type === 'rain') {
+        t.hintQueue = [];
+        ev = { type: 'rain', text: evd.text };
+      } else if (evd.type === 'none') {
+        ev = { type: 'none', text: evd.text };
+      } else if (evd.type === 'caught') {
         t.locked = true;
         t.caughtSips += 1;
-        ev = { type: 'caught', text: pick(WAIT.caught) };
+        ev = { type: 'caught', text: evd.text };
       } else {
         t.timered = true;
-        ev = { type: 'timer', text: WAIT.timer[0] };
+        ev = { type: 'timer', text: evd.text };
       }
     } else if (kind === 'neighbor') {
       if (rng() < 0.65) {

@@ -184,6 +184,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .log-line.bad { color: var(--red-t); border-color: var(--red); font-weight: 900; }
 .log-line.good { color: var(--green-t); border-color: var(--green); }
 .log-line.rumor { color: #8b46d9; border-color: var(--purple); }
+.log-line.warn { color: #b57800; border-color: var(--gold); font-weight: 900; }
 
 .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .action-card {

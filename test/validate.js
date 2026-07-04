@@ -6,7 +6,7 @@ const ev = require('../js/data/events.js');
 
 Object.assign(globalThis, {
   VT_RESIDENTS, VT_CATS, VT_MANSIONS, VT_ROOMS,
-  VT_WAIT_EVENTS: ev.VT_WAIT_EVENTS,
+  VT_WAIT_TABLE: ev.VT_WAIT_TABLE,
   VT_CAUGHT_POST: ev.VT_CAUGHT_POST,
   VT_TIMEOUT_ROAST: ev.VT_TIMEOUT_ROAST,
 });
@@ -65,6 +65,7 @@ const rng = lcg(20260704);
 G.setRng(rng);
 const kinds = ['observe', 'post', 'wait', 'neighbor'];
 let turns = 0, timers = 0, caughts = 0, corrects = 0;
+const waitTypes = {};
 for (const m of VT_MANSIONS) {
   G.newGame({ players: ['A', 'B', 'C'], rounds: 5, mansionId: m.id });
   for (let i = 0; i < 300; i++) {
@@ -79,7 +80,9 @@ for (const m of VT_MANSIONS) {
     // ランダムに0〜4回調査
     const n = Math.floor(rng() * 5);
     for (let a = 0; a < n; a++) {
-      const e = G.doAction(kinds[Math.floor(rng() * 4)]);
+      const kind = kinds[Math.floor(rng() * 4)];
+      const e = G.doAction(kind);
+      if (e && kind === 'wait') waitTypes[e.type] = (waitTypes[e.type] || 0) + 1;
       if (e && e.type === 'caught') caughts++;
       if (e && e.type === 'timer') timers++;
     }
@@ -106,7 +109,24 @@ for (const m of VT_MANSIONS) {
   ok(res.rank.length === 3 && res.mvp, m.id + ': results不正');
 }
 console.log('  ' + turns + 'ターン実行 / 発覚' + caughts + '回 / 帰宅タイマー' + timers + '回');
+console.log('  待機イベント内訳: ' + JSON.stringify(waitTypes));
 ok(caughts > 0 && timers > 0, 'イベント分岐が一度も発生していない（確率ロジック疑い）');
+for (const ty of ['hints', 'strong', 'rumor', 'none', 'alert', 'rain', 'caught', 'timer']) {
+  ok(waitTypes[ty] > 0, '待機イベント「' + ty + '」が一度も発生していない');
+}
+
+console.log('[3b] 待機イベントの重複なし保証');
+ok(ev.VT_WAIT_TABLE.length === 12, '待機イベントが12種でない: ' + ev.VT_WAIT_TABLE.length);
+G.newGame({ players: ['A'], rounds: 5, mansionId: 'boro' });
+for (let i = 0; i < 12; i++) {
+  G.state.queue.push(0);
+  G.startTurn();
+  ok(G.doAction('wait'), '待機がnullを返した');
+  G.answer(0, false);
+  G.nextTurn();
+}
+ok(G.state.waitUsed.length === 12 && new Set(G.state.waitUsed).size === 12,
+  '同一ゲーム12回の待機でイベントが重複した: ' + G.state.waitUsed.join(','));
 
 console.log('[4] キャラクター描画');
 const CH = require('../js/characters.js');
