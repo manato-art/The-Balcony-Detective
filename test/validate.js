@@ -127,9 +127,9 @@ for (let i = 0; i < 200; i++) {
     const r = G.ambush();
     ok(r && r.sips === 1, 'ambushの戻り値不正');
     ok(G.ambush() === null, 'ambushが二重発火する');
-    const res = G.answer(t.answerIdx, false);
-    ok(res.sips >= 1, 'アンブッシュの一口が精算されない');
     ok(G.state.players[0].sips === before + 1, 'sips加算不正');
+    ok(G.answer(t.answerIdx, false) === null, '逃走後に回答できてしまう');
+    ok(G.doAction('observe') === null, '逃走後に調査できてしまう');
   } else {
     ok(G.ambush() === null, 'ambushフラグ無しで発火');
     G.answer(0, false);

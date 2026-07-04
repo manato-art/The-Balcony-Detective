@@ -97,13 +97,15 @@
     return s.turn;
   };
 
-  // 張り込み開始直後の帰宅カットイン（一口・調査は続行可能）
+  // 張り込み開始直後の帰宅カットイン: 一口飲んで逃走＝このターンは回答なしで終了
   G.ambush = function () {
     const t = G.state.turn;
     if (!t || t.done || !t.ambush || t.ambushDone) return null;
     t.ambushDone = true;
-    t.caughtSips += 1;
-    return { sips: 1, player: G.state.players[t.playerIdx] };
+    t.done = true;
+    const p = G.state.players[t.playerIdx];
+    p.sips += 1;
+    return { sips: 1, player: p };
   };
 
   function popHint(t) {
