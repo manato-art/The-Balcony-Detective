@@ -153,6 +153,20 @@ for (const r of VT_RESIDENTS) {
     ok(h[1] === 'curtain' || SC.ITEM_KINDS.indexOf(h[1]) !== -1, r.id + ': イラスト未定義のヒント種別 ' + h[1]);
   }
 }
+// バリアント: 全ルールの参照先が存在し、全ヒント文でclassifyが安全に動く
+for (const r of SC.RULES) ok(SC.VARIANTS[r[1]], 'RULES参照先バリアント欠落: ' + r[1]);
+let variantHits = 0;
+for (const r of VT_RESIDENTS) {
+  for (const h of r.hints.concat(r.strong)) {
+    const v = SC.classify(h[0], h[1]);
+    if (v) { variantHits++; ok(typeof SC.VARIANTS[v].draw('#ccc') === 'string', v + ': draw不正'); }
+  }
+}
+console.log('  特化イラスト適用ヒント数: ' + variantHits);
+ok(variantHits >= 50, '特化イラストの適用数が少なすぎる: ' + variantHits);
+const vItems = Object.keys(SC.VARIANTS).map((v, i) => ({ kind: 'box', variant: v, color: '#ccc', label: v, slot: i % 5, hang: !!SC.VARIANTS[v].hang, strong: false, fresh: false }));
+ok(SC.scene({ accent: 'green', items: vItems }).split('sc-item').length - 1 >= vItems.length, 'バリアント描画不正');
+
 const testItems = SC.ITEM_KINDS.map((k, i) => ({ kind: k, color: '#ccc', label: k, slot: i % 5, hang: SC.HANG_KINDS.indexOf(k) !== -1, strong: false, fresh: false }));
 const ssvg = SC.scene({ accent: 'cyan', curtain: { color: '#fff', label: 'c' }, curtainClosed: true, light: true, rain: true, silhouette: true, items: testItems });
 ok(ssvg.indexOf('<svg') === 0 && ssvg.split('sc-item').length - 1 >= SC.ITEM_KINDS.length, 'シーンSVG生成不正');

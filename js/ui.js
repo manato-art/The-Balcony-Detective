@@ -169,14 +169,16 @@
       scene.curtainClosed = true;
       return;
     }
-    let hang = HK.indexOf(kind) !== -1;
+    const variant = window.VT_classify(label, kind);
+    const vdef = variant && window.VT_VARIANTS[variant];
+    let hang = vdef ? !!vdef.hang : HK.indexOf(kind) !== -1;
     let slot;
     if (hang && scene.freeHang.length) slot = scene.freeHang.shift();
     else if (!hang && scene.freeFloor.length) slot = scene.freeFloor.shift();
     else if (scene.freeFloor.length) { hang = false; slot = scene.freeFloor.shift(); }
     else if (scene.freeHang.length) { hang = true; slot = scene.freeHang.shift(); }
     else return;
-    scene.items.push({ kind, color, label, slot, hang, strong: !!strong, fresh: !!fresh });
+    scene.items.push({ kind, variant, color, label, slot, hang, strong: !!strong, fresh: !!fresh });
   }
   function renderScene() {
     $('#scene').innerHTML = SC(scene);
