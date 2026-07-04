@@ -86,6 +86,8 @@
       hintQueue: hints.slice(3),        // 追加調査で出るヒント
       strongQueue: shuffle(res.strong), // 強ヒント
       used: {},                          // 使用済みアクション
+      ambush: rng() < 0.12,              // 張り込み開始直後の住人帰宅カットイン
+      ambushDone: false,
       locked: false,                     // 見つかった→調査不可
       timered: false,                    // 10秒回答モード
       caughtSips: 0,
@@ -93,6 +95,15 @@
       done: false,
     };
     return s.turn;
+  };
+
+  // 張り込み開始直後の帰宅カットイン（一口・調査は続行可能）
+  G.ambush = function () {
+    const t = G.state.turn;
+    if (!t || t.done || !t.ambush || t.ambushDone) return null;
+    t.ambushDone = true;
+    t.caughtSips += 1;
+    return { sips: 1, player: G.state.players[t.playerIdx] };
   };
 
   function popHint(t) {
@@ -135,6 +146,7 @@
       const s = G.state;
       let cands = WAIT_TABLE.filter((e) => s.waitUsed.indexOf(e.id) === -1);
       if (!cands.length) { s.waitUsed = []; cands = WAIT_TABLE.slice(); }
+      if (t.ambushDone) cands = cands.filter((e) => e.id !== 'kitaku'); // 二重帰宅防止
       const total = cands.reduce((a, e) => a + e.w, 0);
       let x = rng() * total;
       let evd = cands[cands.length - 1];

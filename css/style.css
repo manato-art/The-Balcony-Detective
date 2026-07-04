@@ -278,6 +278,20 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .conf-toggle.on .box { border-color: var(--pink); background: #ffe4f4; color: var(--pink-t); }
 .conf-toggle .icon { width: 15px; height: 15px; }
 
+/* ---------- パチンコ風カットイン（帰宅アンブッシュ） ---------- */
+.cutin-back { position: fixed; inset: 0; z-index: 96; background: rgba(18, 8, 14, .62); display: flex; align-items: center; justify-content: center; overflow: hidden; animation: fadeIn .1s ease-out; }
+.cutin-stripes { position: absolute; inset: -60% -30%; background: repeating-linear-gradient(-28deg, rgba(255, 75, 75, .8) 0 44px, rgba(28, 10, 18, .85) 44px 88px); animation: stripesSlide .45s linear infinite; }
+@keyframes stripesSlide { to { transform: translateX(100px); } }
+.cutin-flash { position: absolute; inset: 0; background: #fff; animation: cutinFlash .5s ease-out forwards; }
+@keyframes cutinFlash { 0% { opacity: .95; } 100% { opacity: 0; } }
+.cutin-box { position: relative; transform: rotate(-6deg); text-align: center; animation: cutinSlam .5s cubic-bezier(.2, 1.5, .4, 1); padding: 0 16px; }
+.cutin-mascot { display: inline-block; animation: shake .35s ease-in-out 3; }
+.cutin-title { font-size: clamp(30px, 11vw, 46px); white-space: nowrap; font-weight: 900; color: #fff; letter-spacing: .06em; line-height: 1.15; text-shadow: 0 5px 0 #a11226, 0 0 30px rgba(255, 200, 0, .9); }
+.cutin-sub { font-size: 14px; font-weight: 900; color: #ffc800; margin-top: 6px; text-shadow: 0 2px 0 #6e1a1a; }
+.cutin-drink { margin-top: 14px; display: inline-flex; align-items: center; gap: 8px; background: #fff; color: var(--red-t); border-radius: 999px; padding: 9px 22px; font-weight: 900; font-size: 17px; box-shadow: 0 4px 0 #c9273f; animation: cutinPop .4s .6s cubic-bezier(.34, 1.56, .64, 1) both; }
+@keyframes cutinSlam { 0% { transform: rotate(-6deg) scale(3.2); opacity: 0; } 55% { transform: rotate(-6deg) scale(.92); opacity: 1; } 100% { transform: rotate(-6deg) scale(1); } }
+@keyframes cutinPop { from { transform: scale(.2); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
 /* ---------- 住人帰宅パニック ---------- */
 .panic-back { position: fixed; inset: 0; z-index: 95; background: rgba(255, 75, 75, .3); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; animation: fadeIn .15s ease-out; }
 .panic-box { background: #fff; border: 3px solid var(--red); border-radius: 24px; padding: 22px 30px; text-align: center; box-shadow: 0 6px 0 var(--red-d); animation: slam .45s cubic-bezier(.34, 1.56, .64, 1); }

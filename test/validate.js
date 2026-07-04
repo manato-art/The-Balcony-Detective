@@ -115,6 +115,30 @@ for (const ty of ['hints', 'strong', 'rumor', 'none', 'alert', 'rain', 'caught',
   ok(waitTypes[ty] > 0, '待機イベント「' + ty + '」が一度も発生していない');
 }
 
+console.log('[3a] 帰宅アンブッシュ');
+G.newGame({ players: ['A'], rounds: 5, mansionId: 'gakusei' });
+let ambushes = 0;
+for (let i = 0; i < 200; i++) {
+  G.state.queue.push(0);
+  const t = G.startTurn();
+  if (t.ambush) {
+    ambushes++;
+    const before = G.state.players[0].sips;
+    const r = G.ambush();
+    ok(r && r.sips === 1, 'ambushの戻り値不正');
+    ok(G.ambush() === null, 'ambushが二重発火する');
+    const res = G.answer(t.answerIdx, false);
+    ok(res.sips >= 1, 'アンブッシュの一口が精算されない');
+    ok(G.state.players[0].sips === before + 1, 'sips加算不正');
+  } else {
+    ok(G.ambush() === null, 'ambushフラグ無しで発火');
+    G.answer(0, false);
+  }
+  G.nextTurn();
+}
+console.log('  200ターン中アンブッシュ' + ambushes + '回');
+ok(ambushes > 5 && ambushes < 60, 'アンブッシュ発生率が想定外: ' + ambushes + '/200');
+
 console.log('[3b] 待機イベントの重複なし保証');
 ok(ev.VT_WAIT_TABLE.length === 12, '待機イベントが12種でない: ' + ev.VT_WAIT_TABLE.length);
 G.newGame({ players: ['A'], rounds: 5, mansionId: 'boro' });

@@ -148,7 +148,35 @@
     newScene(t, s);
     renderScene();
     show('play');
+    if (t.ambush && !t.ambushDone) setTimeout(showAmbush, 750);
   };
+
+  // パチンコ風カットイン: 住人帰宅！→ぐい（張り込み開始直後にランダム発生）
+  function showAmbush() {
+    const r = G.ambush();
+    if (!r) return;
+    vibrate([220, 90, 220, 90, 300]);
+    const ov = document.createElement('div');
+    ov.className = 'cutin-back';
+    ov.innerHTML =
+      '<div class="cutin-stripes"></div><div class="cutin-flash"></div>' +
+      '<div class="cutin-box">' +
+      '<div class="cutin-mascot">' + M('shock', 128) + '</div>' +
+      '<div class="cutin-title">住人帰宅！！</div>' +
+      '<div class="cutin-sub">まさかのタイミングで帰ってきた——完全に目が合った</div>' +
+      '<div class="cutin-drink">' + I('beer') + esc(r.player.name) + ' は動揺で一口</div>' +
+      '</div>';
+    document.body.appendChild(ov);
+    setTimeout(() => {
+      ov.remove();
+      addLog('住人が帰ってきた！目が合った…動揺で一口飲んだ。', 'bad');
+      addLog('住人は部屋に入っていった。バレる前に決めろ。', 'warn');
+      scene.light = true;
+      scene.silhouette = true;
+      renderScene();
+      setTimeout(() => { if (scene) { scene.silhouette = false; renderScene(); } }, 2200);
+    }, 2500);
+  }
 
   /* ---- ベランダシーン管理 ---- */
   let scene = null;
