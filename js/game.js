@@ -97,15 +97,28 @@
     return s.turn;
   };
 
-  // 張り込み開始直後の帰宅カットイン: 一口飲んで逃走＝このターンは回答なしで終了
+  // 張り込み開始直後の帰宅カットイン: 誰かが一口飲んで逃走＝このターンは回答なしで終了
+  // pattern: self(40%) / right(20%) / left(20%) / all=本人以外全員(20%)。隣は登録順。
   G.ambush = function () {
     const t = G.state.turn;
     if (!t || t.done || !t.ambush || t.ambushDone) return null;
     t.ambushDone = true;
     t.done = true;
-    const p = G.state.players[t.playerIdx];
-    p.sips += 1;
-    return { sips: 1, player: p };
+    const s = G.state;
+    const me = t.playerIdx;
+    const n = s.players.length;
+    let pattern = 'self';
+    if (n >= 2) {
+      const x = rng();
+      pattern = x < 0.4 ? 'self' : x < 0.6 ? 'right' : x < 0.8 ? 'left' : 'all';
+    }
+    let drinkers;
+    if (pattern === 'right') drinkers = [s.players[(me + 1) % n]];
+    else if (pattern === 'left') drinkers = [s.players[(me - 1 + n) % n]];
+    else if (pattern === 'all') drinkers = s.players.filter((_, i) => i !== me);
+    else drinkers = [s.players[me]];
+    drinkers.forEach((p) => { p.sips += 1; });
+    return { pattern, drinkers, player: s.players[me] };
   };
 
   function popHint(t) {

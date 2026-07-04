@@ -157,6 +157,20 @@
     const r = G.ambush();
     if (!r) return;
     vibrate([220, 90, 220, 90, 300]);
+    let drinkText, btnText;
+    if (r.pattern === 'right') {
+      drinkText = 'とばっちり！右隣の ' + esc(r.drinkers[0].name) + ' が一口';
+      btnText = '隣が飲んだら逃走';
+    } else if (r.pattern === 'left') {
+      drinkText = 'とばっちり！左隣の ' + esc(r.drinkers[0].name) + ' が一口';
+      btnText = '隣が飲んだら逃走';
+    } else if (r.pattern === 'all') {
+      drinkText = 'もらい事故！' + esc(r.player.name) + ' 以外の全員が一口';
+      btnText = '全員飲んだら逃走';
+    } else {
+      drinkText = esc(r.player.name) + ' は動揺で一口';
+      btnText = 'グイッ してから逃走';
+    }
     const ov = document.createElement('div');
     ov.className = 'cutin-back';
     ov.id = 'cutin';
@@ -166,8 +180,8 @@
       '<div class="cutin-mascot">' + M('shock', 128) + '</div>' +
       '<div class="cutin-title">住人帰宅！！</div>' +
       '<div class="cutin-sub">まさかのタイミングで帰ってきた——完全に目が合った</div>' +
-      '<div class="cutin-drink">' + I('beer') + esc(r.player.name) + ' は動揺で一口</div>' +
-      '<div><button class="btn cutin-btn" onclick="UI.ambushFlee()">' + I('arrow') + 'グイッ してから逃走</button></div>' +
+      '<div class="cutin-drink">' + I('beer') + drinkText + '</div>' +
+      '<div><button class="btn cutin-btn" onclick="UI.ambushFlee()">' + I('arrow') + btnText + '</button></div>' +
       '</div>';
     document.body.appendChild(ov);
   }

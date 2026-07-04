@@ -116,18 +116,29 @@ for (const ty of ['hints', 'strong', 'rumor', 'none', 'alert', 'rain', 'caught',
 }
 
 console.log('[3a] 帰宅アンブッシュ');
-G.newGame({ players: ['A'], rounds: 5, mansionId: 'gakusei' });
+G.newGame({ players: ['A', 'B', 'C'], rounds: 5, mansionId: 'gakusei' });
 let ambushes = 0;
+const patterns = {};
 for (let i = 0; i < 200; i++) {
-  G.state.queue.push(0);
+  G.state.queue.push(i % 3);
   const t = G.startTurn();
+  const me = t.playerIdx;
   if (t.ambush) {
     ambushes++;
-    const before = G.state.players[0].sips;
+    const before = G.state.players.map((p) => p.sips);
     const r = G.ambush();
-    ok(r && r.sips === 1, 'ambushの戻り値不正');
+    ok(r && r.drinkers && r.drinkers.length >= 1, 'ambushの戻り値不正');
+    patterns[r.pattern] = (patterns[r.pattern] || 0) + 1;
     ok(G.ambush() === null, 'ambushが二重発火する');
-    ok(G.state.players[0].sips === before + 1, 'sips加算不正');
+    // 飲む対象の検証
+    const expectIdx = r.pattern === 'self' ? [me]
+      : r.pattern === 'right' ? [(me + 1) % 3]
+      : r.pattern === 'left' ? [(me + 2) % 3]
+      : [0, 1, 2].filter((x) => x !== me);
+    G.state.players.forEach((p, idx) => {
+      const want = before[idx] + (expectIdx.indexOf(idx) !== -1 ? 1 : 0);
+      ok(p.sips === want, r.pattern + ': ' + p.name + 'のsips不正 ' + p.sips + '≠' + want);
+    });
     ok(G.answer(t.answerIdx, false) === null, '逃走後に回答できてしまう');
     ok(G.doAction('observe') === null, '逃走後に調査できてしまう');
   } else {
@@ -136,8 +147,9 @@ for (let i = 0; i < 200; i++) {
   }
   G.nextTurn();
 }
-console.log('  200ターン中アンブッシュ' + ambushes + '回');
+console.log('  200ターン中アンブッシュ' + ambushes + '回 / パターン内訳: ' + JSON.stringify(patterns));
 ok(ambushes > 5 && ambushes < 60, 'アンブッシュ発生率が想定外: ' + ambushes + '/200');
+ok(Object.keys(patterns).length >= 3, '飲みパターンの多様性不足: ' + JSON.stringify(patterns));
 
 console.log('[3b] 待機イベントの重複なし保証');
 ok(ev.VT_WAIT_TABLE.length === 12, '待機イベントが12種でない: ' + ev.VT_WAIT_TABLE.length);
