@@ -131,6 +131,11 @@
       '</div>' +
       '<div class="scene-box" id="sceneBox"><div id="scene"></div><div class="scene-tip" id="sceneTip"></div></div>' +
       '<p class="scene-note">気になるアイテムはタップで確認</p>' +
+      '<div class="section-label">容疑者リスト</div>' +
+      '<div class="suspects">' +
+      t.choices.map((c) =>
+        '<button class="suspect" onclick="UI.openAnswer()">' + AV(c.id, 34) + '<span>' + c.name + '</span></button>').join('') +
+      '</div>' +
       '<div class="section-label">捜査ログ</div>' +
       '<div class="log" id="log"><div class="log-line">' + t.room + '号室の張り込みを開始した。</div></div>' +
       '<div class="section-label">追加調査（各1回まで）</div>' +

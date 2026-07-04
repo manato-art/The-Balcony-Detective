@@ -205,6 +205,16 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .hint-chip.strong { border-color: var(--gold); background: #fffaf0; }
 .hint-chip.strong .icon { color: var(--orange); }
 
+.suspects { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.suspect {
+  display: flex; align-items: center; gap: 8px;
+  background: #fff; border: 2px solid var(--border); border-bottom-width: 4px; border-radius: 14px;
+  padding: 5px 10px; min-height: 52px; font: inherit; font-weight: 900; font-size: 12px; line-height: 1.35;
+  color: var(--text); cursor: pointer; text-align: left; transition: transform .1s ease;
+}
+.suspect:active { transform: translateY(2px); border-color: var(--blue); }
+.suspect svg { flex: none; }
+
 .log { display: flex; flex-direction: column; gap: 6px; min-height: 8px; }
 .log-line { font-size: 12.5px; font-weight: 700; color: var(--text2); padding-left: 10px; border-left: 3px solid var(--border); animation: cardIn .3s ease-out; }
 .log-line.bad { color: var(--red-t); border-color: var(--red); font-weight: 900; }
