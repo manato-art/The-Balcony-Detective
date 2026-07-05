@@ -615,7 +615,8 @@
   };
   function cfgSeg(key) {
     return '<div class="seg" id="seg-' + key + '">' + CFG_OPTS[key].opts.map((o) =>
-      '<button data-v="' + o[1] + '" class="' + (Math.abs(gameCfg[key] - o[1]) < 1e-9 ? 'on' : '') + '" onclick="UI.setCfg(\'' + key + '\',' + o[1] + ')">' + o[0] + '</button>').join('') + '</div>';
+      '<button data-v="' + o[1] + '" class="' + (Math.abs(gameCfg[key] - o[1]) < 1e-9 ? 'on' : '') + '" onclick="UI.setCfg(\'' + key + '\',' + o[1] + ')">' +
+      '<span class="sl">' + o[0] + '</span><span class="sp">' + Math.round(o[1] * 100) + '%</span></button>').join('') + '</div>';
   }
   UI.setCfg = function (key, val) {
     gameCfg[key] = val;

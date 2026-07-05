@@ -408,8 +408,12 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .set-l { font-size: 14px; font-weight: 900; margin-bottom: 7px; }
 .set-l small { display: block; color: var(--text2); font-weight: 700; font-size: 10.5px; margin-top: 1px; }
 .seg { display: flex; gap: 6px; }
-.seg button { flex: 1; min-height: 42px; border-radius: 11px; border: 2px solid var(--border); border-bottom-width: 3px; background: #fff; font: inherit; font-weight: 900; font-size: 12px; color: var(--text2); padding: 0 4px; cursor: pointer; white-space: nowrap; }
-.seg button.on { border-color: var(--green); color: var(--green-t); background: #f3ffe8; }
+.seg button { flex: 1; min-height: 46px; border-radius: 11px; border: 2px solid var(--border); border-bottom-width: 3px; background: #fff; font: inherit; cursor: pointer; padding: 4px 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; }
+.seg button .sl { font-weight: 900; font-size: 12px; color: var(--text2); white-space: nowrap; }
+.seg button .sp { font-weight: 800; font-size: 9.5px; color: #aab4c4; }
+.seg button.on { border-color: var(--green); background: #f3ffe8; }
+.seg button.on .sl { color: var(--green-t); }
+.seg button.on .sp { color: var(--green); }
 .seg button:active { transform: translateY(1px); }
 
 /* ---------- 図鑑 ---------- */
