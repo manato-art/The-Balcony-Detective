@@ -1,14 +1,14 @@
 // ベランダ探偵 — BGM/効果音（Web Audio 完全生成・音声ファイル不使用）
 (function (root) {
   if (typeof window === 'undefined') {
-    if (typeof module !== 'undefined') module.exports = { sfx: function () {}, toggle: function () {}, muted: function () { return true; } };
+    if (typeof module !== 'undefined') module.exports = { sfx: function () {}, toggle: function () {}, tension: function () {}, muted: function () { return true; } };
     return;
   }
 
-  let ctx = null, master = null, sfxG = null, bgmG = null, noiseBuf = null;
+  let ctx = null, master = null, sfxG = null, bgmG = null, normG = null, tenseG = null, noiseBuf = null;
   let muted = false;
   try { muted = localStorage.getItem('vt_mute') === '1'; } catch (e) { /* private mode */ }
-  let bgmOn = false, bgmTimer = null, nextBar = 0, barIdx = 0;
+  let bgmOn = false, bgmTimer = null, nextBar = 0, barIdx = 0, modeTense = false;
 
   function ensure() {
     if (ctx) return true;
@@ -18,6 +18,8 @@
     master = ctx.createGain(); master.gain.value = muted ? 0 : 1; master.connect(ctx.destination);
     sfxG = ctx.createGain(); sfxG.gain.value = 0.5; sfxG.connect(master);
     bgmG = ctx.createGain(); bgmG.gain.value = 0.13; bgmG.connect(master);
+    normG = ctx.createGain(); normG.gain.value = 1; normG.connect(bgmG);
+    tenseG = ctx.createGain(); tenseG.gain.value = 0; tenseG.connect(bgmG);
     const len = Math.floor(ctx.sampleRate * 0.5);
     noiseBuf = ctx.createBuffer(1, len, ctx.sampleRate);
     const d = noiseBuf.getChannelData(0);
@@ -95,26 +97,62 @@
       const swing = (i % 2) ? SPB * 0.08 : 0;   // 8分にスウィング
       const tt = t + i * SPB / 2 + swing;
       // ベース（スタッカート）
-      tone(i === 6 ? p.bass * 1.5 : p.bass, tt, 0.14, 'square', 0.22, bgmG);
+      tone(i === 6 ? p.bass * 1.5 : p.bass, tt, 0.14, 'square', 0.22, normG);
       // ハット（裏拍）
-      if (i % 2) noise(tt, 0.04, 0.1, 7000, bgmG);
+      if (i % 2) noise(tt, 0.04, 0.1, 7000, normG);
     }
     // コードのつまびき（1・3拍目）
-    tone(p.notes[0], t, 0.3, 'triangle', 0.1, bgmG);
-    tone(p.notes[2], t + SPB * 2, 0.3, 'triangle', 0.09, bgmG);
+    tone(p.notes[0], t, 0.3, 'triangle', 0.1, normG);
+    tone(p.notes[2], t + SPB * 2, 0.3, 'triangle', 0.09, normG);
     // モチーフ（偶数小節のみ）
     if (idx % 2 === 0) {
-      MELODY.forEach((f, i) => { if (f) tone(f, t + i * SPB / 2, 0.16, 'triangle', 0.12, bgmG); });
+      MELODY.forEach((f, i) => { if (f) tone(f, t + i * SPB / 2, 0.16, 'triangle', 0.12, normG); });
     }
+  }
+
+  // 緊迫モード（カットイン・10秒タイマー中）: 速い半音揺れベース＋アラームパルス
+  const TSPB = 60 / 148;
+  const TBAR = TSPB * 4;
+  function scheduleTenseBar(t, idx) {
+    const bass = (idx % 2) ? 116.54 : 110;      // A ↔ B♭ の半音揺れ
+    const pulse = (idx % 2) ? 622.25 : 659.26;  // E♭5 ↔ E5
+    for (let i = 0; i < 8; i++) {
+      const tt = t + i * TSPB / 2;
+      tone(bass, tt, 0.08, 'square', 0.26, tenseG);
+      noise(tt, 0.03, 0.09, 8000, tenseG);
+    }
+    // 低いドンッ（1・3拍目）
+    tone(55, t, 0.12, 'sine', 0.5, tenseG);
+    tone(55, t + TSPB * 2, 0.12, 'sine', 0.45, tenseG);
+    // アラームパルス（各拍）
+    for (let b = 0; b < 4; b++) tone(pulse, t + b * TSPB, 0.07, 'square', 0.1, tenseG);
+    // 4小節ごとに下降サイレン
+    if (idx % 4 === 0) tone(880, t, TSPB * 2, 'triangle', 0.06, tenseG, 620);
   }
 
   function bgmLoop() {
     if (!bgmOn || !ctx) return;
     const t = Math.max(ctx.currentTime + 0.06, nextBar);
-    scheduleBar(t, barIdx);
-    nextBar = t + BAR;
+    const barDur = modeTense ? TBAR : BAR;
+    if (modeTense) scheduleTenseBar(t, barIdx);
+    else scheduleBar(t, barIdx);
+    nextBar = t + barDur;
     barIdx++;
     bgmTimer = setTimeout(bgmLoop, Math.max((nextBar - ctx.currentTime - 0.35) * 1000, 60));
+  }
+
+  // カットイン中などの緊迫BGM切替（先読み済みの通常音は即ミュートして差し替え）
+  function tension(on) {
+    on = !!on;
+    if (modeTense === on) return;
+    modeTense = on;
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    normG.gain.setTargetAtTime(on ? 0 : 1, now, 0.04);
+    tenseG.gain.setTargetAtTime(on ? 1 : 0, now, 0.04);
+    if (bgmTimer) { clearTimeout(bgmTimer); bgmTimer = null; }
+    nextBar = 0; barIdx = 0;
+    if (bgmOn) bgmLoop();
   }
 
   function startBgm() {
@@ -169,6 +207,6 @@
     applyMute();
   });
 
-  root.VT_SOUND = { sfx, toggle, muted: () => muted, bgm: (on) => (on ? startBgm() : stopBgm()) };
+  root.VT_SOUND = { sfx, toggle, tension, muted: () => muted, bgm: (on) => (on ? startBgm() : stopBgm()) };
   if (typeof module !== 'undefined') module.exports = root.VT_SOUND;
 })(typeof window !== 'undefined' ? window : globalThis);

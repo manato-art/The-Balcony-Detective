@@ -9,7 +9,7 @@
   const SC = window.VT_scene;
   const HC = window.VT_hintColor;
   const HK = window.VT_HANG_KINDS;
-  const S = window.VT_SOUND || { sfx: function () {} };
+  const S = window.VT_SOUND || { sfx: function () {}, tension: function () {} };
   const CATS = window.VT_CATS;
   const MANSIONS = window.VT_MANSIONS;
   const RULES = window.VT_DRINK_RULES;
@@ -160,6 +160,7 @@
     if (!r) return;
     vibrate([220, 90, 220, 90, 300]);
     S.sfx('cutin');
+    S.tension(true);
     setTimeout(() => S.sfx('drink'), 700);
     let drinkText, btnText;
     if (r.pattern === 'right') {
@@ -193,6 +194,7 @@
     const ov = $('#cutin');
     if (ov) ov.remove();
     vibrate([40]);
+    S.tension(false);
     UI.next();
   };
 
@@ -203,6 +205,7 @@
     const p = G.state.players[t.playerIdx];
     vibrate([180, 80, 180]);
     S.sfx('cutin');
+    S.tension(true);
     setTimeout(() => S.sfx('drink'), 700);
     const ov = document.createElement('div');
     ov.className = 'cutin-back kanri';
@@ -222,6 +225,7 @@
     const ov = $('#cutin');
     if (ov) ov.remove();
     vibrate([40]);
+    S.tension(false);
     renderFinalAnswer();
   };
 
@@ -370,6 +374,7 @@
   /* ============ タイマー ============ */
   // 住人帰宅: ハトが焦って乱入 → 10秒回答モードへ
   function showPanic() {
+    S.tension(true);
     const ov = document.createElement('div');
     ov.className = 'panic-back';
     ov.innerHTML = '<div class="panic-box">' + M('shock', 150) +
@@ -446,6 +451,7 @@
   function renderReveal(r) {
     stopTimer();
     UI.closeAnswer();
+    S.tension(false);
     vibrate(r.correct ? [40] : [70, 50, 70]);
     if (r.correct) {
       S.sfx('correct');
