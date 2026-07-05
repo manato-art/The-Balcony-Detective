@@ -33,6 +33,10 @@
 
   G.setRng = function (fn) { rng = fn || Math.random; };
 
+  // ゲーム設定（UIから調整可能）
+  G.config = { ambush: 0.18, postCaught: 0.5, secret: 0.03 };
+  G.setConfig = function (c) { Object.assign(G.config, c || {}); };
+
   G.newGame = function ({ players, rounds, mansionId }) {
     const mansion = MANSIONS.find((m) => m.id === mansionId);
     if (!mansion) throw new Error('unknown mansion: ' + mansionId);
@@ -77,9 +81,9 @@
     if (s.roomsLeft.length === 0) s.roomsLeft = shuffle(ROOMS);
     const room = s.roomsLeft.pop();
     let res = weightedPick(s.mansion.pool);
-    // シークレット住人（3%で通常抽選を乗っ取る）
+    // シークレット住人（低確率で通常抽選を乗っ取る）
     const secrets = R.filter((r) => r.cat === 'secret');
-    if (secrets.length && rng() < 0.03) res = secrets[Math.floor(rng() * secrets.length)];
+    if (secrets.length && rng() < G.config.secret) res = secrets[Math.floor(rng() * secrets.length)];
     const { choices, answerIdx } = buildChoices(res);
     const hints = shuffle(res.hints);
     s.turn = {
@@ -93,10 +97,11 @@
       strongQueue: shuffle(res.strong), // 強ヒント
       secretItem: (function () {
         const SI = root.VT_SECRET_ITEMS || [];
-        return (SI.length && rng() < 0.04) ? SI[Math.floor(rng() * SI.length)] : null;
+        const p = Math.min(G.config.secret + 0.01, 0.5); // アイテムは住人よりやや出やすく
+        return (SI.length && rng() < p) ? SI[Math.floor(rng() * SI.length)] : null;
       })(),
       used: {},                          // 使用済みアクション
-      ambush: rng() < 0.18,              // 張り込み開始直後の住人帰宅カットイン
+      ambush: rng() < G.config.ambush,   // 張り込み開始直後の住人帰宅カットイン
       ambushDone: false,
       locked: false,                     // 見つかった→調査不可
       timered: false,                    // 10秒回答モード
@@ -155,7 +160,8 @@
         : { type: 'none', text: 'これ以上ベランダから読み取れるものはない。' };
       got.forEach((h) => t.shown.push(h));
     } else if (kind === 'post') {
-      if (rng() < (t.alerted ? 0.2 : 0.5)) {
+      const caughtP = Math.min(G.config.postCaught + (t.alerted ? 0.3 : 0), 0.95);
+      if (rng() < 1 - caughtP) {
         const p = popHint(t);
         ev = p
           ? { type: 'strong', text: 'ポスト周りを確認した。決定的な情報だ。', hints: [p.hint] }

@@ -23,6 +23,21 @@
   let confOn = false;
   let timerInt = null;
 
+  /* ---- ゲーム設定（localStorage永続・ロジックに反映） ---- */
+  const CFG_DEFAULT = { ambush: 0.18, post: 0.5, secret: 0.03 };
+  let gameCfg = Object.assign({}, CFG_DEFAULT);
+  try {
+    const saved = JSON.parse(localStorage.getItem('vt_gamecfg') || 'null');
+    if (saved) gameCfg = Object.assign(gameCfg, saved);
+  } catch (e) { /* noop */ }
+  function applyCfg() {
+    G.setConfig({ ambush: gameCfg.ambush, postCaught: gameCfg.post, secret: gameCfg.secret });
+  }
+  function saveCfg() {
+    try { localStorage.setItem('vt_gamecfg', JSON.stringify(gameCfg)); } catch (e) { /* noop */ }
+  }
+  applyCfg();
+
   function esc(s) {
     return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
@@ -39,6 +54,7 @@
   /* ============ タイトル ============ */
   function renderTitle() {
     $('#scr-title').innerHTML =
+      '<button class="cfg-btn" aria-label="ゲーム設定" onclick="UI.modal(\'settings\')">' + I('gear') + '</button>' +
       '<div class="title-mascot">' + M('base', 190) + '</div>' +
       '<div class="title-kicker">NIGHT INVESTIGATION GAME</div>' +
       '<h1 class="title-name">ベランダ探偵</h1>' +
@@ -592,9 +608,38 @@
   }
 
   /* ============ モーダル ============ */
+  const CFG_OPTS = {
+    ambush: { label: '住人帰宅ハプニング', sub: '張り込み開始直後にカットインが乱入する確率', opts: [['なし', 0], ['たまに', 0.10], ['ふつう', 0.18], ['多め', 0.30], ['地獄', 0.50]] },
+    post: { label: '管理人の厳しさ', sub: 'ポスト調査で見つかる確率（カメラ作動後は+30%）', opts: [['ゆるい', 0.30], ['ふつう', 0.50], ['鬼', 0.70]] },
+    secret: { label: 'シークレット出現率', sub: 'ハト・宇宙人・金のハト像などのレア遭遇', opts: [['ふつう', 0.03], ['多め', 0.08], ['祭り', 0.15]] },
+  };
+  function cfgSeg(key) {
+    return '<div class="seg" id="seg-' + key + '">' + CFG_OPTS[key].opts.map((o) =>
+      '<button data-v="' + o[1] + '" class="' + (Math.abs(gameCfg[key] - o[1]) < 1e-9 ? 'on' : '') + '" onclick="UI.setCfg(\'' + key + '\',' + o[1] + ')">' + o[0] + '</button>').join('') + '</div>';
+  }
+  UI.setCfg = function (key, val) {
+    gameCfg[key] = val;
+    saveCfg();
+    applyCfg();
+    const seg = $('#seg-' + key);
+    if (seg) seg.querySelectorAll('button').forEach((b) => b.classList.toggle('on', Math.abs(parseFloat(b.dataset.v) - val) < 1e-9));
+  };
+  UI.resetCfg = function () {
+    gameCfg = Object.assign({}, CFG_DEFAULT);
+    saveCfg();
+    applyCfg();
+    Object.keys(CFG_OPTS).forEach((k) => UI.setCfg(k, gameCfg[k]));
+  };
+
   UI.modal = function (kind) {
     let inner = '';
-    if (kind === 'rules') {
+    if (kind === 'settings') {
+      inner = '<h2>' + I('gear') + 'ゲーム設定</h2>' +
+        Object.keys(CFG_OPTS).map((k) =>
+          '<div class="set-row"><div class="set-l">' + CFG_OPTS[k].label + '<small>' + CFG_OPTS[k].sub + '</small></div>' + cfgSeg(k) + '</div>').join('') +
+        '<button class="btn ghost" onclick="UI.resetCfg()">おすすめ設定に戻す</button>' +
+        '<p class="modal-note">設定は次のターンから反映され、この端末に保存されます。</p>';
+    } else if (kind === 'rules') {
       inner = '<h2>' + I('beer') + '飲みルール</h2>' +
         RULES.map((r) => '<div class="rule-row"><span class="rr-l">' + r[0] + '</span><span class="rr-r">' + r[1] + '</span></div>').join('') +
         '<p class="modal-note">「全員同じ答え」「少数派で正解」は口頭で運用。飲めない人はソフドリで参加。強要は絶対禁止。</p>';
