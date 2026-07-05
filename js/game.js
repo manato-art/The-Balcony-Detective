@@ -59,7 +59,9 @@
     const addFrom = (cands) => {
       for (const id of shuffle(cands)) {
         if (ids.length >= CHOICE_N) break;
-        if (!ids.includes(id) && byId[id]) ids.push(id);
+        const c = byId[id];
+        // シークレット住人は誤答候補に混ぜない（正解の時だけ登場）
+        if (!ids.includes(id) && c && c.cat !== 'secret') ids.push(id);
       }
     };
     addFrom(res.confuse || []);
@@ -74,7 +76,10 @@
     if (!s || s.turnNo >= s.queue.length) return null;
     if (s.roomsLeft.length === 0) s.roomsLeft = shuffle(ROOMS);
     const room = s.roomsLeft.pop();
-    const res = weightedPick(s.mansion.pool);
+    let res = weightedPick(s.mansion.pool);
+    // シークレット住人（3%で通常抽選を乗っ取る）
+    const secrets = R.filter((r) => r.cat === 'secret');
+    if (secrets.length && rng() < 0.03) res = secrets[Math.floor(rng() * secrets.length)];
     const { choices, answerIdx } = buildChoices(res);
     const hints = shuffle(res.hints);
     s.turn = {
@@ -86,6 +91,10 @@
       shown: hints.slice(0, 4),         // 最初に見えているヒント
       hintQueue: hints.slice(4),        // 追加調査で出るヒント
       strongQueue: shuffle(res.strong), // 強ヒント
+      secretItem: (function () {
+        const SI = root.VT_SECRET_ITEMS || [];
+        return (SI.length && rng() < 0.04) ? SI[Math.floor(rng() * SI.length)] : null;
+      })(),
       used: {},                          // 使用済みアクション
       ambush: rng() < 0.12,              // 張り込み開始直後の住人帰宅カットイン
       ambushDone: false,

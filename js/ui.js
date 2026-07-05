@@ -10,6 +10,7 @@
   const HC = window.VT_hintColor;
   const HK = window.VT_HANG_KINDS;
   const S = window.VT_SOUND || { sfx: function () {}, tension: function () {} };
+  const D = window.VT_DEX || { unlockItem: function () {}, unlockResident: function () {}, itemCount: function () { return 0; }, resCount: function () { return 0; } };
   const CATS = window.VT_CATS;
   const MANSIONS = window.VT_MANSIONS;
   const RULES = window.VT_DRINK_RULES;
@@ -44,6 +45,7 @@
       '<p class="title-sub">洗濯物と生活感だけで、住人を当てろ。<br>ハト探偵と挑む、飲み会向け推理クソゲー。</p>' +
       '<div class="title-menu">' +
       '<button class="btn" onclick="UI.goSetup()">' + I('search') + '捜査開始</button>' +
+      '<button class="btn ghost" onclick="UI.goDex()">' + I('star') + '図鑑</button>' +
       '<button class="btn ghost" onclick="UI.modal(\'howto\')">' + I('book') + '遊び方</button>' +
       '<button class="btn ghost" onclick="UI.modal(\'rules\')">' + I('beer') + '飲みルール</button>' +
       '</div>' +
@@ -263,6 +265,16 @@
       items: [], freeHang: [0, 1, 2], freeFloor: [0, 1, 2, 3, 4], freeBack: [0, 1, 2, 3],
     };
     t.shown.forEach((h) => pushItem(h, false, false));
+    // シークレットアイテム（低確率・図鑑コレクション）
+    if (t.secretItem) {
+      let zone = null, slot;
+      if (scene.freeBack.length) { zone = 'back'; slot = scene.freeBack.shift(); }
+      else if (scene.freeFloor.length) { zone = 'floor'; slot = scene.freeFloor.shift(); }
+      if (zone) {
+        scene.items.push({ kind: 'box', variant: t.secretItem.v, color: '#ffc800', label: 'シークレット発見！ ' + t.secretItem.name, slot, zone, strong: true, fresh: true });
+        D.unlockItem('s:' + t.secretItem.id);
+      }
+    }
   }
   function pushItem(h, strong, fresh) {
     const kind = h[1], label = h[0];
@@ -283,6 +295,7 @@
     else if (scene.freeHang.length) { zone = 'hang'; slot = scene.freeHang.shift(); }
     else return;
     scene.items.push({ kind, variant, color, label, slot, zone, strong: !!strong, fresh: !!fresh });
+    D.unlockItem(variant ? 'v:' + variant : 'k:' + kind);
   }
   function renderScene() {
     $('#scene').innerHTML = SC(scene);
@@ -460,6 +473,7 @@
       S.sfx('wrong');
       if (r.sips > 0) setTimeout(() => S.sfx('drink'), 600);
     }
+    D.unlockResident(r.resident.id);
     const cat = CATS[r.resident.cat];
     const last = G.state.turnNo + 1 >= G.state.queue.length;
     const verdict = r.timedOut ? '時間切れ！' : r.correct ? '正解！' : '不正解…';
@@ -516,6 +530,66 @@
     show('final');
   }
   UI.replay = function () { UI.startGame(); };
+
+  /* ============ 図鑑（発見型コレクション） ============ */
+  let dexTab = 'res';
+  UI.goDex = function () { renderDex(); show('dex'); };
+  UI.setDexTab = function (t) { dexTab = t; renderDex(); };
+  function itemCatalog() {
+    const seen = {};
+    const list = [];
+    (window.VT_RESIDENTS || []).forEach((r) => {
+      r.hints.concat(r.strong).forEach((h) => {
+        if (h[1] === 'curtain') return;
+        const v = window.VT_classify(h[0], h[1]);
+        const key = v ? 'v:' + v : 'k:' + h[1];
+        if (seen[key]) return;
+        seen[key] = true;
+        list.push({ key, spec: v ? { kind: h[1], variant: v } : { kind: h[1] }, label: h[0], color: HC(h[0], h[1]) });
+      });
+    });
+    (window.VT_SECRET_ITEMS || []).forEach((s) => {
+      list.push({ key: 's:' + s.id, spec: { kind: 'box', variant: s.v }, label: s.name, color: '#ffc800', secret: true });
+    });
+    return list;
+  }
+  function renderDex() {
+    const RS = window.VT_RESIDENTS;
+    let gridHtml, prog;
+    if (dexTab === 'items') {
+      const cat = itemCatalog();
+      const got = cat.filter((c) => D.itemCount(c.key) > 0).length;
+      prog = 'アイテム発見 ' + got + ' / ' + cat.length;
+      gridHtml = cat.map((c) => {
+        const ok = D.itemCount(c.key) > 0;
+        return '<div class="dex-tile' + (ok ? '' : ' locked') + (c.secret ? ' secret' : '') + '">' +
+          window.VT_itemSVG(c.spec, c.color, 52) +
+          '<div class="dnm">' + (ok ? c.label : '？？？') + '</div>' +
+          (c.secret ? '<div class="dsec">SECRET</div>' : '') +
+          '</div>';
+      }).join('');
+    } else {
+      const got = RS.filter((r) => D.resCount(r.id) > 0).length;
+      prog = '人物発見 ' + got + ' / ' + RS.length;
+      gridHtml = RS.map((r) => {
+        const ok = D.resCount(r.id) > 0;
+        const sec = r.cat === 'secret';
+        return '<div class="dex-tile' + (ok ? '' : ' locked') + (sec ? ' secret' : '') + '">' +
+          '<div class="dav">' + AV(r.id, 40) + '</div>' +
+          '<div class="dnm">' + (ok ? r.name : '？？？') + '</div>' +
+          (sec ? '<div class="dsec">SECRET</div>' : (ok ? '<div class="dct">遭遇 ' + D.resCount(r.id) + '回</div>' : '')) +
+          '</div>';
+      }).join('');
+    }
+    $('#scr-dex').innerHTML =
+      '<div class="head"><button class="back" aria-label="戻る" onclick="UI.goTitle()">' + I('arrow') + '</button><h1>図鑑</h1></div>' +
+      '<div class="dex-tabs">' +
+      '<button class="' + (dexTab === 'res' ? 'on' : '') + '" onclick="UI.setDexTab(\'res\')">' + I('users') + '人物</button>' +
+      '<button class="' + (dexTab === 'items' ? 'on' : '') + '" onclick="UI.setDexTab(\'items\')">' + I('box') + 'アイテム</button>' +
+      '</div>' +
+      '<div class="dex-prog">' + prog + '</div>' +
+      '<div class="dex-grid">' + gridHtml + '</div>';
+  }
 
   /* ============ モーダル ============ */
   UI.modal = function (kind) {

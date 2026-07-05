@@ -4,11 +4,13 @@ const { VT_RESIDENTS, VT_CATS } = require('../js/data/residents.js');
 const { VT_MANSIONS, VT_ROOMS } = require('../js/data/mansions.js');
 const ev = require('../js/data/events.js');
 
+const SCE = require('../js/scene.js');
 Object.assign(globalThis, {
   VT_RESIDENTS, VT_CATS, VT_MANSIONS, VT_ROOMS,
   VT_WAIT_TABLE: ev.VT_WAIT_TABLE,
   VT_CAUGHT_POST: ev.VT_CAUGHT_POST,
   VT_TIMEOUT_ROAST: ev.VT_TIMEOUT_ROAST,
+  VT_SECRET_ITEMS: SCE.SECRET_ITEMS,
 });
 const G = require('../js/game.js');
 
@@ -41,7 +43,7 @@ for (const r of VT_RESIDENTS) {
   for (const h of r.hints.concat(r.strong)) ok(VT_ICON_PATHS[h[1]], r.id + ': ヒントアイコン欠落 ' + h[1]);
   for (const c of r.confuse) ok(VT_RESIDENTS.some((x) => x.id === c), r.id + ': confuse不明id ' + c);
 }
-ok(VT_RESIDENTS.length === 48, '住人が48種でない: ' + VT_RESIDENTS.length);
+ok(VT_RESIDENTS.length === 50, '住人が50種でない: ' + VT_RESIDENTS.length);
 
 console.log('[2] マンションデータ');
 const mids = new Set();
@@ -150,6 +152,24 @@ for (let i = 0; i < 200; i++) {
 console.log('  200ターン中アンブッシュ' + ambushes + '回 / パターン内訳: ' + JSON.stringify(patterns));
 ok(ambushes > 5 && ambushes < 60, 'アンブッシュ発生率が想定外: ' + ambushes + '/200');
 ok(Object.keys(patterns).length >= 3, '飲みパターンの多様性不足: ' + JSON.stringify(patterns));
+
+console.log('[3s] シークレット');
+G.newGame({ players: ['A'], rounds: 5, mansionId: 'boro' });
+let secRes = 0, secItems = 0;
+for (let i = 0; i < 1000; i++) {
+  G.state.queue.push(0);
+  const t = G.startTurn();
+  if (t.resident.cat === 'secret') secRes++;
+  else ok(t.choices.every((c) => c.cat !== 'secret'), '通常回の選択肢にシークレット混入');
+  if (t.secretItem) secItems++;
+  G.answer(0, false);
+  G.nextTurn();
+}
+console.log('  1000ターン中 シークレット住人' + secRes + '回 / シークレットアイテム' + secItems + '回');
+ok(secRes > 5 && secRes < 90, 'シークレット住人の出現率が想定外: ' + secRes + '/1000');
+ok(secItems > 10 && secItems < 110, 'シークレットアイテムの出現率が想定外: ' + secItems + '/1000');
+const DX = require('../js/dex.js');
+ok(typeof DX.unlockItem === 'function' && typeof DX.resCount === 'function', 'dexモジュール不正');
 
 console.log('[3b] 待機イベントの重複なし保証');
 ok(ev.VT_WAIT_TABLE.length === 12, '待機イベントが12種でない: ' + ev.VT_WAIT_TABLE.length);

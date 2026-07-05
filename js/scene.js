@@ -177,7 +177,18 @@
     bowls: { draw: () => '<path d="M-11 -3 a11 6 0 0 0 22 0Z" fill="#e05656"/><path d="M-10 -9 a10 5.5 0 0 0 20 0Z" fill="#fff" stroke="#e0e4ea"/><path d="M-9 -15 a9 5 0 0 0 18 0Z" fill="#e05656"/><path d="M-8 -20 a8 4.5 0 0 0 16 0Z" fill="#fff" stroke="#e0e4ea"/>' },
     sack: { draw: () => '<path d="M-12 0 q-3 -14 4 -22 l-2 -5 h20 l-2 5 q7 8 4 22Z" fill="#f0e2c8" stroke="#d9c49a"/><path d="M-8 -27 h16" stroke="#b08a5a" stroke-width="2.5"/><circle cx="0" cy="-11" r="4.5" fill="none" stroke="#e05656" stroke-width="1.6"/><circle cx="0" cy="-11" r="1.3" fill="#e05656"/>' },
     lanyard: { draw: (c) => '<path d="M-7 -30 l7 9 7 -9" stroke="' + c + '" stroke-width="2.5" fill="none"/><rect x="-7" y="-21" width="14" height="18" rx="2" fill="#fff" stroke="#e0e4ea"/><circle cx="0" cy="-16" r="2.8" fill="#c8d0dc"/><path d="M-4 -10 h8 M-4 -6.5 h6" stroke="#aab4c4" stroke-width="1.5"/>' },
+    // --- シークレットアイテム ---
+    sec_goldhato: { draw: () => '<path d="M-10 0 h20 l2 4 h-24Z" fill="#b57800"/><ellipse cx="0" cy="-14" rx="10" ry="11" fill="#ffc800"/><circle cx="0" cy="-27" r="6.5" fill="#ffc800"/><circle cx="-2" cy="-28" r="1.2" fill="#7a5514"/><path d="M-6.5 -25 l-4 2 4 1.5Z" fill="#e6a800"/><path d="M8 -18 q6 -4 5 -10" stroke="#e6a800" stroke-width="2.5" fill="none"/>' },
+    sec_ufo: { draw: () => '<path d="M0 -26 a9 7 0 0 1 9 7 h-18 a9 7 0 0 1 9 -7Z" fill="#7cc7ff" opacity=".8"/><ellipse cx="0" cy="-17" rx="17" ry="6.5" fill="#8a93a5"/><circle cx="-9" cy="-16" r="1.8" fill="#ffc800"/><circle cx="0" cy="-14.5" r="1.8" fill="#e05656"/><circle cx="9" cy="-16" r="1.8" fill="#ffc800"/><path d="M-8 -11 l-3 9 M8 -11 l3 9 M0 -10 v9" stroke="#aab4c4" stroke-width="2"/>' },
+    sec_chest: { draw: () => '<path d="M-14 -22 a14 9 0 0 1 28 0Z" fill="#8a5a3a"/><rect x="-14" y="-22" width="28" height="20" rx="2" fill="#a87c4a"/><path d="M-14 -22 h28" stroke="#6b4a2f" stroke-width="2"/><rect x="-14" y="-14" width="28" height="4" fill="#ffc800"/><rect x="-4" y="-16" width="8" height="9" rx="2" fill="#ffc800"/><circle cx="0" cy="-12" r="1.6" fill="#7a5514"/>' },
   };
+
+  // シークレットアイテム（低確率でベランダに出現・図鑑コレクション用）
+  const SECRET_ITEMS = [
+    { id: 'goldhato', v: 'sec_goldhato', name: '金のハト像' },
+    { id: 'ufo', v: 'sec_ufo', name: '小さなUFO' },
+    { id: 'chest', v: 'sec_chest', name: '謎の宝箱' },
+  ];
 
   // [正規表現, バリアント名, 対象kind（省略=全kind）]
   const RULES = [
@@ -221,7 +232,7 @@
     [/シャンパン|ドンペリ/, 'box_crate', ['box']],
     [/機材|銀色|工具|無線/, 'box_case', ['box']],
     [/鶏むね|保冷|米|野菜|肉|クーラーボックス|レトルト|ネットスーパー|生協|食品/, 'box_cool', ['box']],
-    [/CD|円盤|台本|経済書|社内報|回覧|レシピ本|日記|雑誌|の本|テキスト/, 'books'],
+    [/CD|円盤|台本|経済書|社内報|回覧|レシピ本|日記|雑誌|の本|テキスト/, 'books', ['box', 'mail']],
     [/新聞|業界紙|プリント/, 'papers'],
     [/タワー|袋詰め/, 'can_tower', ['can']],
     [/エナドリ|エナジー/, 'can_energy', ['can']],
@@ -378,5 +389,6 @@
   root.VT_VARIANTS = VARIANTS;
   root.VT_HANG_KINDS = HANG_KINDS;
   root.VT_ITEM_KINDS = ITEM_KINDS;
-  if (typeof module !== 'undefined') module.exports = { scene, hintColor, classify, VARIANTS, RULES, HANG_KINDS, ITEM_KINDS };
+  root.VT_SECRET_ITEMS = SECRET_ITEMS;
+  if (typeof module !== 'undefined') module.exports = { scene, hintColor, classify, VARIANTS, RULES, HANG_KINDS, ITEM_KINDS, SECRET_ITEMS };
 })(typeof window !== 'undefined' ? window : globalThis);

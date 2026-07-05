@@ -225,6 +225,8 @@
     oogui:     { skin: 'light', hair: ['bob', '#3b3b3b'], top: '#ffc800', accs: [], f: { mouth: 'open' } },
     fukumen:   { skin: 'pale', hair: ['messy', '#4a4a58'], hat: ['hood', '#4a4a58'], top: '#4a4a58', accs: ['sunglasses'], f: { mouth: 'flat', blush: false } },
     enka:      { skin: 'light', hair: ['bun', '#2e2e3e'], top: '#7d2440', accs: ['earring', 'necklace'], f: { eye: 'happy' } },
+    hato:      { special: 'hato' },
+    uchujin:   { special: 'alien' },
   };
 
   function buildStandard(cfg, size) {
@@ -269,6 +271,29 @@
       const parent = '<g transform="translate(-16 12) scale(.86)">' + neck(SKIN.light) + torso('#7d9c86') + head(SKIN.light) + hair('short', '#3b3b3b') + face({ eye: 'happy' }) + '</g>';
       const kid = '<g transform="translate(34 74) scale(.48)">' + neck(SKIN.light) + torso('#ffc800') + head(SKIN.light) + hair('messy', '#5a4632') + face({ mouth: 'open' }) + '</g>';
       return parent + kid;
+    }
+    if (kind === 'hato') {
+      return '<ellipse cx="60" cy="146" rx="30" ry="4" fill="#000" opacity=".07"/>' +
+        '<path d="M38 132 Q28 140 20 139 Q27 132 34 126Z" fill="#8fa6c4"/>' +
+        '<ellipse cx="60" cy="105" rx="36" ry="40" fill="#c3d3e8"/>' +
+        '<ellipse cx="60" cy="122" rx="24" ry="21" fill="#e9f0fa"/>' +
+        '<path d="M42 104 q18 -11 36 0 q-6 -10 -18 -10 t-18 10Z" fill="#35d0ba"/>' +
+        '<circle cx="60" cy="62" r="21" fill="#c3d3e8"/>' +
+        '<circle cx="52" cy="58" r="6" fill="#fff"/><circle cx="52" cy="59" r="2.8" fill="#2e3a4d"/>' +
+        '<circle cx="68" cy="58" r="6" fill="#fff"/><circle cx="68" cy="59" r="2.8" fill="#2e3a4d"/>' +
+        '<path d="M54 68 l6 -3 6 3 -6 5Z" fill="#f5a623"/>' +
+        '<path d="M52 142 l-2 7 M57 142 v7 M66 142 l2 7 M71 142 v7" stroke="#f0925a" stroke-width="3.5" stroke-linecap="round"/>';
+    }
+    if (kind === 'alien') {
+      return '<path d="M60 8 v10" stroke="#7ec95e" stroke-width="3"/><circle cx="60" cy="6" r="4" fill="#ffc800"/>' +
+        neck('#9fe07a') +
+        '<path d="M26 150 v-24 q0 -24 34 -24 t34 24 v24 Z" fill="#cfd6df"/>' +
+        '<path d="M40 116 h40" stroke="#aab4c4" stroke-width="2.5"/>' +
+        '<ellipse cx="60" cy="52" rx="31" ry="28" fill="#9fe07a"/>' +
+        '<ellipse cx="48" cy="52" rx="8" ry="12" fill="#2e3a4d" transform="rotate(-12 48 52)"/>' +
+        '<ellipse cx="72" cy="52" rx="8" ry="12" fill="#2e3a4d" transform="rotate(12 72 52)"/>' +
+        '<circle cx="46" cy="47" r="2.5" fill="#fff"/><circle cx="70" cy="47" r="2.5" fill="#fff"/>' +
+        '<path d="M56 70 q4 3 8 0" stroke="#4c8c3f" stroke-width="2" fill="none"/>';
     }
     if (kind === 'couple') {
       const a = '<g transform="translate(-21 14) scale(.84)">' + neck(SKIN.light) + torso('#6fc7e8') + head(SKIN.light) + hair('short', '#3b3b3b') + face({ eye: 'happy' }) + '</g>';

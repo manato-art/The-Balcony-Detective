@@ -399,6 +399,24 @@ const VT_RESIDENTS = [
     roastWrong:['着物＝占い師ではありません。紅白を目指してます。'],
     roastRight:['正解。こぶしの気配を感じましたね。'],
     confuse:['obachan','exidol','uranai'] },
+
+  // ===== シークレット住人（通常抽選を低確率で乗っ取る） =====
+  { id:'hato', name:'ハト', cat:'secret', icon:'star',
+    desc:'……ハトだ。この部屋、もうハトの家だ。',
+    hints:[['小枝が山ほど集めてある','plant'],['灰色の羽根が散らばっている','star'],['パンくずの山','box'],['どう見ても巣','plant'],['フン対策のキラキラ円盤（効いてない）','star'],['水入れっぽい容器','can'],['卵があたたかい','alert'],['「餌やり禁止」の貼り紙','mail'],['ベランダの主の風格','alert']],
+    strong:[['ポストに巣材が詰まっている','mail'],['管理会社からの「鳩害」通知','mail']],
+    rumor:['クルックーという声だけが聞こえる','住人を見た者はいない。ハト以外は'],
+    roastWrong:['人間だと思いましたか？ハトです。ここはもうハトの家です。'],
+    roastRight:['正解。ハトの気配に気づくとは、探偵を超えた何かです。'],
+    confuse:['akiya','jiko','minimalist'] },
+  { id:'uchujin', name:'宇宙人', cat:'secret', icon:'sparkle',
+    desc:'地球の生活感を学習中。おおむね失敗している。',
+    hints:[['銀色の謎のスーツが干してある','laundry'],['見たことのない光る植物','plant'],['円盤型の謎の物体','star'],['謎の金属の箱','box'],['アンテナが3本','alert'],['隕石っぽい石','alert'],['「チキュウノミナサン コンニチハ」のメモ','mail'],['液体の入った謎の試験管','can'],['洗濯バサミを崇拝している形跡','star']],
+    strong:[['ポストが謎の液体で塞がっている','mail'],['宇宙機関っぽい封筒','mail']],
+    rumor:['夜中に緑色の光が漏れている','日本語がカタコト…どころではない'],
+    roastWrong:['地球人だと思いましたか？残念、宇宙人です。'],
+    roastRight:['正解。案外近くにいるんですね。通報はしないであげてください。'],
+    confuse:['reibai','jiko','minimalist'] },
 ];
 
 const VT_CATS = {
@@ -406,6 +424,7 @@ const VT_CATS = {
   hot:    { label:'盛り上がり枠', color:'pink' },
   trap:   { label:'罠枠', color:'amber' },
   rare:   { label:'レア枠', color:'purple' },
+  secret: { label:'シークレット', color:'gold' },
 };
 
 if (typeof window !== 'undefined') { window.VT_RESIDENTS = VT_RESIDENTS; window.VT_CATS = VT_CATS; }

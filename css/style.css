@@ -69,6 +69,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .tag.purple { color: #8b46d9; background: #f3e5ff; }
 .tag.green { color: var(--green-t); background: var(--green-l); }
 .tag.red { color: var(--red-t); background: var(--red-l); }
+.tag.gold { color: #b57800; background: #fff1c8; }
 
 .section-label { font-size: 12px; font-weight: 900; color: var(--text2); letter-spacing: .14em; margin: 18px 0 8px; }
 
@@ -378,6 +379,23 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .howto-step .num { flex: none; width: 26px; height: 26px; border-radius: 9px; background: var(--green-l); color: var(--green-t); font-weight: 900; font-size: 13px; display: flex; align-items: center; justify-content: center; }
 .modal .btn { margin-top: 16px; }
 .modal-note { font-size: 11.5px; color: var(--text2); margin-top: 12px; font-weight: 700; }
+
+/* ---------- 図鑑 ---------- */
+.dex-tabs { display: flex; gap: 8px; margin-bottom: 10px; }
+.dex-tabs button { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 46px; border-radius: 12px; border: 2px solid var(--border); border-bottom-width: 4px; background: #fff; font: inherit; font-weight: 900; font-size: 14px; color: var(--text2); cursor: pointer; }
+.dex-tabs button.on { border-color: var(--green); color: var(--green-t); background: #f3ffe8; }
+.dex-tabs button .icon { width: 18px; height: 18px; }
+.dex-prog { font-size: 12px; color: var(--text2); font-weight: 800; margin-bottom: 8px; }
+.dex-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.dex-tile { background: #fff; border: 2px solid var(--border); border-bottom-width: 4px; border-radius: 12px; padding: 8px 4px 6px; text-align: center; min-height: 100px; }
+.dex-tile svg { display: block; margin: 0 auto; }
+.dex-tile .dav { height: 52px; overflow: hidden; }
+.dex-tile .dnm { font-size: 9.5px; font-weight: 800; line-height: 1.3; margin-top: 4px; overflow: hidden; }
+.dex-tile .dct { font-size: 8.5px; color: var(--text2); font-weight: 700; margin-top: 1px; }
+.dex-tile.locked svg { filter: brightness(0) opacity(.13); }
+.dex-tile.locked .dnm { color: #aab4c4; }
+.dex-tile.secret { border-color: var(--gold); background: #fffaf0; }
+.dex-tile.secret .dsec { font-size: 8px; color: #b57800; font-weight: 900; letter-spacing: .12em; margin-top: 1px; }
 
 /* ---------- ミュートボタン ---------- */
 .mute-btn {
