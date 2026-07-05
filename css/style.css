@@ -377,6 +377,22 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .rule-row .rr-r { font-weight: 900; color: var(--red-t); }
 .howto-step { display: flex; gap: 12px; margin-bottom: 13px; font-size: 13.5px; text-align: left; font-weight: 700; }
 .howto-step .num { flex: none; width: 26px; height: 26px; border-radius: 9px; background: var(--green-l); color: var(--green-t); font-weight: 900; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+
+/* 図解付き遊び方 */
+.hstep { margin-bottom: 20px; text-align: left; }
+.hs-head { display: flex; align-items: center; gap: 9px; font-size: 15px; font-weight: 900; }
+.hs-head .num { flex: none; width: 26px; height: 26px; border-radius: 9px; background: var(--green-l); color: var(--green-t); font-weight: 900; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+.hstep p { font-size: 12.5px; color: var(--text2); font-weight: 700; margin: 5px 0 8px; line-height: 1.65; }
+.hstep p b { color: var(--text); }
+.howto-fig { border: 2px solid var(--border); border-radius: 12px; overflow: hidden; pointer-events: none; background: #fff; }
+.howto-fig > svg { display: block; width: 100%; height: auto; }
+.howto-fig.facade { max-width: 215px; margin: 0 auto; padding: 7px; background: #eaf4ff; }
+.howto-fig.pad { padding: 9px; }
+.howto-fig .suspects { pointer-events: none; }
+.howto-cutin { border-radius: 12px; padding: 20px 10px; text-align: center; background: repeating-linear-gradient(-28deg, #e05656 0 22px, #2a1016 22px 44px); }
+.howto-cutin span { display: inline-block; transform: rotate(-5deg); color: #fff; font-weight: 900; font-size: 23px; letter-spacing: .04em; text-shadow: 0 3px 0 #a11226, 0 0 16px rgba(255, 200, 0, .8); }
+.howto-result { border-radius: 12px; padding: 13px 15px; background: var(--green-l); color: var(--green-t); font-weight: 900; display: flex; gap: 9px; align-items: center; font-size: 14.5px; }
+.howto-result .icon { width: 19px; height: 19px; }
 .modal .btn { margin-top: 16px; }
 .modal-note { font-size: 11.5px; color: var(--text2); margin-top: 12px; font-weight: 700; }
 

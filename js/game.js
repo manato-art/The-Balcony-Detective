@@ -96,7 +96,7 @@
         return (SI.length && rng() < 0.04) ? SI[Math.floor(rng() * SI.length)] : null;
       })(),
       used: {},                          // 使用済みアクション
-      ambush: rng() < 0.12,              // 張り込み開始直後の住人帰宅カットイン
+      ambush: rng() < 0.18,              // 張り込み開始直後の住人帰宅カットイン
       ambushDone: false,
       locked: false,                     // 見つかった→調査不可
       timered: false,                    // 10秒回答モード

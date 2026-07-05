@@ -599,16 +599,45 @@
         RULES.map((r) => '<div class="rule-row"><span class="rr-l">' + r[0] + '</span><span class="rr-r">' + r[1] + '</span></div>').join('') +
         '<p class="modal-note">「全員同じ答え」「少数派で正解」は口頭で運用。飲めない人はソフドリで参加。強要は絶対禁止。</p>';
     } else {
+      const figFacade = '<div class="howto-fig facade">' + F(MANSIONS[3], '402', 200) + '</div>';
+      const figScene = '<div class="howto-fig">' + SC({
+        accent: 'pink',
+        curtain: { color: '#ffd3e0', label: '' }, curtainClosed: true,
+        light: false, rain: false, silhouette: false,
+        items: [
+          { kind: 'laundry', variant: 'lace', color: '#4a4a58', label: '', slot: 0, zone: 'hang' },
+          { kind: 'laundry', variant: 'dress', color: '#ffc800', label: '', slot: 1, zone: 'hang' },
+          { kind: 'box', variant: 'box_crate', color: '#c99b66', label: '', slot: 1, zone: 'floor' },
+          { kind: 'bag', variant: 'bag_brand', color: '#f7f3ea', label: '', slot: 3, zone: 'floor' },
+        ],
+      }) + '</div>';
+      const figActs = '<div class="howto-fig pad"><div class="action-grid">' +
+        ACTIONS.map((a) => '<div class="action-card a-' + a.k + '">' + I(a.icon) + '<div class="nm">' + a.nm + '</div><div class="risk">' + a.risk + '</div></div>').join('') +
+        '</div></div>';
+      const figSus = '<div class="howto-fig pad"><div class="suspects">' +
+        '<div class="suspect">' + AV('kyaba', 30) + '<span>キャバ嬢</span></div>' +
+        '<div class="suspect">' + AV('obachan', 30) + '<span>美容意識高めのおばちゃん</span></div>' +
+        '</div></div>';
+      const figCutin = '<div class="howto-cutin"><span>住人帰宅！！</span></div>';
+      const figResult = '<div class="howto-result">' + I('check') + '正解！　セーフ。飲まなくてよし</div>';
+      const figDex = '<div class="howto-fig pad"><div class="dex-grid">' +
+        '<div class="dex-tile secret">' + window.VT_itemSVG({ kind: 'box', variant: 'sec_goldhato' }, '#ffc800', 44) + '<div class="dnm">金のハト像</div><div class="dsec">SECRET</div></div>' +
+        '<div class="dex-tile locked">' + window.VT_itemSVG({ kind: 'box', variant: 'sec_ufo' }, '#ffc800', 44) + '<div class="dnm">？？？</div></div>' +
+        '<div class="dex-tile locked"><div class="dav">' + AV('hato', 34) + '</div><div class="dnm">？？？</div></div>' +
+        '</div></div>';
       const steps = [
-        'プレイヤーを登録して、現場のマンションを選ぶ。',
-        '順番が来たらスマホを受け取る。「402号室の住人を当てて！」等のミッションが出る。',
-        'ベランダの洗濯物・生活感ヒントを見て推理する。',
-        '足りなければ追加調査。ただしポストは発覚率50%、「待つ」は何が起きるか分からない、隣人の噂は嘘かも。',
-        '4択から回答。自信があれば「自信満々」宣言でボーナス（外すと二口）。',
-        '正解発表と煽りを全員で読み上げて、飲みルールに従う。連続正解でコンボボーナス。',
+        ['ミッションを受け取る', 'マンションはランダムに決まる。「<b>402号室の住人を当てて！</b>」のように部屋が指定されるので、張り込み開始でその部屋にズームイン。', figFacade],
+        ['ベランダで推理する', '干してある服・置いてあるモノが手がかり。ただし<b>黒レース＝キャバ嬢とは限らない</b>のがこのゲームの罠。アイテムはタップで名前が見える。', figScene],
+        ['追加調査でヒントを増やす', '各1回まで。<b>観察</b>は安全、<b>ポスト</b>は50%で管理人に発覚（一口＋強制回答）、<b>待つ</b>は帰宅・雨・カメラ等なにかが起きる、<b>聞き込み</b>は嘘が混ざる。', figActs],
+        ['容疑者から回答する', '4人の容疑者から1人を選ぶ。<b>自信満々</b>宣言で正解+50点、外したら二口。連続正解でコンボボーナス。', figSus],
+        ['ハプニングに耐える', '張り込み開始直後、たまに住人が帰ってくる。目が合ったら飲んで逃げるしかない。誰が飲むかはその時次第（本人／右隣／左隣／全員）。', figCutin],
+        ['飲みと結果発表', '正解=セーフ、不正解=一口。全員が回し終えたら結果発表。最後に「一番偏見がキモかった人」を全員で同時に指差して一口。', figResult],
+        ['図鑑を埋める', '出会った住人と見つけたアイテムは図鑑に記録されていく。低確率でしか出ない<b>シークレット</b>も存在するらしい…', figDex],
       ];
       inner = '<h2>' + I('book') + '遊び方</h2>' +
-        steps.map((s, i) => '<div class="howto-step"><span class="num">' + (i + 1) + '</span><span>' + s + '</span></div>').join('');
+        steps.map((s, i) =>
+          '<div class="hstep"><div class="hs-head"><span class="num">' + (i + 1) + '</span>' + s[0] + '</div>' +
+          '<p>' + s[1] + '</p>' + s[2] + '</div>').join('');
     }
     const back = document.createElement('div');
     back.className = 'modal-back';
