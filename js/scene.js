@@ -194,12 +194,12 @@
     [/ドライフラワー|ハーブ|榊/, 'dryflower'],
     [/風鈴/, 'chime'],
     [/コスメ|化粧品|美容液|デパコス|香水|カラコン|タンニング/, 'box_cosme'],
+    [/フィギュア/, 'box_figure', ['box']],
     [/段ボールが2|段ボールの山|段ボール山|箱の山|箱が積|菓子箱タワー/, 'box_stack', ['box']],
     [/米袋/, 'sack'],
     [/ピザ/, 'box_pizza'],
     [/薬/, 'box_med', ['box']],
     [/アクセ|ジュエリー/, 'box_jewel', ['box']],
-    [/フィギュア/, 'box_figure', ['box']],
     [/引き出物|ケーキ|菓子|スイーツ|プレゼント/, 'box_gift', ['box']],
     [/家電|加湿器|炊飯器|チェア|クッション|鍋|ミシン|ルーター|Wi-?Fi|ヘッドセット|スタンド|ディフューザー/, 'box_gadget', ['box']],
     [/ボードゲーム/, 'box_dice', ['box']],
@@ -360,7 +360,19 @@
     return svg + '</svg>';
   }
 
+  // 単体アイテムのSVG（ギャラリー/デバッグ用）
+  function itemSVG(spec, color, size) {
+    const vdef = spec.variant && VARIANTS[spec.variant];
+    const draw = vdef ? vdef.draw : (ITEMS[spec.kind] || ITEMS.box);
+    const hang = vdef ? !!vdef.hang : HANG_KINDS.indexOf(spec.kind) !== -1;
+    const vb = hang ? '-30 -6 60 66' : '-30 -58 60 64';
+    return '<svg viewBox="' + vb + '" width="' + (size || 72) + '" aria-hidden="true">' +
+      (hang ? '<path d="M-30 0 h60" stroke="#c8d0dc" stroke-width="2"/>' : '<path d="M-30 2 h60" stroke="#c8d0dc" stroke-width="2"/>') +
+      draw(color || '#9fc0e8') + '</svg>';
+  }
+
   root.VT_scene = scene;
+  root.VT_itemSVG = itemSVG;
   root.VT_hintColor = hintColor;
   root.VT_classify = classify;
   root.VT_VARIANTS = VARIANTS;

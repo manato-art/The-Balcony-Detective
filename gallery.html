@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ベランダ探偵 — アイテム図鑑</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", "Hiragino Kaku Gothic ProN", sans-serif; background: #f4f7fb; color: #3c3c3c; padding: 18px; font-weight: 700; }
+  h1 { font-size: 22px; font-weight: 900; margin-bottom: 4px; }
+  .sub { color: #6f7a8a; font-size: 12.5px; margin-bottom: 18px; }
+  h2 { font-size: 15px; font-weight: 900; margin: 22px 0 10px; color: #46a302; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .tile { background: #fff; border: 2px solid #e5e5e5; border-bottom-width: 4px; border-radius: 14px; padding: 10px 8px 8px; text-align: center; }
+  .tile svg { display: block; margin: 0 auto; }
+  .nm { font-size: 11.5px; font-weight: 900; margin-top: 6px; line-height: 1.4; }
+  .key { font-size: 9.5px; color: #aab4c4; font-weight: 700; }
+  .uses { font-size: 9.5px; color: #6f7a8a; font-weight: 700; margin-top: 3px; line-height: 1.5; text-align: left; }
+  .uses div { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .count { display: inline-block; background: #d7ffb8; color: #58a700; border-radius: 99px; padding: 0 8px; font-size: 9.5px; font-weight: 900; margin-left: 4px; }
+  a.back { display: inline-block; margin-bottom: 12px; color: #1cb0f6; font-weight: 900; text-decoration: none; font-size: 13px; }
+</style>
+</head>
+<body>
+<a class="back" href="index.html">← ゲームに戻る</a>
+<h1>アイテム図鑑</h1>
+<p class="sub">全ヒントのイラストと、それを出すヒント文の一覧。<span id="stats"></span></p>
+<div id="root"></div>
+<script src="js/data/residents.js"></script>
+<script src="js/scene.js"></script>
+<script>
+(function () {
+  const byId = {};
+  VT_RESIDENTS.forEach((r) => { byId[r.id] = r; });
+
+  // 全ヒントを分類してグルーピング
+  const groups = {}; // key: 'v:variant' or 'k:kind' → { spec, uses: [{text, who}] }
+  VT_RESIDENTS.forEach((r) => {
+    r.hints.concat(r.strong).forEach((h) => {
+      const text = h[0], kind = h[1];
+      if (kind === 'curtain') return;
+      const v = VT_classify(text, kind);
+      const key = v ? 'v:' + v : 'k:' + kind;
+      if (!groups[key]) groups[key] = { spec: v ? { kind, variant: v } : { kind }, uses: [] };
+      groups[key].uses.push({ text, who: r.name, color: VT_hintColor(text, kind) });
+    });
+  });
+
+  function tile(key, g) {
+    const first = g.uses[0];
+    const svg = VT_itemSVG(g.spec, first.color, 76);
+    const shown = g.uses.slice(0, 3).map((u) => '<div>・' + u.text + '</div>').join('');
+    const more = g.uses.length > 3 ? '<div>…ほか' + (g.uses.length - 3) + '件</div>' : '';
+    return '<div class="tile">' + svg +
+      '<div class="nm">' + first.text + '<span class="count">' + g.uses.length + '</span></div>' +
+      '<div class="key">' + (g.spec.variant || 'kind: ' + g.spec.kind) + '</div>' +
+      '<div class="uses">' + shown + more + '</div></div>';
+  }
+
+  const entries = Object.entries(groups);
+  const variants = entries.filter(([k]) => k.startsWith('v:')).sort((a, b) => b[1].uses.length - a[1].uses.length);
+  const kinds = entries.filter(([k]) => k.startsWith('k:')).sort((a, b) => b[1].uses.length - a[1].uses.length);
+
+  // 未使用バリアントの検出（データ整備用）
+  const usedV = new Set(variants.map(([k]) => k.slice(2)));
+  const unused = Object.keys(VT_VARIANTS).filter((v) => !usedV.has(v));
+
+  document.getElementById('root').innerHTML =
+    '<h2>特化イラスト（' + variants.length + '種）</h2><div class="grid">' + variants.map(([k, g]) => tile(k, g)).join('') + '</div>' +
+    '<h2>汎用イラスト（' + kinds.length + '種）</h2><div class="grid">' + kinds.map(([k, g]) => tile(k, g)).join('') + '</div>' +
+    (unused.length ? '<h2>どのヒントにも未使用のバリアント（' + unused.length + '種）</h2><div class="grid">' +
+      unused.map((v) => '<div class="tile">' + VT_itemSVG({ kind: 'box', variant: v }, '#9fc0e8', 76) + '<div class="nm">' + v + '</div></div>').join('') + '</div>' : '');
+
+  const total = VT_RESIDENTS.reduce((a, r) => a + r.hints.length + r.strong.length, 0);
+  const vHits = variants.reduce((a, [, g]) => a + g.uses.length, 0);
+  document.getElementById('stats').textContent = '全' + total + 'ヒント中 ' + vHits + ' 個が専用イラスト。';
+})();
+</script>
+</body>
+</html>
