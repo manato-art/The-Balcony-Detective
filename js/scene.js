@@ -151,6 +151,32 @@
     eyemask: { draw: (c) => '<path d="M-12 -16 a12 9 0 0 1 24 0 v3 a12 9 0 0 1 -24 0Z" fill="' + c + '"/><path d="M-12 -15 q-6 -1 -8 -5 M12 -15 q6 -1 8 -5" stroke="' + c + '" stroke-width="2.2" fill="none"/><path d="M-6 -14 q2 2 4 0 M2 -14 q2 2 4 0" stroke="#fff" stroke-width="1.6" fill="none"/>' },
     hat_item: { draw: (c) => '<path d="M-14 -6 h28" stroke="' + c + '" stroke-width="3" stroke-linecap="round"/><path d="M-9 -6 q0 -13 9 -13 t9 13Z" fill="' + c + '"/><path d="M-9 -9 h18" stroke="#00000025" stroke-width="2.5"/>' },
     laptop: { draw: () => '<rect x="-13" y="-25" width="24" height="15" rx="2" fill="#3c3446"/><rect x="-11" y="-23" width="20" height="11" rx="1" fill="#7cc7ff"/><path d="M-9 -20 h9 M-9 -16 h13" stroke="#fff" stroke-width="1.5" opacity=".7"/><path d="M-15 -10 h28 l3 7 h-34 Z" fill="#5b6478"/>' },
+    // --- 中身が分かる箱シリーズ ---
+    box_stack: { draw: () => '<rect x="-16" y="-20" width="32" height="20" rx="2" fill="#c99b66"/><path d="M-16 -14 h32 M0 -20 v20" stroke="#a87c4a" stroke-width="2"/><rect x="-12" y="-36" width="26" height="17" rx="2" fill="#d4a976"/><path d="M-12 -31 h26 M1 -36 v17" stroke="#b08a5a" stroke-width="2"/>' },
+    box_open: { draw: () => '<rect x="-15" y="-18" width="30" height="18" rx="2" fill="#c99b66"/><path d="M-15 -18 l-6 -8 8 2Z M15 -18 l6 -8 -8 2Z" fill="#b08a5a"/><rect x="-11" y="-16" width="22" height="8" fill="#8a6f4d"/><path d="M-6 -18 q6 -8 12 0" stroke="#e8d9c2" stroke-width="3" fill="none"/>' },
+    box_tall: { draw: () => '<rect x="-12" y="-30" width="24" height="30" rx="2" fill="#c99b66"/><path d="M-12 -22 h24 M0 -30 v8" stroke="#a87c4a" stroke-width="2"/><rect x="-7" y="-17" width="14" height="10" rx="1.5" fill="#fff"/><path d="M-4 -14 h8 M-4 -11 h5" stroke="#aab4c4" stroke-width="1.6"/>' },
+    box_gift: { draw: () => '<rect x="-14" y="-20" width="28" height="20" rx="2" fill="#fff" stroke="#f0e2e2"/><path d="M0 -20 v20 M-14 -10 h28" stroke="#e05656" stroke-width="3.5"/><path d="M0 -20 c-6 -8 -12 -2 -6 2 M0 -20 c6 -8 12 -2 6 2" stroke="#e05656" stroke-width="2.5" fill="none"/>' },
+    box_gadget: { draw: () => '<rect x="-16" y="-24" width="32" height="24" rx="2" fill="#eceff3"/><path d="M-16 -18 h32" stroke="#c8d0dc" stroke-width="2"/><rect x="-8" y="-15" width="16" height="12" rx="2" fill="#fff" stroke="#c8d0dc"/><path d="M1 -13 l-4 5 h4 l-3 5" stroke="#f5a623" stroke-width="2" fill="none" stroke-linejoin="round"/>' },
+    box_med: { draw: () => '<rect x="-14" y="-20" width="28" height="20" rx="3" fill="#fff" stroke="#e0e4ea"/><path d="M0 -15 v10 M-5 -10 h10" stroke="#e05656" stroke-width="3.5"/>' },
+    box_jewel: { draw: () => '<rect x="-11" y="-16" width="22" height="16" rx="3" fill="#2e2e3e"/><path d="M-4 -23 h8 l3 4 -7 6 -7 -6Z" fill="#7cc7ff"/><path d="M-4 -23 l4 4 4 -4 M-7 -19 h14" stroke="#fff" stroke-width="1" opacity=".7"/>' },
+    box_figure: { draw: () => '<rect x="-13" y="-28" width="26" height="28" rx="2" fill="#ff9ec7"/><rect x="-8" y="-24" width="16" height="18" rx="2" fill="#dceafb"/><circle cx="0" cy="-19" r="3" fill="#ffd9b3"/><path d="M0 -16 v6 M-4 -13 h8 M0 -10 l-3 4 M0 -10 l3 4" stroke="#5b6478" stroke-width="1.8" fill="none"/>' },
+    box_music: { draw: () => '<rect x="-16" y="-24" width="32" height="24" rx="2" fill="#c99b66"/><path d="M-16 -17 h32" stroke="#a87c4a" stroke-width="2"/><rect x="-8" y="-15" width="16" height="12" rx="2" fill="#fff"/><circle cx="-2" cy="-6.5" r="2" fill="#5b6478"/><path d="M0 -6.5 v-6 l4 1" stroke="#5b6478" stroke-width="1.8" fill="none"/>' },
+    box_dice: { draw: () => '<rect x="-15" y="-22" width="30" height="22" rx="2" fill="#7ec95e"/><rect x="-9" y="-17" width="18" height="12" rx="2" fill="#fff"/><circle cx="-4" cy="-13" r="1.5" fill="#3c3446"/><circle cx="4" cy="-9" r="1.5" fill="#3c3446"/><circle cx="4" cy="-13" r="1.5" fill="#3c3446"/><circle cx="-4" cy="-9" r="1.5" fill="#3c3446"/>' },
+    box_glasses: { draw: () => '<rect x="-15" y="-20" width="30" height="20" rx="2" fill="#5b7db1"/><rect x="-10" y="-15" width="20" height="10" rx="2" fill="#fff"/><circle cx="-4" cy="-10" r="2.6" fill="none" stroke="#3c3446" stroke-width="1.5"/><circle cx="4" cy="-10" r="2.6" fill="none" stroke="#3c3446" stroke-width="1.5"/><path d="M-1.4 -10 h2.8" stroke="#3c3446" stroke-width="1.5"/>' },
+    box_coffee: { draw: () => '<rect x="-14" y="-24" width="28" height="24" rx="2" fill="#8a5a3a"/><rect x="-8" y="-18" width="16" height="12" rx="2" fill="#fff"/><path d="M-4 -14 h7 v4 a3.5 3.5 0 0 1 -7 0Z" stroke="#8a5a3a" stroke-width="1.6" fill="none"/><path d="M3 -13 h2 a2 2 0 0 1 -2 3" stroke="#8a5a3a" stroke-width="1.4" fill="none"/><path d="M-2 -17 q1 -1.5 0 -3 M1 -17 q1 -1.5 0 -3" stroke="#8a5a3a" stroke-width="1.2" fill="none"/>' },
+    box_air: { draw: () => '<rect x="-16" y="-22" width="32" height="22" rx="2" fill="#f7f3ea"/><path d="M-16 -22 h32" stroke="#e05656" stroke-width="3" stroke-dasharray="5 4"/><path d="M-16 -2 h32" stroke="#5b7db1" stroke-width="3" stroke-dasharray="5 4"/><path d="M-6 -15 h12 M-2 -18 l4 3 -4 3" stroke="#5b7db1" stroke-width="1.8" fill="none"/>' },
+    box_bottles: { draw: () => '<g fill="#5b7db1"><rect x="-11" y="-30" width="6" height="12" rx="2"/><rect x="-3" y="-30" width="6" height="12" rx="2"/><rect x="5" y="-30" width="6" height="12" rx="2"/></g><rect x="-15" y="-20" width="30" height="20" rx="2" fill="#c99b66"/><path d="M-15 -13 h30" stroke="#a87c4a" stroke-width="2"/>' },
+    box_baby: { draw: () => '<rect x="-15" y="-22" width="30" height="22" rx="3" fill="#fff" stroke="#f0e2e2"/><circle cx="-2" cy="-12" r="4.5" fill="#ffc800"/><circle cx="2.5" cy="-15" r="2.5" fill="#ffc800"/><path d="M5 -15 l3 -1 -2 2.5Z" fill="#ff9600"/><circle cx="2" cy="-15.7" r="0.8" fill="#3c3446"/>' },
+    box_pizza: { draw: () => '<rect x="-17" y="-11" width="34" height="11" rx="2" fill="#e05656"/><path d="M-17 -8 h34" stroke="#c53030" stroke-width="1.6"/><path d="M-6 -22 l12 0 -6 11Z" fill="#ffc800" stroke="#e6a800"/><circle cx="-1" cy="-18" r="1.5" fill="#e05656"/><circle cx="3" cy="-16" r="1.5" fill="#e05656"/>' },
+    box_cat: { draw: () => '<rect x="-15" y="-22" width="30" height="22" rx="2" fill="#e8d5b5"/><circle cx="0" cy="-10" r="3" fill="#8a6f4d"/><circle cx="-5" cy="-15" r="1.8" fill="#8a6f4d"/><circle cx="0" cy="-16.5" r="1.8" fill="#8a6f4d"/><circle cx="5" cy="-15" r="1.8" fill="#8a6f4d"/>' },
+    suitcase: { draw: (c) => '<path d="M-4 -46 h8 M-3 -46 v6 M3 -46 v6" stroke="#8a93a5" stroke-width="2.5" fill="none"/><rect x="-11" y="-40" width="22" height="38" rx="5" fill="' + c + '"/><path d="M-4 -40 v38 M4 -40 v38" stroke="#00000022" stroke-width="2.5"/><circle cx="-6" cy="-1" r="2.5" fill="#3c3446"/><circle cx="6" cy="-1" r="2.5" fill="#3c3446"/>' },
+    chairs: { draw: (c) => '<g transform="rotate(8)"><rect x="-10" y="-34" width="7" height="34" rx="2" fill="' + c + '"/><rect x="-9" y="-20" width="5" height="20" rx="2" fill="#00000022"/></g><g transform="rotate(14)"><rect x="1" y="-32" width="7" height="32" rx="2" fill="' + c + '"/></g>' },
+    firewood: { draw: () => '<g stroke="#6b4a2f" stroke-width="1.5"><circle cx="-8" cy="-5" r="5" fill="#b08a5a"/><circle cx="1" cy="-5" r="5" fill="#c99b66"/><circle cx="10" cy="-5" r="5" fill="#b08a5a"/><circle cx="-3.5" cy="-13" r="5" fill="#c99b66"/><circle cx="5.5" cy="-13" r="5" fill="#b08a5a"/></g><circle cx="-8" cy="-5" r="2" fill="#8a6f4d"/><circle cx="1" cy="-5" r="2" fill="#a87c4a"/><circle cx="10" cy="-5" r="2" fill="#8a6f4d"/><circle cx="-3.5" cy="-13" r="2" fill="#a87c4a"/><circle cx="5.5" cy="-13" r="2" fill="#8a6f4d"/>' },
+    bulb: { draw: () => '<circle cx="0" cy="-20" r="9" fill="#ffe08a"/><path d="M-3 -20 q3 4 0 8 M3 -20 q-3 4 0 8" stroke="#e6a800" stroke-width="1.5" fill="none"/><rect x="-4.5" y="-11" width="9" height="8" rx="2" fill="#8a93a5"/><path d="M-4.5 -8.5 h9 M-4.5 -5.5 h9" stroke="#6b7a8c" stroke-width="1.3"/><path d="M-11 -29 l3 3 M11 -29 l-3 3 M0 -34 v4" stroke="#ffc800" stroke-width="2" stroke-linecap="round"/>' },
+    tube: { draw: (c) => '<g transform="rotate(-24)"><rect x="-5" y="-38" width="10" height="38" rx="3" fill="' + c + '"/><ellipse cx="0" cy="-38" rx="5" ry="2.5" fill="#fff"/><path d="M-5 -10 h10" stroke="#00000022" stroke-width="2.5"/></g>' },
+    bowls: { draw: () => '<path d="M-11 -3 a11 6 0 0 0 22 0Z" fill="#e05656"/><path d="M-10 -9 a10 5.5 0 0 0 20 0Z" fill="#fff" stroke="#e0e4ea"/><path d="M-9 -15 a9 5 0 0 0 18 0Z" fill="#e05656"/><path d="M-8 -20 a8 4.5 0 0 0 16 0Z" fill="#fff" stroke="#e0e4ea"/>' },
+    sack: { draw: () => '<path d="M-12 0 q-3 -14 4 -22 l-2 -5 h20 l-2 5 q7 8 4 22Z" fill="#f0e2c8" stroke="#d9c49a"/><path d="M-8 -27 h16" stroke="#b08a5a" stroke-width="2.5"/><circle cx="0" cy="-11" r="4.5" fill="none" stroke="#e05656" stroke-width="1.6"/><circle cx="0" cy="-11" r="1.3" fill="#e05656"/>' },
+    lanyard: { draw: (c) => '<path d="M-7 -30 l7 9 7 -9" stroke="' + c + '" stroke-width="2.5" fill="none"/><rect x="-7" y="-21" width="14" height="18" rx="2" fill="#fff" stroke="#e0e4ea"/><circle cx="0" cy="-16" r="2.8" fill="#c8d0dc"/><path d="M-4 -10 h8 M-4 -6.5 h6" stroke="#aab4c4" stroke-width="1.5"/>' },
   };
 
   // [正規表現, バリアント名, 対象kind（省略=全kind）]
@@ -167,12 +193,35 @@
     [/柔道着|道着/, 'judo'],
     [/ドライフラワー|ハーブ|榊/, 'dryflower'],
     [/風鈴/, 'chime'],
-    [/コスメ|化粧品|美容液|デパコス/, 'box_cosme'],
+    [/コスメ|化粧品|美容液|デパコス|香水|カラコン|タンニング/, 'box_cosme'],
+    [/段ボールが2|段ボールの山|段ボール山|箱の山|箱が積|菓子箱タワー/, 'box_stack', ['box']],
+    [/米袋/, 'sack'],
+    [/ピザ/, 'box_pizza'],
+    [/薬/, 'box_med', ['box']],
+    [/アクセ|ジュエリー/, 'box_jewel', ['box']],
+    [/フィギュア/, 'box_figure', ['box']],
+    [/引き出物|ケーキ|菓子|スイーツ|プレゼント/, 'box_gift', ['box']],
+    [/家電|加湿器|炊飯器|チェア|クッション|鍋|ミシン|ルーター|Wi-?Fi|ヘッドセット|スタンド|ディフューザー/, 'box_gadget', ['box']],
+    [/ボードゲーム/, 'box_dice', ['box']],
+    [/眼鏡|メガネ/, 'box_glasses', ['box']],
+    [/コーヒー/, 'box_coffee', ['box']],
+    [/国際便|エアメール/, 'box_air', ['box']],
+    [/ミネラルウォーター|水の箱/, 'box_bottles', ['box']],
+    [/おむつ|ベビー/, 'box_baby', ['box']],
+    [/キャットタワー|爪とぎ|猫砂|キャットフード/, 'box_cat', ['box']],
+    [/キャリー|スーツケース/, 'suitcase'],
+    [/折りたたみ椅子/, 'chairs'],
+    [/薪/, 'firewood'],
+    [/電球/, 'bulb'],
+    [/筒|ポスター/, 'tube', ['box']],
+    [/出前の器|丼/, 'bowls'],
+    [/楽器|エフェクター/, 'box_music', ['box']],
+    [/名札|ストラップ/, 'lanyard', ['star']],
     [/シャンパングラスが/, 'flute', ['star']],
     [/シャンパン|ドンペリ/, 'box_crate', ['box']],
     [/機材|銀色|工具|無線/, 'box_case', ['box']],
-    [/鶏むね|保冷|米|野菜|肉/, 'box_cool', ['box']],
-    [/CD|台本|経済書|社内報|回覧|レシピ本|日記|雑誌|の本/, 'books'],
+    [/鶏むね|保冷|米|野菜|肉|クーラーボックス|レトルト|ネットスーパー|生協|食品/, 'box_cool', ['box']],
+    [/CD|円盤|台本|経済書|社内報|回覧|レシピ本|日記|雑誌|の本|テキスト/, 'books'],
     [/新聞|業界紙|プリント/, 'papers'],
     [/タワー|袋詰め/, 'can_tower', ['can']],
     [/エナドリ|エナジー/, 'can_energy', ['can']],
@@ -187,7 +236,7 @@
     [/国旗/, 'flag', ['star']],
     [/タロット/, 'tarot', ['star']],
     [/数珠|パワーストーン/, 'beads', ['star']],
-    [/薔薇|花束/, 'bouquet'],
+    [/薔薇|花束|紅白の花/, 'bouquet'],
     [/タピオカ/, 'tapioca', ['can']],
     [/コントローラー/, 'gamepad'],
     [/一升瓶|お清めの酒/, 'sake', ['can']],
@@ -219,6 +268,11 @@
   function classify(text, kind) {
     for (const r of RULES) {
       if (r[0].test(text) && (!r[2] || r[2].indexOf(kind) !== -1)) return r[1];
+    }
+    // 未分類の箱は3種の見た目に分散（同じ箱が並ばないように）
+    if (kind === 'box') {
+      const h = (text.charCodeAt(0) + text.length) % 3;
+      return h === 1 ? 'box_open' : h === 2 ? 'box_tall' : null;
     }
     return null;
   }
