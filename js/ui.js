@@ -250,7 +250,7 @@
       accent: s.mansion.accent,
       curtain: null, curtainClosed: false,
       light: false, rain: false, silhouette: false,
-      items: [], freeHang: [0, 1, 2], freeFloor: [0, 1, 2, 3, 4],
+      items: [], freeHang: [0, 1, 2], freeFloor: [0, 1, 2, 3, 4], freeBack: [0, 1, 2, 3],
     };
     t.shown.forEach((h) => pushItem(h, false, false));
   }
@@ -264,14 +264,15 @@
     }
     const variant = window.VT_classify(label, kind);
     const vdef = variant && window.VT_VARIANTS[variant];
-    let hang = vdef ? !!vdef.hang : HK.indexOf(kind) !== -1;
-    let slot;
-    if (hang && scene.freeHang.length) slot = scene.freeHang.shift();
-    else if (!hang && scene.freeFloor.length) slot = scene.freeFloor.shift();
-    else if (scene.freeFloor.length) { hang = false; slot = scene.freeFloor.shift(); }
-    else if (scene.freeHang.length) { hang = true; slot = scene.freeHang.shift(); }
+    const wantHang = vdef ? !!vdef.hang : HK.indexOf(kind) !== -1;
+    let zone, slot;
+    if (wantHang && scene.freeHang.length) { zone = 'hang'; slot = scene.freeHang.shift(); }
+    else if (!wantHang && scene.freeFloor.length) { zone = 'floor'; slot = scene.freeFloor.shift(); }
+    else if (scene.freeBack.length) { zone = 'back'; slot = scene.freeBack.shift(); }
+    else if (scene.freeFloor.length) { zone = 'floor'; slot = scene.freeFloor.shift(); }
+    else if (scene.freeHang.length) { zone = 'hang'; slot = scene.freeHang.shift(); }
     else return;
-    scene.items.push({ kind, variant, color, label, slot, hang, strong: !!strong, fresh: !!fresh });
+    scene.items.push({ kind, variant, color, label, slot, zone, strong: !!strong, fresh: !!fresh });
   }
   function renderScene() {
     $('#scene').innerHTML = SC(scene);
@@ -392,7 +393,7 @@
     const t = G.state.turn;
     if (!t || t.done) return;
     confOn = false;
-    const abc = ['A', 'B', 'C', 'D'];
+    const abc = ['A', 'B', 'C', 'D', 'E', 'F'];
     const back = document.createElement('div');
     back.className = 'answer-back';
     back.id = 'answer-back';

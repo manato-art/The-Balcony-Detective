@@ -33,7 +33,7 @@ for (const r of VT_RESIDENTS) {
   ok(!ids.has(r.id), 'id重複: ' + r.id); ids.add(r.id);
   ok(validCats.includes(r.cat), r.id + ': catが不正 ' + r.cat);
   ok(VT_ICON_PATHS[r.icon], r.id + ': アイコン欠落 ' + r.icon);
-  ok(r.hints.length >= 5, r.id + ': hintsが少ない ' + r.hints.length);
+  ok(r.hints.length >= 9, r.id + ': hintsが少ない ' + r.hints.length);
   ok(r.strong.length >= 2, r.id + ': strongが少ない');
   ok(r.rumor.length >= 2, r.id + ': rumorが少ない');
   ok(r.roastWrong.length >= 1 && r.roastRight.length >= 1, r.id + ': 煽り文欠落');
@@ -73,10 +73,10 @@ for (const m of VT_MANSIONS) {
     const t = G.startTurn();
     ok(t, m.id + ': startTurn失敗');
     ok(/^[1-4]0[1-5]$/.test(t.room), '部屋番号が不正: ' + t.room);
-    ok(t.choices.length === 4, '4択でない: ' + t.choices.length);
-    ok(new Set(t.choices.map((c) => c.id)).size === 4, '4択に重複');
+    ok(t.choices.length === 6, '6択でない: ' + t.choices.length);
+    ok(new Set(t.choices.map((c) => c.id)).size === 6, '6択に重複');
     ok(t.choices[t.answerIdx].id === t.resident.id, 'answerIdx不整合');
-    ok(t.shown.length === 3, '初期ヒントが3でない');
+    ok(t.shown.length === 4, '初期ヒントが4でない');
     // ランダムに0〜4回調査
     const n = Math.floor(rng() * 5);
     for (let a = 0; a < n; a++) {
@@ -92,7 +92,7 @@ for (const m of VT_MANSIONS) {
       r = G.timeout();
       ok(r && !r.correct && r.timedOut, 'timeoutの結果が不正');
     } else {
-      const pickIdx = Math.floor(rng() * 4);
+      const pickIdx = Math.floor(rng() * 6);
       const conf = rng() < 0.3;
       r = G.answer(pickIdx, conf);
       ok(r, 'answerがnull');
@@ -200,10 +200,10 @@ for (const r of VT_RESIDENTS) {
 }
 console.log('  特化イラスト適用ヒント数: ' + variantHits);
 ok(variantHits >= 50, '特化イラストの適用数が少なすぎる: ' + variantHits);
-const vItems = Object.keys(SC.VARIANTS).map((v, i) => ({ kind: 'box', variant: v, color: '#ccc', label: v, slot: i % 5, hang: !!SC.VARIANTS[v].hang, strong: false, fresh: false }));
+const vItems = Object.keys(SC.VARIANTS).map((v, i) => ({ kind: 'box', variant: v, color: '#ccc', label: v, slot: i % 4, zone: SC.VARIANTS[v].hang ? 'hang' : (i % 2 ? 'back' : 'floor'), strong: false, fresh: false }));
 ok(SC.scene({ accent: 'green', items: vItems }).split('sc-item').length - 1 >= vItems.length, 'バリアント描画不正');
 
-const testItems = SC.ITEM_KINDS.map((k, i) => ({ kind: k, color: '#ccc', label: k, slot: i % 5, hang: SC.HANG_KINDS.indexOf(k) !== -1, strong: false, fresh: false }));
+const testItems = SC.ITEM_KINDS.map((k, i) => ({ kind: k, color: '#ccc', label: k, slot: i % 4, zone: SC.HANG_KINDS.indexOf(k) !== -1 ? 'hang' : (i % 2 ? 'back' : 'floor'), strong: false, fresh: false }));
 const ssvg = SC.scene({ accent: 'cyan', curtain: { color: '#fff', label: 'c' }, curtainClosed: true, light: true, rain: true, silhouette: true, items: testItems });
 ok(ssvg.indexOf('<svg') === 0 && ssvg.split('sc-item').length - 1 >= SC.ITEM_KINDS.length, 'シーンSVG生成不正');
 for (const room of VT_ROOMS) {

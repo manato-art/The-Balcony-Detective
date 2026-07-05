@@ -52,12 +52,13 @@
     return G.state;
   };
 
-  // 4択生成: 正解 + confuse優先 + 同カテゴリ + 全体
+  // 6択生成: 正解 + confuse優先 + 同カテゴリ + 全体
+  const CHOICE_N = 6;
   function buildChoices(res) {
     const ids = [res.id];
     const addFrom = (cands) => {
       for (const id of shuffle(cands)) {
-        if (ids.length >= 4) break;
+        if (ids.length >= CHOICE_N) break;
         if (!ids.includes(id) && byId[id]) ids.push(id);
       }
     };
@@ -82,8 +83,8 @@
       resident: res,
       choices,
       answerIdx,
-      shown: hints.slice(0, 3),         // 最初に見えているヒント
-      hintQueue: hints.slice(3),        // 追加調査で出るヒント
+      shown: hints.slice(0, 4),         // 最初に見えているヒント
+      hintQueue: hints.slice(4),        // 追加調査で出るヒント
       strongQueue: shuffle(res.strong), // 強ヒント
       used: {},                          // 使用済みアクション
       ambush: rng() < 0.12,              // 張り込み開始直後の住人帰宅カットイン

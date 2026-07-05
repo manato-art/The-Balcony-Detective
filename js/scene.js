@@ -129,13 +129,34 @@
     ofuda_v: { draw: () => '<rect x="-7" y="-32" width="14" height="32" rx="1.5" fill="#fff" stroke="#e5e5e5"/><path d="M0 -28 v24 M-4 -24 h8 M-4 -16 h8" stroke="#e05656" stroke-width="2"/>' },
     wig: { draw: (c) => '<circle cx="0" cy="-19" r="9" fill="#f3e3d3"/><path d="M-9 -19 a9 9 0 0 1 18 0 v7 q-9 7 -18 0 Z" fill="' + c + '"/><path d="M0 -10 v6 M-7 -2 q7 5 14 0" stroke="#8a93a5" stroke-width="2.2" fill="none"/>' },
     flute: { draw: () => '<path d="M-4.5 -30 h9 l-2 12 h-5 Z" fill="#fff2cf" stroke="#e0c98f"/><path d="M0 -18 v14 M-5 -3 h10" stroke="#e0c98f" stroke-width="2.4"/><circle cx="-1" cy="-27" r="1.1" fill="#fff"/><circle cx="2" cy="-24" r="1.1" fill="#fff"/>' },
+    tapioca: { draw: () => '<path d="M-9 -20 l2 20 h14 l2 -20 Z" fill="#efe0c8"/><g fill="#3c3446"><circle cx="-4" cy="-4" r="1.8"/><circle cx="1" cy="-3" r="1.8"/><circle cx="5" cy="-5" r="1.8"/><circle cx="-1" cy="-7" r="1.8"/></g><path d="M-9 -20 a9 5 0 0 1 18 0Z" fill="#fff"/><path d="M2 -23 l4 -12" stroke="#ff86d0" stroke-width="3.2" stroke-linecap="round"/>' },
+    gamepad: { draw: (c) => '<rect x="-15" y="-16" width="30" height="13" rx="6.5" fill="' + c + '"/><path d="M-9 -9.5 h6 M-6 -12.5 v6" stroke="#fff" stroke-width="2"/><circle cx="7" cy="-12" r="1.8" fill="#fff"/><circle cx="11" cy="-9" r="1.8" fill="#fff"/>' },
+    sake: { draw: () => '<rect x="-6" y="-33" width="12" height="33" rx="3" fill="#5d4a2e"/><rect x="-2.5" y="-41" width="5" height="9" rx="1.5" fill="#5d4a2e"/><rect x="-4.5" y="-24" width="9" height="13" rx="1" fill="#fff"/><circle cx="0" cy="-18" r="3" fill="#e05656"/>' },
+    wine: { draw: () => '<rect x="-5" y="-30" width="10" height="30" rx="3.5" fill="#4a2438"/><rect x="-2" y="-38" width="4" height="9" rx="1.5" fill="#4a2438"/><rect x="-3.5" y="-21" width="7" height="9" rx="1" fill="#f0e2c8"/>' },
+    golf: { draw: (c) => '<g transform="rotate(7)"><rect x="-9" y="-34" width="18" height="34" rx="6" fill="' + c + '"/><path d="M-4 -34 l-2 -9 M2 -34 l1 -9 M7 -34 l3 -8" stroke="#8a93a5" stroke-width="2.6" stroke-linecap="round"/><circle cx="-6.5" cy="-44" r="2.5" fill="#8a93a5"/><path d="M-9 -22 h18" stroke="#00000022" stroke-width="3"/></g>' },
+    surf: { draw: (c) => '<g transform="rotate(5)"><path d="M0 0 q-9 -18 0 -46 q9 28 0 46Z" fill="' + c + '"/><path d="M0 -8 v-30" stroke="#fff" stroke-width="1.8"/></g>' },
+    skate: { draw: (c) => '<path d="M-16 -8 q0 3 3 3 h26 q3 0 3 -3" stroke="' + c + '" stroke-width="4.5" fill="none"/><circle cx="-9" cy="-2.8" r="2.9" fill="#3c3446"/><circle cx="9" cy="-2.8" r="2.9" fill="#3c3446"/>' },
+    yogamat: { draw: (c) => '<rect x="-6.5" y="-28" width="13" height="28" rx="6" fill="' + c + '"/><ellipse cx="0" cy="-27" rx="6.5" ry="4" fill="#fff" opacity=".75"/><circle cx="0" cy="-27" r="2.2" fill="' + c + '"/>' },
+    broom: { draw: () => '<path d="M6 -12 l5 -24" stroke="#b08a5a" stroke-width="3" stroke-linecap="round"/><path d="M-1 0 l4 -13 7 1.6 -1.5 13.4 Z" fill="#e0c98f"/><path d="M1 -1 l2 -10 M5 0 l1.5 -10 M8.5 0 l1 -10" stroke="#c9ab72" stroke-width="1.6"/><path d="M-12 0 a5 5 0 0 1 0 -9 a5 5 0 0 1 4 9Z" fill="#8a93a5"/>' },
+    bucket: { draw: (c) => '<path d="M10 0 l4 -31" stroke="#b08a5a" stroke-width="3" stroke-linecap="round"/><circle cx="14" cy="-33" r="4" fill="#e0e4ea"/><path d="M-12 0 l2 -15 h17 l2 15 Z" fill="' + c + '"/><path d="M-9.5 -15 a9.5 8 0 0 1 18 0" stroke="#8a93a5" stroke-width="2.2" fill="none"/>' },
+    fan_elec: { draw: (c) => '<circle cx="0" cy="-25" r="11" fill="none" stroke="' + c + '" stroke-width="3"/><ellipse cx="0" cy="-30" rx="3.5" ry="5.5" fill="' + c + '" opacity=".55"/><ellipse cx="-4.7" cy="-22" rx="5.5" ry="3.5" fill="' + c + '" opacity=".55" transform="rotate(30 -4.7 -22)"/><ellipse cx="4.7" cy="-22" rx="5.5" ry="3.5" fill="' + c + '" opacity=".55" transform="rotate(-30 4.7 -22)"/><circle cx="0" cy="-25" r="2.8" fill="' + c + '"/><path d="M0 -14 v9 M-6 0 h12" stroke="' + c + '" stroke-width="3"/>' },
+    candle: { draw: () => '<rect x="-13" y="-14" width="7" height="14" rx="2" fill="#fff"/><rect x="-2" y="-19" width="7" height="19" rx="2" fill="#f7ead2"/><rect x="8" y="-11" width="7" height="11" rx="2" fill="#fff"/><path d="M-9.5 -16 q2.5 -4 0 -6.5 q-2.5 2.5 0 6.5Z" fill="#ffc800"/><path d="M1.5 -21 q2.5 -4 0 -6.5 q-2.5 2.5 0 6.5Z" fill="#ff9600"/><path d="M11.5 -13 q2.5 -4 0 -6.5 q-2.5 2.5 0 6.5Z" fill="#ffc800"/>' },
+    rod: { draw: () => '<path d="M-8 0 L13 -44" stroke="#8a6f4d" stroke-width="2.6" stroke-linecap="round"/><path d="M13 -44 q7 9 -1 17" stroke="#c8ccd4" stroke-width="1.3" fill="none"/><circle cx="-2" cy="-10" r="2.6" fill="#5b6478"/>' },
+    keyboardp: { draw: () => '<rect x="-17" y="-13" width="34" height="13" rx="2" fill="#3c3446"/><rect x="-15" y="-10" width="30" height="9" rx="1" fill="#fff"/><path d="M-10 -10 v9 M-5 -10 v9 M0 -10 v9 M5 -10 v9 M10 -10 v9" stroke="#c8ccd4" stroke-width="1"/><g fill="#3c3446"><rect x="-12" y="-10" width="3" height="5"/><rect x="-7" y="-10" width="3" height="5"/><rect x="3" y="-10" width="3" height="5"/><rect x="8" y="-10" width="3" height="5"/></g>' },
+    petbowl: { draw: (c) => '<path d="M-11 0 l1.8 -8 h18.4 l1.8 8 Z" fill="' + c + '"/><path d="M-4 -10 q4 -4.5 8 0 q-4 4.5 -8 0Z" fill="#6fc7e8"/><path d="M4 -10 l4 -3 v6 Z" fill="#6fc7e8"/>' },
+    glow: { draw: (c) => '<g transform="rotate(-22)"><rect x="-3" y="-29" width="6" height="25" rx="3" fill="' + c + '"/><rect x="-3" y="-34" width="6" height="5" rx="2" fill="#3c3446"/></g><g transform="rotate(22)"><rect x="-3" y="-29" width="6" height="25" rx="3" fill="#7cc7ff"/><rect x="-3" y="-34" width="6" height="5" rx="2" fill="#3c3446"/></g>' },
+    lantern: { hang: true, draw: () => '<path d="M0 0 v5" stroke="#8a93a5" stroke-width="2"/><rect x="-4.5" y="5" width="9" height="4" rx="1.5" fill="#3c3446"/><ellipse cx="0" cy="21" rx="11.5" ry="13" fill="#e05656"/><path d="M-11 21 h22 M-9.5 14 h19 M-9.5 28 h19" stroke="#00000022" stroke-width="1.6"/><rect x="-4.5" y="32" width="9" height="4" rx="1.5" fill="#3c3446"/>' },
+    cobweb: { draw: () => '<g stroke="#c8d0dc" stroke-width="1.5" fill="none"><path d="M0 -36 v36 M0 -36 l15 26 M0 -36 l-15 26"/><path d="M-7.5 -23 q7.5 5.5 15 0 M-11 -13 q11 8 22 0"/></g><circle cx="5" cy="-18" r="2.2" fill="#8a93a5"/>' },
+    pcase: { draw: () => '<rect x="-15" y="-16" width="30" height="16" rx="2" fill="#ffc800"/><path d="M-15 -8 h30 M-7 -16 v16 M7 -16 v16" stroke="#e6a800" stroke-width="2"/><rect x="-10" y="-13" width="8" height="3.5" rx="1" fill="#fff" opacity=".8"/>' },
+    eyemask: { draw: (c) => '<path d="M-12 -16 a12 9 0 0 1 24 0 v3 a12 9 0 0 1 -24 0Z" fill="' + c + '"/><path d="M-12 -15 q-6 -1 -8 -5 M12 -15 q6 -1 8 -5" stroke="' + c + '" stroke-width="2.2" fill="none"/><path d="M-6 -14 q2 2 4 0 M2 -14 q2 2 4 0" stroke="#fff" stroke-width="1.6" fill="none"/>' },
+    hat_item: { draw: (c) => '<path d="M-14 -6 h28" stroke="' + c + '" stroke-width="3" stroke-linecap="round"/><path d="M-9 -6 q0 -13 9 -13 t9 13Z" fill="' + c + '"/><path d="M-9 -9 h18" stroke="#00000025" stroke-width="2.5"/>' },
   };
 
   // [正規表現, バリアント名, 対象kind（省略=全kind）]
   const RULES = [
     [/レース/, 'lace'],
-    [/ドレス|ワンピース|衣装/, 'dress'],
-    [/タオル/, 'towel'],
+    [/ドレス|ワンピース|衣装|ガウン/, 'dress'],
+    [/タオル|背景布/, 'towel'],
     [/ジャージ|ユニフォーム|体操服/, 'jersey'],
     [/タンクトップ/, 'tank'],
     [/布団/, 'futon'],
@@ -148,10 +169,10 @@
     [/コスメ|化粧品|美容液|デパコス/, 'box_cosme'],
     [/シャンパングラスが/, 'flute', ['star']],
     [/シャンパン|ドンペリ/, 'box_crate', ['box']],
-    [/機材|銀色/, 'box_case', ['box']],
+    [/機材|銀色|工具|無線/, 'box_case', ['box']],
     [/鶏むね|保冷|米|野菜|肉/, 'box_cool', ['box']],
-    [/CD|台本|経済書|社内報|回覧/, 'books'],
-    [/新聞/, 'papers'],
+    [/CD|台本|経済書|社内報|回覧|レシピ本|日記|雑誌|の本/, 'books'],
+    [/新聞|業界紙|プリント/, 'papers'],
     [/タワー|袋詰め/, 'can_tower', ['can']],
     [/エナドリ|エナジー/, 'can_energy', ['can']],
     [/栄養ドリンク/, 'bottles', ['can']],
@@ -164,8 +185,29 @@
     [/ぬいぐるみ/, 'teddy', ['star']],
     [/国旗/, 'flag', ['star']],
     [/タロット/, 'tarot', ['star']],
-    [/数珠/, 'beads', ['star']],
+    [/数珠|パワーストーン/, 'beads', ['star']],
     [/薔薇|花束/, 'bouquet'],
+    [/タピオカ/, 'tapioca', ['can']],
+    [/コントローラー/, 'gamepad'],
+    [/一升瓶|お清めの酒/, 'sake', ['can']],
+    [/ワイン/, 'wine', ['can', 'box']],
+    [/ゴルフ/, 'golf', ['bag']],
+    [/サーフボード/, 'surf'],
+    [/スケボー|スケート/, 'skate', ['bike']],
+    [/ヨガマット|ピラティス/, 'yogamat', ['dumbbell']],
+    [/ほうき|ちりとり/, 'broom'],
+    [/バケツ|モップ/, 'bucket'],
+    [/扇風機/, 'fan_elec'],
+    [/キャンドル|アロマ|線香/, 'candle'],
+    [/釣り竿|釣竿/, 'rod'],
+    [/キーボード/, 'keyboardp'],
+    [/ごはん皿/, 'petbowl'],
+    [/ペンライト|光るブレスレット/, 'glow'],
+    [/提灯/, 'lantern'],
+    [/蜘蛛の巣/, 'cobweb'],
+    [/ビールケース/, 'pcase'],
+    [/アイマスク/, 'eyemask'],
+    [/帽子/, 'hat_item', ['laundry']],
     [/盛り塩/, 'salt', ['alert']],
     [/メーター/, 'meter', ['alert']],
     [/お札|御札/, 'ofuda_v', ['alert']],
@@ -179,22 +221,26 @@
     return null;
   }
 
-  // スロット座標（吊り3 + 床5）
+  // スロット座標（吊り3 + 前列5 + 後列4）
   const HANG_X = [224, 277, 330];
   const FLOOR_X = [48, 116, 184, 252, 320];
+  const BACK_X = [82, 150, 218, 288];
 
   function itemMarkup(it, idx) {
     const vdef = it.variant && VARIANTS[it.variant];
     const draw = vdef ? vdef.draw : (ITEMS[it.kind] || ITEMS.box);
-    const hang = it.hang;
-    const x = hang ? HANG_X[it.slot] : FLOOR_X[it.slot];
-    const y = hang ? 52 : 230;
+    const zone = it.zone || (it.hang ? 'hang' : 'floor');
+    let x, y, sc;
+    if (zone === 'hang') { x = HANG_X[it.slot]; y = 52; sc = 1.32; }
+    else if (zone === 'back') { x = BACK_X[it.slot]; y = 196; sc = 1.06; }
+    else { x = FLOOR_X[it.slot]; y = 230; sc = 1.32; }
+    const hang = zone === 'hang';
     const hit = hang
       ? '<rect x="-22" y="-4" width="44" height="56" fill="transparent"/>'
       : '<rect x="-22" y="-52" width="44" height="56" fill="transparent"/>';
     // 位置=外側g(属性) / 拡大=中間g(属性) / アニメ=内側g(CSSクラス) で分離
     return '<g transform="translate(' + x + ' ' + y + ')" onclick="UI.itemTap(' + idx + ')">' +
-      '<g transform="scale(1.32)">' +
+      '<g transform="scale(' + sc + ')">' +
       '<g class="sc-item' + (it.fresh ? ' fresh' : '') + (it.strong ? ' strong' : '') + (hang ? ' sway' : '') + '">' +
       (hang ? '' : '<ellipse cx="0" cy="1" rx="17" ry="3.5" fill="#000" opacity=".08"/>') +
       draw(it.color) + hit + '</g></g></g>';
@@ -235,8 +281,12 @@
       '<rect x="0" y="232" width="360" height="48" fill="#d7dade"/>' +
       '<path d="M0 232 h360" stroke="#b9bec7" stroke-width="2"/>';
 
-    // アイテム
-    (s.items || []).forEach((it, i) => { svg += itemMarkup(it, i); });
+    // アイテム（後列→前列の順に描画）
+    const backM = [], frontM = [];
+    (s.items || []).forEach((it, i) => {
+      ((it.zone === 'back') ? backM : frontM).push(itemMarkup(it, i));
+    });
+    svg += backM.join('') + frontM.join('');
 
     // 手すり（低め・薄めでアイテムを隠さない）
     svg += '<rect x="0" y="240" width="360" height="34" fill="#cfe6f4" opacity=".35"/>' +
