@@ -116,10 +116,10 @@
 
   /* ============ 捜査画面 ============ */
   const ACTIONS = [
-    { k: 'observe', icon: 'eye', nm: 'ベランダ観察', risk: '安全・ヒント追加' },
-    { k: 'post', icon: 'post', nm: 'ポスト周り', risk: '強ヒント／発覚率50%' },
-    { k: 'wait', icon: 'clock', nm: 'しばらく待つ', risk: '何かが起きる…' },
-    { k: 'neighbor', icon: 'chat', nm: '隣人に聞く', risk: '噂（嘘かも）' },
+    { k: 'observe', icon: 'eye', nm: '観察', risk: '安全' },
+    { k: 'post', icon: 'post', nm: 'ポスト', risk: '発覚50%' },
+    { k: 'wait', icon: 'clock', nm: '待つ', risk: '？？？' },
+    { k: 'neighbor', icon: 'chat', nm: '聞き込み', risk: '嘘かも' },
   ];
   UI.goPlay = function () {
     const t = G.state.turn;
@@ -135,18 +135,18 @@
       '</div>' +
       '<div class="scene-box" id="sceneBox"><div id="scene"></div><div class="scene-tip" id="sceneTip"></div></div>' +
       '<p class="scene-note">気になるアイテムはタップで確認</p>' +
-      '<div class="section-label">容疑者リスト</div>' +
-      '<div class="suspects">' +
-      t.choices.map((c) =>
-        '<button class="suspect" onclick="UI.openAnswer()">' + AV(c.id, 34) + '<span>' + c.name + '</span></button>').join('') +
-      '</div>' +
-      '<div class="section-label">捜査ログ</div>' +
-      '<div class="log" id="log"><div class="log-line">' + t.room + '号室の張り込みを開始した。</div></div>' +
       '<div class="section-label">追加調査（各1回まで）</div>' +
       '<div class="action-grid" id="actions">' +
       ACTIONS.map((a) =>
         '<button class="action-card a-' + a.k + '" id="act-' + a.k + '" onclick="UI.act(\'' + a.k + '\')">' +
         I(a.icon) + '<div class="nm">' + a.nm + '</div><div class="risk">' + a.risk + '</div></button>').join('') +
+      '</div>' +
+      '<div class="section-label">捜査ログ</div>' +
+      '<div class="log" id="log"><div class="log-line">' + t.room + '号室の張り込みを開始した。</div></div>' +
+      '<div class="section-label">容疑者リスト</div>' +
+      '<div class="suspects">' +
+      t.choices.map((c) =>
+        '<button class="suspect" onclick="UI.openAnswer()">' + AV(c.id, 34) + '<span>' + c.name + '</span></button>').join('') +
       '</div>' +
       '<div class="cta-bar"><button class="btn" id="answerBtn" onclick="UI.openAnswer()">' + I('search') + '回答する</button></div>';
     newScene(t, s);
@@ -370,7 +370,7 @@
       S.sfx('warn');
       vibrate([60]);
       const r = document.querySelector('#act-post .risk');
-      if (r) r.textContent = '強ヒント／発覚率80%!';
+      if (r) r.textContent = '発覚80%!';
     } else if (ev.type === 'rain') {
       addLog(ev.text, 'warn');
       S.sfx('warn');

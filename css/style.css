@@ -223,20 +223,20 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .log-line.rumor { color: #8b46d9; border-color: var(--purple); }
 .log-line.warn { color: #b57800; border-color: var(--gold); font-weight: 900; }
 
-.action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.action-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .action-card {
-  background: #fff; border: 2px solid var(--border); border-bottom-width: 5px; border-radius: 16px;
-  padding: 12px 10px; text-align: center; cursor: pointer; color: var(--text);
+  background: #fff; border: 2px solid var(--border); border-bottom-width: 4px; border-radius: 14px;
+  padding: 9px 2px 7px; text-align: center; cursor: pointer; color: var(--text);
   font: inherit; transition: transform .1s ease, opacity .2s ease;
 }
 .action-card:active { transform: translateY(2px); }
-.action-card .icon { width: 26px; height: 26px; margin: 0 auto 5px; display: block; }
+.action-card .icon { width: 22px; height: 22px; margin: 0 auto 3px; display: block; }
 .action-card.a-observe .icon { color: var(--blue); }
 .action-card.a-post .icon { color: var(--orange); }
 .action-card.a-wait .icon { color: var(--purple-d); }
 .action-card.a-neighbor .icon { color: var(--pink-t); }
-.action-card .nm { font-size: 13px; font-weight: 900; }
-.action-card .risk { font-size: 10px; color: var(--text2); margin-top: 2px; font-weight: 700; }
+.action-card .nm { font-size: 11px; font-weight: 900; white-space: nowrap; }
+.action-card .risk { font-size: 8.5px; color: var(--text2); margin-top: 1px; font-weight: 700; white-space: nowrap; }
 .action-card.used, .action-card:disabled { opacity: .35; pointer-events: none; }
 
 .cta-bar {
