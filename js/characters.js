@@ -134,6 +134,8 @@
       case 'leopard': return '<g fill="#7a5514" opacity=".8"><circle cx="42" cy="106" r="3"/><circle cx="56" cy="116" r="3"/><circle cx="72" cy="106" r="3"/><circle cx="64" cy="130" r="3"/><circle cx="46" cy="128" r="3"/><circle cx="78" cy="122" r="3"/></g>';
       case 'ribbon': return '<path d="M52 96 l8 5 8 -5 -2 8 2 8 -8 -5 -8 5 2 -8 Z" fill="#ff86d0"/>';
       case 'necklace': return '<path d="M46 96 q14 12 28 0" stroke="#ffc800" stroke-width="2.5" fill="none"/><circle cx="60" cy="103" r="3" fill="#ffc800"/>';
+      case 'headset': return '<path d="M30 50 a30 30 0 0 1 60 0" stroke="#3c3446" stroke-width="5" fill="none"/><rect x="24" y="46" width="11" height="17" rx="4" fill="#3c3446"/><rect x="85" y="46" width="11" height="17" rx="4" fill="#3c3446"/><path d="M30 62 q-7 9 8 11" stroke="#3c3446" stroke-width="3" fill="none"/><circle cx="40" cy="73" r="3" fill="#3c3446"/>';
+      case 'cat': return '<g transform="translate(90 92)"><circle cx="0" cy="0" r="9.5" fill="#e0a437"/><path d="M-6 -6 l-3.5 -7 6 2.5Z" fill="#e0a437"/><path d="M6 -6 l3.5 -7 -6 2.5Z" fill="#e0a437"/><circle cx="-3" cy="-1" r="1.3" fill="#3c3446"/><circle cx="3" cy="-1" r="1.3" fill="#3c3446"/><path d="M-1.5 2.5 q1.5 1.5 3 0" stroke="#3c3446" stroke-width="1.2" fill="none"/></g>';
       default: return '';
     }
   }
@@ -207,6 +209,22 @@
     legendhost:{ skin: 'light', hair: ['spiky', '#e8e2d5'], top: '#f5f5ef', topOpts: { vneck: true }, hat: ['crown'], accs: ['rose', 'necklace', 'sparkle'], f: { eye: 'sharp' } },
     toshika:   { skin: 'light', hair: ['short', '#3b3b3b'], top: '#2e2e3e', accs: ['glasses', 'chart'], f: { mouth: 'flat', blush: false } },
     jiko:      { special: 'ghost' },
+    // 追加住人
+    freeter:   { skin: 'light', hair: ['messy', '#8b5a3c'], top: '#79b8f0', accs: [], f: { eye: 'sleepy' } },
+    zaitaku:   { skin: 'light', hair: ['messy', '#3b3b3b'], top: '#98a7b5', accs: ['glasses'], f: { eye: 'sleepy', mouth: 'flat', blush: false } },
+    shinkon:   { special: 'couple' },
+    ryugakusei:{ skin: 'tan', hair: ['curly', '#3b3b3b'], top: '#ffc800', accs: [], f: { eye: 'happy', mouth: 'open' } },
+    otaku:     { skin: 'light', hair: ['short', '#3b3b3b'], top: '#c94f4f', accs: ['glasses'], f: { mouth: 'open' } },
+    camper:    { skin: 'tan', hair: ['short', '#5a4632'], hat: ['cap', '#6b8f5a'], top: '#7d8b74', accs: ['stubble'], f: { eye: 'happy' } },
+    gamer:     { skin: 'pale', hair: ['messy', '#3b3b3b'], top: '#2e2e3e', accs: ['headset'], f: { eye: 'sharp', blush: false } },
+    yoga:      { skin: 'tan', hair: ['pony', '#5a4632'], top: '#b892f5', accs: [], f: { eye: 'happy' } },
+    cosplayer: { skin: 'light', hair: ['twin', '#7cc7ff'], top: '#2e2e3e', accs: ['sparkle', 'lashes'], f: {} },
+    kyoju:     { skin: 'light', hair: ['thin', '#8a8a8a'], top: '#8a6f4d', topOpts: { tie: '#5b3d26' }, accs: ['glasses'], f: { mouth: 'flat', blush: false } },
+    nekoyashiki:{ skin: 'light', hair: ['bun', '#6b6b6b'], top: '#e8d5b5', accs: ['cat'], f: { eye: 'happy' } },
+    tanshin:   { skin: 'light', hair: ['short', '#3b3b3b'], top: '#5b6478', topOpts: { tie: '#7d9c86' }, accs: ['stubble'], f: { eye: 'sleepy', mouth: 'frown', blush: false } },
+    oogui:     { skin: 'light', hair: ['bob', '#3b3b3b'], top: '#ffc800', accs: [], f: { mouth: 'open' } },
+    fukumen:   { skin: 'pale', hair: ['messy', '#4a4a58'], hat: ['hood', '#4a4a58'], top: '#4a4a58', accs: ['sunglasses'], f: { mouth: 'flat', blush: false } },
+    enka:      { skin: 'light', hair: ['bun', '#2e2e3e'], top: '#7d2440', accs: ['earring', 'necklace'], f: { eye: 'happy' } },
   };
 
   function buildStandard(cfg, size) {
@@ -251,6 +269,11 @@
       const parent = '<g transform="translate(-16 12) scale(.86)">' + neck(SKIN.light) + torso('#7d9c86') + head(SKIN.light) + hair('short', '#3b3b3b') + face({ eye: 'happy' }) + '</g>';
       const kid = '<g transform="translate(34 74) scale(.48)">' + neck(SKIN.light) + torso('#ffc800') + head(SKIN.light) + hair('messy', '#5a4632') + face({ mouth: 'open' }) + '</g>';
       return parent + kid;
+    }
+    if (kind === 'couple') {
+      const a = '<g transform="translate(-21 14) scale(.84)">' + neck(SKIN.light) + torso('#6fc7e8') + head(SKIN.light) + hair('short', '#3b3b3b') + face({ eye: 'happy' }) + '</g>';
+      const b = '<g transform="translate(23 14) scale(.84)">' + neck(SKIN.light) + torso('#ff9ec7') + head(SKIN.light) + hair('bob', '#8b5a3c') + face({ eye: 'happy' }) + '</g>';
+      return a + b + '<path d="M60 18 a4 4 0 0 1 7 -2.6 a4 4 0 0 1 7 2.6 c0 4.5 -7 9 -7 9 s-7 -4.5 -7 -9Z" fill="#ff5c8a"/>';
     }
     if (kind === 'muscle') {
       const skin = SKIN.tan;

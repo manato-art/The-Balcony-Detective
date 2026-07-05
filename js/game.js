@@ -52,8 +52,8 @@
     return G.state;
   };
 
-  // 6択生成: 正解 + confuse優先 + 同カテゴリ + 全体
-  const CHOICE_N = 6;
+  // 4択生成: 正解 + confuse優先 + 同カテゴリ + 全体
+  const CHOICE_N = 4;
   function buildChoices(res) {
     const ids = [res.id];
     const addFrom = (cands) => {

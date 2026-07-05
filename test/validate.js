@@ -41,7 +41,7 @@ for (const r of VT_RESIDENTS) {
   for (const h of r.hints.concat(r.strong)) ok(VT_ICON_PATHS[h[1]], r.id + ': ヒントアイコン欠落 ' + h[1]);
   for (const c of r.confuse) ok(VT_RESIDENTS.some((x) => x.id === c), r.id + ': confuse不明id ' + c);
 }
-ok(VT_RESIDENTS.length === 33, '住人が33種でない: ' + VT_RESIDENTS.length);
+ok(VT_RESIDENTS.length === 48, '住人が48種でない: ' + VT_RESIDENTS.length);
 
 console.log('[2] マンションデータ');
 const mids = new Set();
@@ -73,8 +73,8 @@ for (const m of VT_MANSIONS) {
     const t = G.startTurn();
     ok(t, m.id + ': startTurn失敗');
     ok(/^[1-4]0[1-5]$/.test(t.room), '部屋番号が不正: ' + t.room);
-    ok(t.choices.length === 6, '6択でない: ' + t.choices.length);
-    ok(new Set(t.choices.map((c) => c.id)).size === 6, '6択に重複');
+    ok(t.choices.length === 4, '4択でない: ' + t.choices.length);
+    ok(new Set(t.choices.map((c) => c.id)).size === 4, '4択に重複');
     ok(t.choices[t.answerIdx].id === t.resident.id, 'answerIdx不整合');
     ok(t.shown.length === 4, '初期ヒントが4でない');
     // ランダムに0〜4回調査
@@ -92,7 +92,7 @@ for (const m of VT_MANSIONS) {
       r = G.timeout();
       ok(r && !r.correct && r.timedOut, 'timeoutの結果が不正');
     } else {
-      const pickIdx = Math.floor(rng() * 6);
+      const pickIdx = Math.floor(rng() * 4);
       const conf = rng() < 0.3;
       r = G.answer(pickIdx, conf);
       ok(r, 'answerがnull');

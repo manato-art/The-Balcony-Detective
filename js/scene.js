@@ -150,16 +150,17 @@
     pcase: { draw: () => '<rect x="-15" y="-16" width="30" height="16" rx="2" fill="#ffc800"/><path d="M-15 -8 h30 M-7 -16 v16 M7 -16 v16" stroke="#e6a800" stroke-width="2"/><rect x="-10" y="-13" width="8" height="3.5" rx="1" fill="#fff" opacity=".8"/>' },
     eyemask: { draw: (c) => '<path d="M-12 -16 a12 9 0 0 1 24 0 v3 a12 9 0 0 1 -24 0Z" fill="' + c + '"/><path d="M-12 -15 q-6 -1 -8 -5 M12 -15 q6 -1 8 -5" stroke="' + c + '" stroke-width="2.2" fill="none"/><path d="M-6 -14 q2 2 4 0 M2 -14 q2 2 4 0" stroke="#fff" stroke-width="1.6" fill="none"/>' },
     hat_item: { draw: (c) => '<path d="M-14 -6 h28" stroke="' + c + '" stroke-width="3" stroke-linecap="round"/><path d="M-9 -6 q0 -13 9 -13 t9 13Z" fill="' + c + '"/><path d="M-9 -9 h18" stroke="#00000025" stroke-width="2.5"/>' },
+    laptop: { draw: () => '<rect x="-13" y="-25" width="24" height="15" rx="2" fill="#3c3446"/><rect x="-11" y="-23" width="20" height="11" rx="1" fill="#7cc7ff"/><path d="M-9 -20 h9 M-9 -16 h13" stroke="#fff" stroke-width="1.5" opacity=".7"/><path d="M-15 -10 h28 l3 7 h-34 Z" fill="#5b6478"/>' },
   };
 
   // [正規表現, バリアント名, 対象kind（省略=全kind）]
   const RULES = [
     [/レース/, 'lace'],
-    [/ドレス|ワンピース|衣装|ガウン/, 'dress'],
-    [/タオル|背景布/, 'towel'],
+    [/ドレス|ワンピース|衣装|ガウン|着物/, 'dress'],
+    [/タオル|背景布|抱き枕/, 'towel'],
     [/ジャージ|ユニフォーム|体操服/, 'jersey'],
     [/タンクトップ/, 'tank'],
-    [/布団/, 'futon'],
+    [/布団|テント|寝袋|毛布/, 'futon'],
     [/スカート|制服/, 'skirt'],
     [/法被/, 'happi'],
     [/スクラブ|白衣|白装束/, 'scrub'],
@@ -203,10 +204,11 @@
     [/キーボード/, 'keyboardp'],
     [/ごはん皿/, 'petbowl'],
     [/ペンライト|光るブレスレット/, 'glow'],
-    [/提灯/, 'lantern'],
+    [/提灯|ランタン/, 'lantern'],
     [/蜘蛛の巣/, 'cobweb'],
     [/ビールケース/, 'pcase'],
     [/アイマスク/, 'eyemask'],
+    [/ノートPC|パソコン|モニター|ゲーミング/, 'laptop'],
     [/帽子/, 'hat_item', ['laundry']],
     [/盛り塩/, 'salt', ['alert']],
     [/メーター/, 'meter', ['alert']],
