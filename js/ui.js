@@ -192,6 +192,57 @@
     UI.next();
   };
 
+  // 管理人に見つかったカットイン → グイッしてから最終回答ページへ
+  function showCaughtCutin(subText) {
+    const t = G.state.turn;
+    if (!t || t.done) return;
+    const p = G.state.players[t.playerIdx];
+    vibrate([180, 80, 180]);
+    const ov = document.createElement('div');
+    ov.className = 'cutin-back kanri';
+    ov.id = 'cutin';
+    ov.innerHTML =
+      '<div class="cutin-stripes"></div><div class="cutin-flash"></div>' +
+      '<div class="cutin-box">' +
+      '<div class="cutin-mascot">' + AV('kanrinin', 112) + '</div>' +
+      '<div class="cutin-title">見つかった！！</div>' +
+      '<div class="cutin-sub">' + subText + '</div>' +
+      '<div class="cutin-drink">' + I('beer') + esc(p.name) + ' は一口</div>' +
+      '<div><button class="btn cutin-btn" onclick="UI.caughtGo()">' + I('arrow') + 'グイッ してから回答する</button></div>' +
+      '</div>';
+    document.body.appendChild(ov);
+  }
+  UI.caughtGo = function () {
+    const ov = $('#cutin');
+    if (ov) ov.remove();
+    vibrate([40]);
+    renderFinalAnswer();
+  };
+
+  // ベランダ＋容疑者リストだけの最終回答ページ（容疑者タップ＝即回答）
+  function renderFinalAnswer() {
+    const t = G.state.turn;
+    const s = G.state;
+    const name = s.players[t.playerIdx].name;
+    $('#scr-play').innerHTML =
+      '<div class="play-head">' +
+      '<div class="who">' + I('user') + esc(name) + '</div>' +
+      '<div class="room-chip">' + t.room + '号室</div>' +
+      '</div>' +
+      '<div class="scene-box" id="sceneBox"><div id="scene"></div><div class="scene-tip" id="sceneTip"></div></div>' +
+      '<div class="final-q">' + t.room + '号室の住人はこの中の誰だ？<br>容疑者をタップで即回答！</div>' +
+      '<div class="suspects">' +
+      t.choices.map((c, i) =>
+        '<button class="suspect" onclick="UI.finalChoose(' + i + ')">' + AV(c.id, 34) + '<span>' + c.name + '</span></button>').join('') +
+      '</div>';
+    renderScene();
+    window.scrollTo(0, 0);
+  }
+  UI.finalChoose = function (i) {
+    const r = G.answer(i, false);
+    if (r) renderReveal(r);
+  };
+
   /* ---- ベランダシーン管理 ---- */
   let scene = null;
   function newScene(t, s) {
@@ -264,10 +315,10 @@
     $('#act-' + kind).classList.add('used');
     if (ev.type === 'caught') {
       addLog(ev.text, 'bad');
-      addLog('見つかった！一口飲め。ここからは回答のみ。', 'bad');
       $('#sceneBox').classList.add('shake');
       vibrate([80, 50, 80]);
       lockActions();
+      setTimeout(() => showCaughtCutin(ev.text), 550);
     } else if (ev.type === 'timer') {
       addLog(ev.text, 'bad');
       vibrate([200, 80, 200]);
