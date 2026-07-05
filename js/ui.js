@@ -9,6 +9,7 @@
   const SC = window.VT_scene;
   const HC = window.VT_hintColor;
   const HK = window.VT_HANG_KINDS;
+  const S = window.VT_SOUND || { sfx: function () {} };
   const CATS = window.VT_CATS;
   const MANSIONS = window.VT_MANSIONS;
   const RULES = window.VT_DRINK_RULES;
@@ -106,6 +107,7 @@
     const b = $('#zoomBtn');
     if (b) b.disabled = true;
     vibrate([30]);
+    S.sfx('whoosh');
     w.classList.add('zoom');
     setTimeout(() => UI.goPlay(), 680);
   };
@@ -157,6 +159,8 @@
     const r = G.ambush();
     if (!r) return;
     vibrate([220, 90, 220, 90, 300]);
+    S.sfx('cutin');
+    setTimeout(() => S.sfx('drink'), 700);
     let drinkText, btnText;
     if (r.pattern === 'right') {
       drinkText = 'とばっちり！右隣の ' + esc(r.drinkers[0].name) + ' が一口';
@@ -198,6 +202,8 @@
     if (!t || t.done) return;
     const p = G.state.players[t.playerIdx];
     vibrate([180, 80, 180]);
+    S.sfx('cutin');
+    setTimeout(() => S.sfx('drink'), 700);
     const ov = document.createElement('div');
     ov.className = 'cutin-back kanri';
     ov.id = 'cutin';
@@ -318,11 +324,13 @@
       addLog(ev.text, 'bad');
       $('#sceneBox').classList.add('shake');
       vibrate([80, 50, 80]);
+      S.sfx('caught');
       lockActions();
       setTimeout(() => showCaughtCutin(ev.text), 550);
     } else if (ev.type === 'timer') {
       addLog(ev.text, 'bad');
       vibrate([200, 80, 200]);
+      S.sfx('alarm');
       lockActions();
       // 窓に人影＋電気ON→ハト乱入
       scene.silhouette = true;
@@ -332,19 +340,23 @@
       setTimeout(showPanic, 700);
     } else if (ev.type === 'hints' || ev.type === 'strong') {
       addLog(ev.text, 'good');
+      S.sfx(ev.type === 'strong' ? 'strong' : 'pop');
       if (ev.id === 'curtain') { scene.curtainClosed = false; scene.light = true; }
       if (ev.id === 'light') scene.light = true;
       (ev.hints || []).forEach((h) => pushItem(h, ev.type === 'strong', true));
       renderScene();
     } else if (ev.type === 'rumor') {
       addLog(ev.text, 'rumor');
+      S.sfx('rumor');
     } else if (ev.type === 'alert') {
       addLog(ev.text, 'warn');
+      S.sfx('warn');
       vibrate([60]);
       const r = document.querySelector('#act-post .risk');
       if (r) r.textContent = '強ヒント／発覚率80%!';
     } else if (ev.type === 'rain') {
       addLog(ev.text, 'warn');
+      S.sfx('warn');
       scene.rain = true;
       renderScene();
     } else {
@@ -372,13 +384,15 @@
     ov.classList.remove('hidden');
     const draw = () => { ov.innerHTML = '<div class="timer-pill">' + I('clock') + '残り ' + left + ' 秒</div>'; };
     draw();
+    S.sfx('tick');
     timerInt = setInterval(() => {
       left -= 1;
       if (left <= 0) {
         stopTimer();
+        S.sfx('timeup');
         const r = G.timeout();
         if (r) renderReveal(r);
-      } else draw();
+      } else { draw(); S.sfx('tick'); }
     }, 1000);
   }
   function stopTimer() {
@@ -433,6 +447,13 @@
     stopTimer();
     UI.closeAnswer();
     vibrate(r.correct ? [40] : [70, 50, 70]);
+    if (r.correct) {
+      S.sfx('correct');
+      if (r.combo >= 2) setTimeout(() => S.sfx('combo'), 450);
+    } else {
+      S.sfx('wrong');
+      if (r.sips > 0) setTimeout(() => S.sfx('drink'), 600);
+    }
     const cat = CATS[r.resident.cat];
     const last = G.state.turnNo + 1 >= G.state.queue.length;
     const verdict = r.timedOut ? '時間切れ！' : r.correct ? '正解！' : '不正解…';
@@ -461,6 +482,7 @@
 
   /* ============ 最終結果 ============ */
   function renderFinal() {
+    S.sfx('fanfare');
     const res = G.results();
     const rows = res.rank.map((p, i) =>
       '<div class="rank-item' + (i === 0 ? ' first' : '') + '" style="animation-delay:' + (i * 90) + 'ms">' +
