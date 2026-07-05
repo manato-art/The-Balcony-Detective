@@ -49,7 +49,7 @@
       '<button class="btn ghost" onclick="UI.modal(\'howto\')">' + I('book') + '遊び方</button>' +
       '<button class="btn ghost" onclick="UI.modal(\'rules\')">' + I('beer') + '飲みルール</button>' +
       '</div>' +
-      '<p class="title-note">お酒は20歳になってから。イッキ・飲酒の強要はダメ、絶対。ソフドリ参加OK。</p>';
+      '<p class="title-note">お酒は20歳になってから。イッキ・強要はダメ、絶対。ソフドリ参加OK。</p>';
   }
 
   /* ============ プレイヤー設定 ============ */
