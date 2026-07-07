@@ -70,7 +70,7 @@
   }
 
   /* ============ プレイヤー設定 ============ */
-  UI.goSetup = function () { renderSetup(); show('setup'); };
+  UI.goSetup = function () { renderSetup(); show('setup'); setTimeout(maybeSetupTutorial, 400); };
   function renderSetup() {
     const rows = cfg.players.map((p, i) =>
       '<div class="player-row">' +
@@ -87,7 +87,7 @@
       '<div id="playerList">' + rows + '</div>' +
       (cfg.players.length < 8 ? '<button class="add-row" onclick="UI.addPlayer()">' + I('user') + 'プレイヤーを追加</button>' : '') +
       '<div class="section-label">何ゲーム遊ぶ？（1周＝1ゲーム）</div>' +
-      '<div class="stepper">' +
+      '<div class="stepper" id="roundStepper">' +
       '<button aria-label="減らす" onclick="UI.setRounds(-1)">−</button>' +
       '<div class="val">' + cfg.rounds + '<small>ゲーム</small></div>' +
       '<button aria-label="増やす" onclick="UI.setRounds(1)">＋</button>' +
@@ -190,25 +190,32 @@
     else setTimeout(maybeTutorial, 400);
   };
 
-  /* ---- 初回だけの指差しチュートリアル（スポットライト式） ---- */
+  /* ---- 初回だけの指差しチュートリアル（スポットライト式・画面ごと） ---- */
   const TUT_STEPS = [
     { sel: '#sceneBox', text: 'まずは<b>ベランダ</b>を調査！干してある服や置いてある物が手がかり。' },
     { sel: '.suspect-strip', text: 'この中の<b>誰か</b>が住人。ヒントと見比べて推理しよう。' },
     { sel: '#answerBtn', text: '決めたら<b>「回答する」</b>！　4人から1人を選ぶよ。' },
   ];
-  function maybeTutorial() {
-    try { if (localStorage.getItem('vt_tut_play')) return; } catch (e) { return; }
-    if (!$('#sceneBox')) return;
+  const SETUP_STEPS = [
+    { sel: '#playerList', text: 'まず<b>遊ぶ人の名前</b>を入れてね。タップで書き換えできるよ。' },
+    { sel: '#roundStepper', text: '<b>何ゲーム遊ぶか</b>をここで決めよう。' },
+    { sel: '#scr-setup .foot .btn', text: '準備ができたら<b>捜査開始</b>！' },
+  ];
+  function maybeTutorial() { runTutorial(TUT_STEPS, 'vt_tut_play'); }
+  function maybeSetupTutorial() { runTutorial(SETUP_STEPS, 'vt_tut_setup'); }
+  function runTutorial(steps, key) {
+    try { if (localStorage.getItem(key)) return; } catch (e) { return; }
+    if (!$(steps[0].sel)) return;
     let idx = 0;
     const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const ov = document.createElement('div');
     ov.className = 'tut-back'; ov.id = 'tut';
     ov.innerHTML = '<div class="tut-hole"></div><div class="tut-tip"></div>';
-    ov.addEventListener('click', () => { idx += 1; (idx >= TUT_STEPS.length) ? endTut() : showStep(); });
+    ov.addEventListener('click', () => { idx += 1; (idx >= steps.length) ? endTut() : showStep(); });
     document.body.appendChild(ov);
-    function endTut() { ov.remove(); try { localStorage.setItem('vt_tut_play', '1'); } catch (e) { /* noop */ } }
+    function endTut() { ov.remove(); try { localStorage.setItem(key, '1'); } catch (e) { /* noop */ } }
     function showStep() {
-      const step = TUT_STEPS[idx];
+      const step = steps[idx];
       const el = $(step.sel);
       if (!el) { endTut(); return; }
       el.scrollIntoView({ block: 'center', behavior: smooth ? 'smooth' : 'auto' });
@@ -222,8 +229,8 @@
         tip.innerHTML =
           '<div class="tt-fig">' + M('point', 66) + '</div>' +
           '<div class="tt-bubble">' + step.text +
-          '<div class="tt-foot"><span class="tt-dots">' + TUT_STEPS.map((_, j) => '<i' + (j === idx ? ' class="on"' : '') + '></i>').join('') + '</span>' +
-          '<span class="tt-next">' + (idx === TUT_STEPS.length - 1 ? 'はじめる' : 'つぎへ') + ' →</span></div></div>';
+          '<div class="tt-foot"><span class="tt-dots">' + steps.map((_, j) => '<i' + (j === idx ? ' class="on"' : '') + '></i>').join('') + '</span>' +
+          '<span class="tt-next">' + (idx === steps.length - 1 ? 'はじめる' : 'つぎへ') + ' →</span></div></div>';
         tip.classList.toggle('below', below);
         tip.style.top = below ? (r.bottom + 14) + 'px' : '';
         tip.style.bottom = below ? '' : (window.innerHeight - r.top + 14) + 'px';
