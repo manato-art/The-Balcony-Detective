@@ -188,11 +188,16 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .turn-badge .icon { width: 17px; height: 17px; color: var(--blue); }
 
 /* 捜査画面のゴール（常時表示） */
-.play-goal { display: flex; align-items: center; gap: 8px; background: linear-gradient(180deg, #f3ffe8, #eafbdc); border: 2px solid #cdeeae; border-radius: 14px; padding: 8px 12px 8px 6px; margin-bottom: 12px; }
-.play-goal .pg-fig { flex: none; width: 54px; height: 54px; }
-.play-goal .pg-txt { font-size: 12.5px; font-weight: 700; line-height: 1.5; color: var(--green-t); }
-.play-goal .pg-txt b { font-weight: 900; color: var(--text); }
-.play-goal .pg-room { font-weight: 900; color: var(--green-t); background: rgba(88, 204, 2, .16); border-radius: 6px; padding: 1px 7px; }
+.play-guide { display: flex; align-items: center; gap: 9px; background: linear-gradient(180deg, #f3ffe8, #eafbdc); border: 2px solid #cdeeae; border-radius: 16px; padding: 9px 13px 9px 8px; margin-bottom: 12px; }
+.play-guide .pg-fig { flex: none; width: 56px; height: 56px; }
+.play-guide .pg-body { flex: 1; min-width: 0; }
+.play-guide .pg-turn { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; color: var(--blue-d); background: #fff; border-radius: 999px; padding: 3px 11px; margin-bottom: 5px; }
+.play-guide .pg-turn b { font-weight: 900; }
+.play-guide .pg-turn .icon { width: 14px; height: 14px; color: var(--blue); }
+.play-guide .pg-turn .combo-pill { margin-left: 5px; }
+.play-guide .pg-txt { font-size: 12.5px; font-weight: 700; line-height: 1.5; color: var(--green-t); }
+.play-guide .pg-txt b { font-weight: 900; color: var(--text); }
+.play-guide .pg-room { font-weight: 900; color: var(--green-t); background: rgba(88, 204, 2, .16); border-radius: 6px; padding: 1px 7px; }
 
 /* 初回チュートリアル（スポットライト） */
 .tut-back { position: fixed; inset: 0; z-index: 200; cursor: pointer; }
