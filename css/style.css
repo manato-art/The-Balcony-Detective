@@ -72,6 +72,9 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .tag.gold { color: #b57800; background: #fff1c8; }
 
 .section-label { font-size: 12px; font-weight: 900; color: var(--text2); letter-spacing: .14em; margin: 18px 0 8px; }
+.section-label.pl-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; max-width: 340px; }
+.reset-players { flex: none; border: none; background: transparent; color: var(--text2); font: inherit; font-size: 11px; font-weight: 800; letter-spacing: .04em; cursor: pointer; padding: 3px 6px; border-radius: 8px; text-decoration: underline; text-underline-offset: 2px; }
+.reset-players:active { color: var(--blue); transform: translateY(1px); }
 
 /* ---------- 吹き出し＋マスコット ---------- */
 .mascot-row { display: flex; align-items: center; gap: 6px; }
@@ -114,7 +117,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .head .back .icon { transform: rotate(180deg); }
 .head h1 { font-size: 21px; font-weight: 900; letter-spacing: .04em; }
 
-.player-row { display: flex; gap: 8px; margin-bottom: 10px; }
+.player-row { display: flex; gap: 8px; margin-bottom: 10px; max-width: 340px; }
 .player-row .pinput { position: relative; flex: 1; display: flex; }
 .player-row input {
   flex: 1; min-height: 52px; border-radius: 14px; border: 2px solid var(--border);
@@ -124,7 +127,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .player-row .pcount { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 800; color: var(--text2); pointer-events: none; font-variant-numeric: tabular-nums; }
 .player-row .pcount.max { color: var(--orange); }
 .player-row .del { width: 52px; border-radius: 14px; border: 2px solid var(--border); border-bottom-width: 4px; background: #fff; color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.add-row { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 48px; border-radius: 14px; border: 2px dashed var(--border-d); background: transparent; color: var(--text2); font: inherit; font-weight: 800; cursor: pointer; }
+.add-row { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; max-width: 340px; min-height: 48px; border-radius: 14px; border: 2px dashed var(--border-d); background: transparent; color: var(--text2); font: inherit; font-weight: 800; cursor: pointer; }
 
 .stepper { display: flex; align-items: center; gap: 14px; }
 .stepper button { width: 56px; height: 56px; border-radius: 16px; border: 2px solid var(--border); border-bottom-width: 4px; background: #fff; color: var(--blue); font-size: 26px; font-weight: 900; cursor: pointer; }

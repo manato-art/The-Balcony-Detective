@@ -19,7 +19,19 @@
   const UI = {};
   window.UI = UI;
 
-  const cfg = { players: ['プレイヤー1', 'プレイヤー2'], rounds: 3, mansionId: null };
+  // プレイヤー名のデフォルト（localStorage vt_players に自動保存・起動時に復元）
+  const DEFAULT_PLAYERS = ['プレイヤー1', 'プレイヤー2'];
+  function loadSavedPlayers() {
+    try {
+      const s = JSON.parse(localStorage.getItem('vt_players') || 'null');
+      if (Array.isArray(s) && s.length >= 1 && s.length <= 8 && s.every((n) => typeof n === 'string')) return s.slice(0, 8);
+    } catch (e) { /* noop */ }
+    return DEFAULT_PLAYERS.slice();
+  }
+  function savePlayers() {
+    try { localStorage.setItem('vt_players', JSON.stringify(cfg.players)); } catch (e) { /* noop */ }
+  }
+  const cfg = { players: loadSavedPlayers(), rounds: 3, mansionId: null };
   let confOn = false;
   let timerInt = null;
   let timerLeft = 0;
@@ -83,7 +95,8 @@
     $('#scr-setup').innerHTML =
       '<div class="head"><button class="back" aria-label="戻る" onclick="UI.goTitle()">' + I('arrow') + '</button><h1>捜査メンバー</h1></div>' +
       bubbleRow('point', 92, '一緒に張り込むメンバーを教えて！') +
-      '<div class="section-label">プレイヤー名（1〜8人・各10文字まで）</div>' +
+      '<div class="section-label pl-head">プレイヤー名（1〜8人・各10文字まで）' +
+      '<button class="reset-players" onclick="UI.resetPlayers()">初期化</button></div>' +
       '<div id="playerList">' + rows + '</div>' +
       (cfg.players.length < 8 ? '<button class="add-row" onclick="UI.addPlayer()">' + I('user') + 'プレイヤーを追加</button>' : '') +
       '<div class="section-label">何ゲーム遊ぶ？（1周＝1ゲーム）</div>' +
@@ -103,11 +116,17 @@
   };
   UI.addPlayer = function () { if (cfg.players.length < 8) { cfg.players.push('プレイヤー' + (cfg.players.length + 1)); renderSetup(); } };
   UI.delPlayer = function (i) { if (cfg.players.length > 1) { cfg.players.splice(i, 1); renderSetup(); } };
+  UI.resetPlayers = function () {
+    cfg.players = DEFAULT_PLAYERS.slice();
+    try { localStorage.removeItem('vt_players'); } catch (e) { /* noop */ }
+    renderSetup();
+  };
   UI.setRounds = function (d) { cfg.rounds = Math.min(5, Math.max(1, cfg.rounds + d)); renderSetup(); };
 
   /* ============ ゲーム開始（マンションはランダム選定） ============ */
   UI.startGame = function () {
     cfg.players = cfg.players.map((p, i) => p.trim() || 'プレイヤー' + (i + 1));
+    savePlayers();  // 次回のためにプレイヤー名を自動保存
     cfg.mansionId = MANSIONS[Math.floor(Math.random() * MANSIONS.length)].id;
     G.newGame({ players: cfg.players, rounds: cfg.rounds, mansionId: cfg.mansionId });
     beginTurn();
