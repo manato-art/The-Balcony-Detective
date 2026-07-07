@@ -86,12 +86,13 @@
       '<div class="section-label">プレイヤー名（1〜8人・各10文字まで）</div>' +
       '<div id="playerList">' + rows + '</div>' +
       (cfg.players.length < 8 ? '<button class="add-row" onclick="UI.addPlayer()">' + I('user') + 'プレイヤーを追加</button>' : '') +
-      '<div class="section-label">1人あたりの回数</div>' +
+      '<div class="section-label">何ゲーム遊ぶ？（1周＝1ゲーム）</div>' +
       '<div class="stepper">' +
       '<button aria-label="減らす" onclick="UI.setRounds(-1)">−</button>' +
-      '<div class="val">' + cfg.rounds + '<small>回 × ' + cfg.players.length + '人</small></div>' +
+      '<div class="val">' + cfg.rounds + '<small>ゲーム</small></div>' +
       '<button aria-label="増やす" onclick="UI.setRounds(1)">＋</button>' +
       '</div>' +
+      '<p class="setup-hint">1ゲームで全員が1回ずつ回答（全' + (cfg.players.length * cfg.rounds) + 'ターン）</p>' +
       '<div class="foot"><button class="btn" onclick="UI.startGame()">' + I('search') + '捜査開始</button></div>';
   }
   UI.goTitle = function () { show('title'); };
