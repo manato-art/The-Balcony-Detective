@@ -399,10 +399,22 @@
     setTimeout(() => el.remove(), 2300);
   }
   function addLog(text, cls) {
+    const log = $('#log');
     const el = document.createElement('div');
     el.className = 'log-line' + (cls ? ' ' + cls : '');
     el.textContent = text;
-    $('#log').appendChild(el);
+    log.appendChild(el);
+    log.scrollTop = log.scrollHeight;              // 最新を下端に表示
+    log.classList.toggle('scrollable', log.scrollHeight > log.clientHeight + 2);
+  }
+  // 追加調査を押したら操作ログを画面内に持ってくる（最新＝下端）
+  function scrollToLog() {
+    const log = $('#log');
+    if (!log) return;
+    log.scrollTop = log.scrollHeight;
+    log.classList.toggle('scrollable', log.scrollHeight > log.clientHeight + 2);
+    const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    log.scrollIntoView({ block: 'center', behavior: smooth ? 'smooth' : 'auto' });
   }
   function lockActions() {
     document.querySelectorAll('.action-card').forEach((b) => b.classList.add('used'));
@@ -457,6 +469,7 @@
       if (ev.id === 'crow') sceneFx('crow');
       if (ev.id === 'cat') sceneFx('cat');
     }
+    if (ev.type !== 'caught' && ev.type !== 'timer') scrollToLog();
   };
 
   /* ============ タイマー ============ */

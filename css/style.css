@@ -271,7 +271,8 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .suspect:active { transform: translateY(2px); border-color: var(--blue); }
 .suspect svg { flex: none; }
 
-.log { display: flex; flex-direction: column; gap: 6px; min-height: 8px; }
+.log { display: flex; flex-direction: column; gap: 6px; height: 62px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.log.scrollable { -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, .12) 9px, #000 30px); mask-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, .12) 9px, #000 30px); }
 .log-line { font-size: 12.5px; font-weight: 700; color: var(--text2); padding-left: 10px; border-left: 3px solid var(--border); animation: cardIn .3s ease-out; }
 .log-line.bad { color: var(--red-t); border-color: var(--red); font-weight: 900; }
 .log-line.good { color: var(--green-t); border-color: var(--green); }
