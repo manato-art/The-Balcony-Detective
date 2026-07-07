@@ -238,6 +238,13 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .hint-chip.strong { border-color: var(--gold); background: #fffaf0; }
 .hint-chip.strong .icon { color: var(--orange); }
 
+/* 捜査画面の容疑者ストリップ（ゴール直下・横1列4枚） */
+.suspect-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+.suspect-mini { display: flex; flex-direction: column; align-items: center; gap: 3px; background: #fff; border: 2px solid var(--border); border-bottom-width: 4px; border-radius: 12px; padding: 7px 3px 6px; font: inherit; cursor: pointer; transition: transform .1s ease; min-width: 0; }
+.suspect-mini:active { transform: translateY(2px); border-color: var(--blue); }
+.suspect-mini .sm-av { height: 40px; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; }
+.suspect-mini .sm-nm { font-size: 10px; font-weight: 900; line-height: 1.25; text-align: center; color: var(--text); width: 100%; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all; }
+
 .suspects { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .suspect {
   display: flex; align-items: center; gap: 8px;

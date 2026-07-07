@@ -162,6 +162,10 @@
       '</div>' +
       '<div class="play-goal"><div class="pg-fig">' + M('point', 54) + '</div>' +
       '<div class="pg-txt"><b>' + t.room + '号室の住人はだれ？</b><br>ベランダのヒントを見て、下の<b>容疑者</b>から当てよう。</div></div>' +
+      '<div class="suspect-strip" id="suspects">' +
+      t.choices.map((c) =>
+        '<button class="suspect-mini" onclick="UI.openAnswer()"><span class="sm-av">' + AV(c.id, 32) + '</span><span class="sm-nm">' + c.name + '</span></button>').join('') +
+      '</div>' +
       '<div class="scene-box" id="sceneBox"><div id="scene"></div><div class="scene-tip" id="sceneTip"></div></div>' +
       '<p class="scene-note">気になるアイテムはタップで確認</p>' +
       '<div class="section-label">追加でヒントを集める（任意・各1回）</div>' +
@@ -172,11 +176,6 @@
       '</div>' +
       '<div class="section-label">捜査ログ</div>' +
       '<div class="log" id="log"><div class="log-line">' + t.room + '号室の張り込みを開始した。</div></div>' +
-      '<div class="section-label">容疑者リスト</div>' +
-      '<div class="suspects">' +
-      t.choices.map((c) =>
-        '<button class="suspect" onclick="UI.openAnswer()">' + AV(c.id, 34) + '<span>' + c.name + '</span></button>').join('') +
-      '</div>' +
       '<div class="cta-bar"><button class="btn" id="answerBtn" onclick="UI.openAnswer()">' + I('search') + '回答する</button></div>';
     newScene(t, s);
     renderScene();
@@ -188,7 +187,7 @@
   /* ---- 初回だけの指差しチュートリアル（スポットライト式） ---- */
   const TUT_STEPS = [
     { sel: '#sceneBox', text: 'まずは<b>ベランダ</b>を調査！干してある服や置いてある物が手がかり。' },
-    { sel: '.suspects', text: 'この中の<b>誰か</b>が住人。ヒントと見比べて推理しよう。' },
+    { sel: '.suspect-strip', text: 'この中の<b>誰か</b>が住人。ヒントと見比べて推理しよう。' },
     { sel: '#answerBtn', text: '決めたら<b>「回答する」</b>！　4人から1人を選ぶよ。' },
   ];
   function maybeTutorial() {
