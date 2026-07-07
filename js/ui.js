@@ -160,9 +160,11 @@
       (s.combo >= 2 ? '<span class="combo-pill">' + I('star') + s.combo + 'コンボ中</span>' : '') +
       '<div class="room-chip">' + t.room + '号室</div>' +
       '</div>' +
+      '<div class="play-goal"><div class="pg-fig">' + M('point', 54) + '</div>' +
+      '<div class="pg-txt"><b>' + t.room + '号室の住人はだれ？</b><br>ベランダのヒントを見て、下の<b>容疑者</b>から当てよう。</div></div>' +
       '<div class="scene-box" id="sceneBox"><div id="scene"></div><div class="scene-tip" id="sceneTip"></div></div>' +
       '<p class="scene-note">気になるアイテムはタップで確認</p>' +
-      '<div class="section-label">追加調査（各1回まで）</div>' +
+      '<div class="section-label">追加でヒントを集める（任意・各1回）</div>' +
       '<div class="action-grid" id="actions">' +
       ACTIONS.map((a) =>
         '<button class="action-card a-' + a.k + '" id="act-' + a.k + '" onclick="UI.act(\'' + a.k + '\')">' +
@@ -180,7 +182,50 @@
     renderScene();
     show('play');
     if (t.ambush && !t.ambushDone) setTimeout(showAmbush, 750);
+    else setTimeout(maybeTutorial, 400);
   };
+
+  /* ---- 初回だけの指差しチュートリアル（スポットライト式） ---- */
+  const TUT_STEPS = [
+    { sel: '#sceneBox', text: 'まずは<b>ベランダ</b>を調査！干してある服や置いてある物が手がかり。' },
+    { sel: '.suspects', text: 'この中の<b>誰か</b>が住人。ヒントと見比べて推理しよう。' },
+    { sel: '#answerBtn', text: '決めたら<b>「回答する」</b>！　4人から1人を選ぶよ。' },
+  ];
+  function maybeTutorial() {
+    try { if (localStorage.getItem('vt_tut_play')) return; } catch (e) { return; }
+    if (!$('#sceneBox')) return;
+    let idx = 0;
+    const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const ov = document.createElement('div');
+    ov.className = 'tut-back'; ov.id = 'tut';
+    ov.innerHTML = '<div class="tut-hole"></div><div class="tut-tip"></div>';
+    ov.addEventListener('click', () => { idx += 1; (idx >= TUT_STEPS.length) ? endTut() : showStep(); });
+    document.body.appendChild(ov);
+    function endTut() { ov.remove(); try { localStorage.setItem('vt_tut_play', '1'); } catch (e) { /* noop */ } }
+    function showStep() {
+      const step = TUT_STEPS[idx];
+      const el = $(step.sel);
+      if (!el) { endTut(); return; }
+      el.scrollIntoView({ block: 'center', behavior: smooth ? 'smooth' : 'auto' });
+      setTimeout(() => {
+        const r = el.getBoundingClientRect();
+        const pad = 8;
+        const hole = ov.querySelector('.tut-hole');
+        hole.style.cssText = 'top:' + (r.top - pad) + 'px;left:' + (r.left - pad) + 'px;width:' + (r.width + pad * 2) + 'px;height:' + (r.height + pad * 2) + 'px;';
+        const tip = ov.querySelector('.tut-tip');
+        const below = r.top < window.innerHeight * 0.5;
+        tip.innerHTML =
+          '<div class="tt-fig">' + M('point', 66) + '</div>' +
+          '<div class="tt-bubble">' + step.text +
+          '<div class="tt-foot"><span class="tt-dots">' + TUT_STEPS.map((_, j) => '<i' + (j === idx ? ' class="on"' : '') + '></i>').join('') + '</span>' +
+          '<span class="tt-next">' + (idx === TUT_STEPS.length - 1 ? 'はじめる' : 'つぎへ') + ' →</span></div></div>';
+        tip.classList.toggle('below', below);
+        tip.style.top = below ? (r.bottom + 14) + 'px' : '';
+        tip.style.bottom = below ? '' : (window.innerHeight - r.top + 14) + 'px';
+      }, smooth ? 340 : 20);
+    }
+    showStep();
+  }
 
   // パチンコ風カットイン: 住人帰宅！→ぐい→逃走（張り込み開始直後にランダム発生）
   // ボタンを押すまで表示し、押したらこのターンは終了して次のプレイヤーへ

@@ -184,6 +184,26 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .combo-pill .icon { width: 15px; height: 15px; }
 .play-head .room-chip { font-size: 15px; font-weight: 900; color: var(--green-t); background: var(--green-l); border-radius: 999px; padding: 4px 14px; font-variant-numeric: tabular-nums; }
 
+/* 捜査画面のゴール（常時表示） */
+.play-goal { display: flex; align-items: center; gap: 8px; background: linear-gradient(180deg, #f3ffe8, #eafbdc); border: 2px solid #cdeeae; border-radius: 14px; padding: 8px 12px 8px 6px; margin-bottom: 12px; }
+.play-goal .pg-fig { flex: none; width: 54px; height: 54px; }
+.play-goal .pg-txt { font-size: 12.5px; font-weight: 700; line-height: 1.5; color: var(--green-t); }
+.play-goal .pg-txt b { font-weight: 900; color: var(--text); }
+
+/* 初回チュートリアル（スポットライト） */
+.tut-back { position: fixed; inset: 0; z-index: 200; cursor: pointer; }
+.tut-hole { position: absolute; border-radius: 16px; box-shadow: 0 0 0 9999px rgba(20, 26, 40, .68); border: 3px solid var(--green); transition: all .28s cubic-bezier(.4, .1, .2, 1); pointer-events: none; }
+.tut-tip { position: absolute; left: 50%; transform: translateX(-50%); width: min(360px, 90vw); display: flex; align-items: flex-end; gap: 4px; pointer-events: none; }
+.tut-tip .tt-fig { flex: none; width: 66px; height: 66px; animation: bob 2.4s ease-in-out infinite; }
+.tut-tip .tt-bubble { position: relative; flex: 1; background: #fff; border-radius: 16px; padding: 12px 14px; font-size: 14px; font-weight: 800; line-height: 1.6; box-shadow: 0 8px 24px rgba(0, 0, 0, .3); animation: popIn .3s cubic-bezier(.34, 1.56, .64, 1); }
+.tut-tip .tt-bubble b { color: var(--green-t); }
+.tut-tip .tt-bubble::before { content: ''; position: absolute; left: -8px; bottom: 16px; width: 14px; height: 14px; background: #fff; transform: rotate(45deg); }
+.tut-tip .tt-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 9px; }
+.tut-tip .tt-dots { display: flex; gap: 5px; }
+.tut-tip .tt-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--border); }
+.tut-tip .tt-dots i.on { background: var(--green); width: 18px; border-radius: 4px; }
+.tut-tip .tt-next { font-size: 12.5px; font-weight: 900; color: var(--green-t); }
+
 /* ベランダシーン */
 .scene-box { position: relative; border: 2px solid var(--border); border-bottom-width: 4px; border-radius: var(--radius); overflow: hidden; background: #fff; }
 .scene-box svg { display: block; width: 100%; height: auto; }
