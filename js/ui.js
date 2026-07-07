@@ -250,13 +250,13 @@
     setTimeout(() => S.sfx('drink'), 700);
     let drinkText, btnText;
     if (r.pattern === 'right') {
-      drinkText = 'とばっちり！右隣の ' + esc(r.drinkers[0].name) + ' が一口';
+      drinkText = 'とばっちり！右隣のプレイヤーが一口';
       btnText = '隣が飲んだら逃走';
     } else if (r.pattern === 'left') {
-      drinkText = 'とばっちり！左隣の ' + esc(r.drinkers[0].name) + ' が一口';
+      drinkText = 'とばっちり！左隣のプレイヤーが一口';
       btnText = '隣が飲んだら逃走';
     } else if (r.pattern === 'all') {
-      drinkText = 'もらい事故！' + esc(r.player.name) + ' 以外の全員が一口';
+      drinkText = 'もらい事故！本人以外の全員が一口';
       btnText = '全員飲んだら逃走';
     } else {
       drinkText = esc(r.player.name) + ' は動揺で一口';
