@@ -156,10 +156,9 @@
     $('#scr-play').innerHTML =
       '<div class="prog"><div class="prog-fill' + (s.combo >= 3 ? ' hot' : '') + '" style="width:' + Math.max(pct, 4) + '%"></div></div>' +
       '<div class="play-guide">' +
-      '<div class="pg-fig">' + M('point', 56) + '</div>' +
-      '<div class="pg-body">' +
       '<div class="pg-turn">' + I('user') + '<b>' + esc(name) + '</b>の番' +
       (s.combo >= 2 ? '<span class="combo-pill">' + I('star') + s.combo + 'コンボ中</span>' : '') + '</div>' +
+      '<div class="pg-main"><div class="pg-fig">' + M('point', 56) + '</div>' +
       '<div class="pg-txt"><span class="pg-room">' + t.room + '号室</span>の住人はだれ？<br>ベランダのヒントを見て、下の<b>容疑者</b>から当てよう。</div>' +
       '</div></div>' +
       '<div class="suspect-strip" id="suspects">' +

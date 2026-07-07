@@ -188,10 +188,11 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .turn-badge .icon { width: 17px; height: 17px; color: var(--blue); }
 
 /* 捜査画面のゴール（常時表示） */
-.play-guide { display: flex; align-items: center; gap: 9px; background: linear-gradient(180deg, #f3ffe8, #eafbdc); border: 2px solid #cdeeae; border-radius: 16px; padding: 9px 13px 9px 8px; margin-bottom: 12px; }
+.play-guide { display: flex; flex-direction: column; gap: 7px; background: linear-gradient(180deg, #f3ffe8, #eafbdc); border: 2px solid #cdeeae; border-radius: 16px; padding: 10px 13px 11px; margin-bottom: 12px; }
+.play-guide .pg-main { display: flex; align-items: center; gap: 9px; }
 .play-guide .pg-fig { flex: none; width: 56px; height: 56px; }
-.play-guide .pg-body { flex: 1; min-width: 0; }
-.play-guide .pg-turn { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; color: var(--blue-d); background: #fff; border-radius: 999px; padding: 3px 11px; margin-bottom: 5px; }
+.play-guide .pg-txt { flex: 1; min-width: 0; }
+.play-guide .pg-turn { align-self: flex-start; display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; color: var(--blue-d); background: #fff; border-radius: 999px; padding: 3px 11px; }
 .play-guide .pg-turn b { font-weight: 900; }
 .play-guide .pg-turn .icon { width: 14px; height: 14px; color: var(--blue); }
 .play-guide .pg-turn .combo-pill { margin-left: 5px; }
