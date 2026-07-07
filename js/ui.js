@@ -22,6 +22,7 @@
   const cfg = { players: ['プレイヤー1', 'プレイヤー2'], rounds: 3, mansionId: null };
   let confOn = false;
   let timerInt = null;
+  let timerLeft = 0;
 
   /* ---- ゲーム設定（localStorage永続・ロジックに反映） ---- */
   const CFG_DEFAULT = { ambush: 0.18, post: 0.5, secret: 0.03 };
@@ -482,23 +483,33 @@
       '<div class="panic-txt">住人が帰ってきた！！</div>' +
       '<div class="panic-sub">10秒以内に回答しろ！</div></div>';
     document.body.appendChild(ov);
-    setTimeout(() => { ov.remove(); startTimer(10); UI.openAnswer(true); }, 1600);
+    setTimeout(() => { ov.remove(); startTimer(10); UI.openAnswer(true); drawTimer(); }, 1600);
+  }
+  // カウントダウン表示: 回答シートを開いている間は大きなバナー、無ければ上部ピル
+  function drawTimer() {
+    const cd = $('#answerCountdown');
+    const ov = $('#timer-overlay');
+    if (cd) {
+      cd.innerHTML = I('clock') + '<span>住人帰宅中！ のこり<b>' + timerLeft + '</b>秒で回答！</span>';
+      cd.classList.toggle('urgent', timerLeft <= 3);
+      if (ov) ov.classList.add('hidden');
+    } else if (ov) {
+      ov.classList.remove('hidden');
+      ov.innerHTML = '<div class="timer-pill">' + I('clock') + '残り ' + timerLeft + ' 秒</div>';
+    }
   }
   function startTimer(sec) {
-    let left = sec;
-    const ov = $('#timer-overlay');
-    ov.classList.remove('hidden');
-    const draw = () => { ov.innerHTML = '<div class="timer-pill">' + I('clock') + '残り ' + left + ' 秒</div>'; };
-    draw();
+    timerLeft = sec;
+    drawTimer();
     S.sfx('tick');
     timerInt = setInterval(() => {
-      left -= 1;
-      if (left <= 0) {
+      timerLeft -= 1;
+      if (timerLeft <= 0) {
         stopTimer();
         S.sfx('timeup');
         const r = G.timeout();
         if (r) renderReveal(r);
-      } else { draw(); S.sfx('tick'); }
+      } else { drawTimer(); S.sfx('tick'); }
     }, 1000);
   }
   function stopTimer() {
@@ -513,13 +524,15 @@
     const t = G.state.turn;
     if (!t || t.done) return;
     confOn = false;
+    const timed = forced || t.timered;
     const abc = ['A', 'B', 'C', 'D', 'E', 'F'];
     const back = document.createElement('div');
     back.className = 'answer-back';
     back.id = 'answer-back';
     back.innerHTML =
-      '<div class="answer-sheet">' +
+      '<div class="answer-sheet' + (timed ? ' timed' : '') + '">' +
       '<div class="handle"></div>' +
+      (timed ? '<div class="answer-countdown" id="answerCountdown">' + I('clock') + '<span>住人帰宅中！ のこり<b>' + timerLeft + '</b>秒で回答！</span></div>' : '') +
       '<h2>' + t.room + '号室の住人は？</h2>' +
       t.choices.map((c, i) =>
         '<button class="choice" onclick="UI.choose(' + i + ')">' +

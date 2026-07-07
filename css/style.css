@@ -319,6 +319,10 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 @keyframes sheetUp { from { transform: translateY(60%); } to { transform: translateY(0); } }
 .answer-sheet .handle { width: 42px; height: 5px; border-radius: 3px; background: var(--border); margin: 0 auto 12px; }
 .answer-sheet h2 { font-size: 18px; font-weight: 900; text-align: center; margin-bottom: 14px; }
+.answer-countdown { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--red); color: #fff; font-weight: 900; font-size: 15px; border-radius: 14px; padding: 10px 14px; margin-bottom: 12px; box-shadow: 0 4px 0 var(--red-d); }
+.answer-countdown .icon { width: 20px; height: 20px; flex: none; }
+.answer-countdown b { font-size: 21px; font-variant-numeric: tabular-nums; margin: 0 1px; }
+.answer-countdown.urgent { animation: pulseT .5s ease-in-out infinite; }
 .choice {
   display: flex; align-items: center; gap: 12px; width: 100%;
   background: #fff; border: 2px solid var(--border); border-bottom-width: 4px; border-radius: 16px;
