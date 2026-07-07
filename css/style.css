@@ -49,9 +49,9 @@ input, textarea { user-select: text; -webkit-user-select: text; }
   font: inherit; font-size: 17px; font-weight: 900; letter-spacing: .08em;
   color: #fff; background: var(--green);
   box-shadow: 0 4px 0 var(--green-d);
-  cursor: pointer; transition: transform .1s ease, box-shadow .1s ease;
+  cursor: pointer; transition: transform .24s cubic-bezier(.34, 1.56, .64, 1), box-shadow .12s ease;
 }
-.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--green-d); }
+.btn:active { transform: translateY(3px) scaleY(.9) scaleX(1.02); transform-origin: center bottom; box-shadow: 0 1px 0 var(--green-d); transition: transform .05s ease-out; }
 .btn:disabled { background: #e5e5e5; color: #afafaf; box-shadow: 0 4px 0 #d8d8d8; pointer-events: none; }
 .btn.ghost { background: #fff; color: var(--blue); border: 2px solid var(--border); box-shadow: 0 4px 0 var(--border); }
 .btn.ghost:active { box-shadow: 0 1px 0 var(--border); }
@@ -391,11 +391,11 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .result-banner .inner { max-width: 394px; margin: 0 auto; text-align: left; }
 .result-banner.ok { background: var(--green-l); }
 .result-banner.ng { background: var(--red-l); }
-.result-banner h3 { display: flex; align-items: center; gap: 11px; font-size: 46px; font-weight: 900; margin-bottom: 10px; line-height: 1.08; }
+.result-banner h3 { display: flex; align-items: center; gap: 11px; font-size: 46px; font-weight: 900; margin-bottom: 10px; line-height: 1.08; transform-origin: left center; animation: verdictPop .42s cubic-bezier(.34, 1.56, .64, 1) .12s both; }
 .result-banner h3 .icon { width: 42px; height: 42px; stroke-width: 2.6; }
 .result-banner.ok h3 { color: var(--green-t); }
 .result-banner.ng h3 { color: var(--red-t); }
-.result-banner .drink { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 900; }
+.result-banner .drink { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 900; transform-origin: left center; animation: verdictPop .4s cubic-bezier(.34, 1.56, .64, 1) .26s both; }
 .result-banner .drink .icon { width: 28px; height: 28px; }
 .result-banner.ok .drink { color: var(--green-t); }
 .result-banner.ng .drink { color: var(--red-t); }
@@ -406,6 +406,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .result-banner .btn { margin-top: 20px; min-height: 62px; font-size: 19px; }
 .result-banner.ok .btn { background: var(--green); box-shadow: 0 4px 0 var(--green-d); }
 .result-banner.ng .btn { background: var(--red); box-shadow: 0 4px 0 var(--red-d); }
+@keyframes verdictPop { 0% { transform: scale(.55); opacity: 0; } 62% { transform: scale(1.12); opacity: 1; } 100% { transform: scale(1); } }
 
 /* ---------- 最終結果 ---------- */
 #scr-final { text-align: center; }
@@ -502,5 +503,5 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 
 /* ---------- motion pref ---------- */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
