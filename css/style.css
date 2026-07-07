@@ -183,12 +183,16 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .combo-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 900; color: #b57800; background: #fff1c8; border-radius: 999px; padding: 3px 12px; }
 .combo-pill .icon { width: 15px; height: 15px; }
 .play-head .room-chip { font-size: 15px; font-weight: 900; color: var(--green-t); background: var(--green-l); border-radius: 999px; padding: 4px 14px; font-variant-numeric: tabular-nums; }
+.turn-badge { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 700; color: var(--text2); background: var(--blue-l); border-radius: 999px; padding: 6px 15px 6px 12px; }
+.turn-badge b { font-weight: 900; color: var(--blue-d); }
+.turn-badge .icon { width: 17px; height: 17px; color: var(--blue); }
 
 /* 捜査画面のゴール（常時表示） */
 .play-goal { display: flex; align-items: center; gap: 8px; background: linear-gradient(180deg, #f3ffe8, #eafbdc); border: 2px solid #cdeeae; border-radius: 14px; padding: 8px 12px 8px 6px; margin-bottom: 12px; }
 .play-goal .pg-fig { flex: none; width: 54px; height: 54px; }
 .play-goal .pg-txt { font-size: 12.5px; font-weight: 700; line-height: 1.5; color: var(--green-t); }
 .play-goal .pg-txt b { font-weight: 900; color: var(--text); }
+.play-goal .pg-room { font-weight: 900; color: var(--green-t); background: rgba(88, 204, 2, .16); border-radius: 6px; padding: 1px 7px; }
 
 /* 初回チュートリアル（スポットライト） */
 .tut-back { position: fixed; inset: 0; z-index: 200; cursor: pointer; }

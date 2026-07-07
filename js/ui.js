@@ -156,12 +156,11 @@
     $('#scr-play').innerHTML =
       '<div class="prog"><div class="prog-fill' + (s.combo >= 3 ? ' hot' : '') + '" style="width:' + Math.max(pct, 4) + '%"></div></div>' +
       '<div class="play-head">' +
-      '<div class="who">' + I('user') + esc(name) + '</div>' +
+      '<div class="turn-badge">' + I('user') + '<b>' + esc(name) + '</b>の番</div>' +
       (s.combo >= 2 ? '<span class="combo-pill">' + I('star') + s.combo + 'コンボ中</span>' : '') +
-      '<div class="room-chip">' + t.room + '号室</div>' +
       '</div>' +
-      '<div class="play-goal"><div class="pg-fig">' + M('point', 54) + '</div>' +
-      '<div class="pg-txt"><b>' + t.room + '号室の住人はだれ？</b><br>ベランダのヒントを見て、下の<b>容疑者</b>から当てよう。</div></div>' +
+      '<div class="play-goal"><div class="pg-fig">' + M('point', 56) + '</div>' +
+      '<div class="pg-txt"><span class="pg-room">' + t.room + '号室</span>の住人はだれ？<br>ベランダのヒントを見て、下の<b>容疑者</b>から当てよう。</div></div>' +
       '<div class="suspect-strip" id="suspects">' +
       t.choices.map((c) =>
         '<button class="suspect-mini" onclick="UI.openAnswer()"><span class="sm-av">' + AV(c.id, 32) + '</span><span class="sm-nm">' + c.name + '</span></button>').join('') +
