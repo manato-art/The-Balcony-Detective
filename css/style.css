@@ -390,10 +390,12 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .result-banner .inner { max-width: 394px; margin: 0 auto; text-align: left; }
 .result-banner.ok { background: var(--green-l); }
 .result-banner.ng { background: var(--red-l); }
-.result-banner h3 { display: flex; align-items: center; gap: 8px; font-size: 24px; font-weight: 900; margin-bottom: 4px; }
+.result-banner h3 { display: flex; align-items: center; gap: 9px; font-size: 32px; font-weight: 900; margin-bottom: 6px; line-height: 1.1; }
+.result-banner h3 .icon { width: 30px; height: 30px; stroke-width: 2.6; }
 .result-banner.ok h3 { color: var(--green-t); }
 .result-banner.ng h3 { color: var(--red-t); }
-.result-banner .drink { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 900; }
+.result-banner .drink { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 900; }
+.result-banner .drink .icon { width: 22px; height: 22px; }
 .result-banner.ok .drink { color: var(--green-t); }
 .result-banner.ng .drink { color: var(--red-t); }
 .result-banner .pts { font-size: 13px; font-weight: 800; margin-top: 2px; }
