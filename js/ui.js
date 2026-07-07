@@ -186,6 +186,9 @@
     newScene(t, s);
     renderScene();
     show('play');
+    // 初回アカウントの最初のターン(turnNo 0)は、ガイド保護のため帰宅ハプニングを必ず抑制。
+    // 2ターン目以降は通常どおり設定の確率で出現する。
+    if (s.turnNo === 0 && playGuidePending()) t.ambush = false;
     if (t.ambush && !t.ambushDone) setTimeout(showAmbush, 750);
     else setTimeout(maybeTutorial, 400);
   };
@@ -203,6 +206,10 @@
   ];
   function maybeTutorial() { runTutorial(TUT_STEPS, 'vt_tut_play'); }
   function maybeSetupTutorial() { runTutorial(SETUP_STEPS, 'vt_tut_setup'); }
+  // 初回プレイガイド(vt_tut_play)が未表示か＝「初めて遊ぶアカウント」か。
+  function playGuidePending() {
+    try { return !localStorage.getItem('vt_tut_play'); } catch (e) { return false; }
+  }
   function runTutorial(steps, key) {
     try { if (localStorage.getItem(key)) return; } catch (e) { return; }
     if (!$(steps[0].sel)) return;
