@@ -198,6 +198,12 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .play-guide .pg-turn .combo-pill { margin-left: 5px; }
 .play-guide .pg-txt { font-size: 12.5px; font-weight: 700; line-height: 1.5; color: var(--green-t); }
 .play-guide .pg-txt b { font-weight: 900; color: var(--text); }
+.play-guide .pg-mansion { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; font-size: 11.5px; line-height: 1.4; margin-bottom: 3px; }
+.play-guide .pg-mansion .icon { width: 15px; height: 15px; color: var(--mc); flex: none; }
+.play-guide .pg-mansion b { font-weight: 900; color: var(--mc); }
+.play-guide .pg-mansion small { font-weight: 700; font-size: 10.5px; color: var(--text2); }
+.play-guide .pg-q { font-size: 14px; font-weight: 900; color: var(--text); line-height: 1.4; }
+.play-guide .pg-instr { font-size: 11.5px; font-weight: 700; color: var(--green-t); line-height: 1.45; margin-top: 2px; }
 .play-guide .pg-room { font-weight: 900; color: var(--green-t); background: rgba(88, 204, 2, .16); border-radius: 6px; padding: 1px 7px; }
 
 /* 初回チュートリアル（スポットライト） */

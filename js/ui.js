@@ -148,6 +148,8 @@
   function actionRisk(a) {
     return a.k === 'post' ? '発覚' + Math.round(gameCfg.post * 100) + '%' : a.risk;
   }
+  // マンションaccent→表示色（タイプの識別用）
+  const MANSION_COLOR = { amber: '#d99a00', cyan: '#1899d6', pink: '#e0559f', purple: '#a855f7', green: '#46a302' };
   UI.goPlay = function () {
     const t = G.state.turn;
     const s = G.state;
@@ -159,8 +161,11 @@
       '<div class="pg-turn">' + I('user') + '<b>' + esc(name) + '</b>の番' +
       (s.combo >= 2 ? '<span class="combo-pill">' + I('star') + s.combo + 'コンボ中</span>' : '') + '</div>' +
       '<div class="pg-main"><div class="pg-fig">' + M('point', 56) + '</div>' +
-      '<div class="pg-txt"><span class="pg-room">' + t.room + '号室</span>の住人はだれ？<br>ベランダのヒントを見て、下の<b>容疑者</b>から当てよう。</div>' +
-      '</div></div>' +
+      '<div class="pg-txt">' +
+      '<div class="pg-mansion" style="--mc:' + (MANSION_COLOR[s.mansion.accent] || '#5b6675') + '">' + I(s.mansion.icon) + '<b>' + s.mansion.name + '</b><small>' + s.mansion.desc + '</small></div>' +
+      '<div class="pg-q"><span class="pg-room">' + t.room + '号室</span>の住人はだれ？</div>' +
+      '<div class="pg-instr">ベランダのヒントを見て、下の<b>容疑者</b>から当てよう。</div>' +
+      '</div></div></div>' +
       '<div class="suspect-strip" id="suspects">' +
       t.choices.map((c) =>
         '<button class="suspect-mini" onclick="UI.openAnswer()"><span class="sm-av">' + AV(c.id, 32) + '</span><span class="sm-nm">' + c.name + '</span></button>').join('') +
