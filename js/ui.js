@@ -164,7 +164,7 @@
       '<div class="pg-txt">' +
       '<div class="pg-mansion" style="--mc:' + (MANSION_COLOR[s.mansion.accent] || '#5b6675') + '">' + I(s.mansion.icon) + '<b>' + s.mansion.name + '</b><small>' + s.mansion.desc + '</small></div>' +
       '<div class="pg-q"><span class="pg-room">' + t.room + '号室</span>の住人はだれ？</div>' +
-      '<div class="pg-instr">ベランダのヒントを見て、下の<b>容疑者</b>から当てよう。</div>' +
+      '<div class="pg-instr">ベランダの様子から、下の<b>住人</b>を当てよう！</div>' +
       '</div></div></div>' +
       '<div class="suspect-strip" id="suspects">' +
       t.choices.map((c) =>
