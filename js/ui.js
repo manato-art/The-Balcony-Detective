@@ -73,13 +73,16 @@
   function renderSetup() {
     const rows = cfg.players.map((p, i) =>
       '<div class="player-row">' +
+      '<div class="pinput">' +
       '<input type="text" maxlength="10" placeholder="プレイヤー' + (i + 1) + '" value="' + esc(p) + '" onfocus="var i=this;setTimeout(function(){i.select()},0)" oninput="UI.setName(' + i + ', this.value)">' +
+      '<span class="pcount' + (p.length >= 10 ? ' max' : '') + '" id="pcount-' + i + '">' + p.length + '/10</span>' +
+      '</div>' +
       (cfg.players.length > 1 ? '<button class="del" aria-label="削除" onclick="UI.delPlayer(' + i + ')">' + I('x') + '</button>' : '') +
       '</div>').join('');
     $('#scr-setup').innerHTML =
       '<div class="head"><button class="back" aria-label="戻る" onclick="UI.goTitle()">' + I('arrow') + '</button><h1>捜査メンバー</h1></div>' +
       bubbleRow('point', 92, '一緒に張り込むメンバーを教えて！') +
-      '<div class="section-label">プレイヤー名（1〜8人）</div>' +
+      '<div class="section-label">プレイヤー名（1〜8人・各10文字まで）</div>' +
       '<div id="playerList">' + rows + '</div>' +
       (cfg.players.length < 8 ? '<button class="add-row" onclick="UI.addPlayer()">' + I('user') + 'プレイヤーを追加</button>' : '') +
       '<div class="section-label">1人あたりの回数</div>' +
@@ -91,7 +94,11 @@
       '<div class="foot"><button class="btn" onclick="UI.startGame()">' + I('search') + '捜査開始</button></div>';
   }
   UI.goTitle = function () { show('title'); };
-  UI.setName = function (i, v) { cfg.players[i] = v; };
+  UI.setName = function (i, v) {
+    cfg.players[i] = v;
+    const c = document.getElementById('pcount-' + i);
+    if (c) { c.textContent = v.length + '/10'; c.classList.toggle('max', v.length >= 10); }
+  };
   UI.addPlayer = function () { if (cfg.players.length < 8) { cfg.players.push('プレイヤー' + (cfg.players.length + 1)); renderSetup(); } };
   UI.delPlayer = function (i) { if (cfg.players.length > 1) { cfg.players.splice(i, 1); renderSetup(); } };
   UI.setRounds = function (d) { cfg.rounds = Math.min(5, Math.max(1, cfg.rounds + d)); renderSetup(); };
@@ -137,6 +144,10 @@
     { k: 'wait', icon: 'clock', nm: '待つ', risk: '？？？' },
     { k: 'neighbor', icon: 'chat', nm: '聞き込み', risk: '嘘かも' },
   ];
+  // ポストの発覚率ラベルはゲーム設定に追従（他は固定）
+  function actionRisk(a) {
+    return a.k === 'post' ? '発覚' + Math.round(gameCfg.post * 100) + '%' : a.risk;
+  }
   UI.goPlay = function () {
     const t = G.state.turn;
     const s = G.state;
@@ -155,7 +166,7 @@
       '<div class="action-grid" id="actions">' +
       ACTIONS.map((a) =>
         '<button class="action-card a-' + a.k + '" id="act-' + a.k + '" onclick="UI.act(\'' + a.k + '\')">' +
-        I(a.icon) + '<div class="nm">' + a.nm + '</div><div class="risk">' + a.risk + '</div></button>').join('') +
+        I(a.icon) + '<div class="nm">' + a.nm + '</div><div class="risk">' + actionRisk(a) + '</div></button>').join('') +
       '</div>' +
       '<div class="section-label">捜査ログ</div>' +
       '<div class="log" id="log"><div class="log-line">' + t.room + '号室の張り込みを開始した。</div></div>' +
@@ -386,7 +397,7 @@
       S.sfx('warn');
       vibrate([60]);
       const r = document.querySelector('#act-post .risk');
-      if (r) r.textContent = '発覚80%!';
+      if (r) r.textContent = '発覚' + Math.round(Math.min(gameCfg.post + 0.3, 0.95) * 100) + '%!';
     } else if (ev.type === 'rain') {
       addLog(ev.text, 'warn');
       S.sfx('warn');
