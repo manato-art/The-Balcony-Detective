@@ -28,26 +28,22 @@ export const itemPrompt = (desc) =>
 
 // ベランダ画角はそのまま（balconyPromptと同じ壁・戸・床・物干し竿）で、真ん中のガラス戸のカーテンだけが開いて奥に室内が見える版。
 export const roomPrompt = (wallVibe, roomHint) =>
-  `${FLAT_STYLE} A close-up head-on view of the INSIDE of an apartment balcony, filling the entire frame edge to edge, ` +
-  `as if standing right at the balcony and looking straight at the wall. ${wallVibe} ` +
-  `Show the apartment back wall with a large sliding glass door in the middle, and the balcony floor as a clear flat strip along the bottom. ` +
-  `A horizontal metal clothesline pole runs across the upper part. ` +
+  `${FLAT_STYLE} A FLAT, head-on view of an apartment balcony, filling the frame edge to edge, composed like a flat stage backdrop for a 2D side-scroller game — NOT a boxed-in room. ${wallVibe} ` +
+  `Show only the apartment back wall facing the viewer flat-on with a large sliding glass door in the middle, a horizontal metal clothesline pole across the upper part, and the balcony floor as a flat strip along the very bottom. ` +
   `The door's curtains are pulled fully OPEN and tied back to the far left and right sides of the doorway, ` +
   `so through the open glass door you can clearly see the cozy room inside: ${roomHint}, a warm lamp glowing and inviting light spilling out. ` +
-  `Keep the exact same balcony framing and camera angle as a normal balcony view — only the curtains are open and the room is visible through the door. ` +
-  `Absolutely NO front safety railing or guard fence, NO sky, NO outdoor scenery, NO trees, NO city view, NO horizon — ` +
-  `only the balcony wall, the open glass door revealing the room inside, and the floor fill the whole image up close. ` +
-  `Empty stage: no people, no laundry, no objects on the balcony floor. Simple flat shapes, warm flat colors, no text, no signs.`;
+  `Keep it FLAT and open: do NOT draw balcony side walls, a ceiling, room corners, converging perspective, or an enclosed alcove — only the room seen through the doorway may show a hint of depth. ` +
+  `Absolutely NO front railing or guard fence, NO sky, NO outdoor scenery, NO trees, NO city view, NO horizon. ` +
+  `Empty balcony stage: no people, no laundry, no objects on the balcony floor. Simple flat shapes, warm flat colors, no text, no signs.`;
 
 export const facadePrompt = (vibe) =>
   `${FLAT_STYLE} A cute simple front view of a small multi-story apartment building exterior with about four floors and a few windows and small balconies per floor, ${vibe}. ` +
   `Show the whole building facade straight from the front, centered, standing on a bit of ground with a plain simple sky behind. Simple flat shapes, warm flat colors, no text, no signs.`;
 
 export const balconyPrompt = (vibe) =>
-  `${FLAT_STYLE} A close-up head-on view of the INSIDE of an apartment balcony, filling the entire frame edge to edge, ` +
-  `as if standing right at the balcony and looking straight at the wall. ${vibe} ` +
-  `Show the apartment back wall with a sliding glass door or window and a curtain, and the balcony floor as a clear flat strip along the bottom. ` +
-  `A horizontal metal clothesline pole runs across the upper part for hanging laundry. ` +
-  `Absolutely NO front safety railing or guard fence, NO sky, NO outdoor scenery, NO trees, NO city view, NO horizon — ` +
-  `only the balcony wall, door and floor fill the whole image up close. ` +
+  `${FLAT_STYLE} A FLAT, head-on view of an apartment balcony, filling the frame edge to edge, composed like a flat stage backdrop for a 2D side-scroller game — NOT a boxed-in room. ${vibe} ` +
+  `Show only the apartment back wall facing the viewer flat-on (a sliding glass door and a curtain are set into it), a horizontal metal clothesline pole across the upper part for hanging laundry, and the balcony floor as a flat strip along the very bottom. ` +
+  `Keep it FLAT and open: do NOT draw side walls, a ceiling, room corners, converging perspective, or an enclosed alcove — it must not look like standing inside a box. ` +
+  `Give this mansion its OWN distinct look (wall material & color, door style, floor, and mood should clearly differ from other mansions and match the building's class). ` +
+  `Absolutely NO front railing or guard fence, NO sky, NO outdoor scenery, NO trees, NO city view, NO horizon. ` +
   `Empty stage: no people, no laundry, no objects on the floor. Simple flat shapes, warm flat colors, no text, no signs.`;

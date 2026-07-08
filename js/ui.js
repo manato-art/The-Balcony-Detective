@@ -395,7 +395,8 @@
       scene.curtainClosed = true;
       return;
     }
-    const variant = window.VT_classify(label, kind);
+    // 各ヒント文の専用イラスト(VT_HINT_ART)を最優先。無ければ従来の classify にフォールバック。
+    const variant = (window.VT_HINT_ART && window.VT_HINT_ART[label]) || window.VT_classify(label, kind);
     const vkey = variant || kind;
     // 同じ見た目のアイテムは重複させない（中身が違っても同フォルムなら1つだけ表示）
     if (scene.items.some((it) => (it.variant || it.kind) === vkey)) return;
@@ -686,11 +687,12 @@
     (window.VT_RESIDENTS || []).forEach((r) => {
       r.hints.concat(r.strong).forEach((h) => {
         if (h[1] === 'curtain') return;
-        const v = window.VT_classify(h[0], h[1]);
+        // シーン(pushItem)と同じ優先順位: 専用イラスト(HINT_ART) → classify。図鑑の解錠キーと表示を一致させる。
+        const v = (window.VT_HINT_ART && window.VT_HINT_ART[h[0]]) || window.VT_classify(h[0], h[1]);
         const key = v ? 'v:' + v : 'k:' + h[1];
         if (seen[key]) return;
         seen[key] = true;
-        list.push({ key, spec: v ? { kind: h[1], variant: v } : { kind: h[1] }, label: h[0], color: HC(h[0], h[1]) });
+        list.push({ key, spec: v ? { kind: h[1], variant: v } : { kind: h[1] }, slug: v || h[1], label: h[0], color: HC(h[0], h[1]) });
       });
     });
     (window.VT_SECRET_ITEMS || []).forEach((s) => {
@@ -707,8 +709,9 @@
       prog = 'アイテム発見 ' + got + ' / ' + cat.length;
       gridHtml = cat.map((c) => {
         const ok = D.itemCount(c.key) > 0;
+        const slug = c.slug || c.spec.variant || c.spec.kind;
         return '<div class="dex-tile' + (ok ? '' : ' locked') + (c.secret ? ' secret' : '') + '">' +
-          window.VT_itemSVG(c.spec, c.color, 52) +
+          '<div class="di"><img src="assets/items/' + slug + '.webp" alt="" onerror="this.style.visibility=\'hidden\'"></div>' +
           '<div class="dnm">' + (ok ? c.label : '？？？') + '</div>' +
           (c.secret ? '<div class="dsec">SECRET</div>' : '') +
           '</div>';

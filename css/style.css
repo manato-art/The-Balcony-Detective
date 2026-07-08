@@ -519,6 +519,9 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .dex-tile .dnm { font-size: 9.5px; font-weight: 800; line-height: 1.3; margin-top: 4px; overflow: hidden; }
 .dex-tile .dct { font-size: 8.5px; color: var(--text2); font-weight: 700; margin-top: 1px; }
 .dex-tile.locked svg { filter: brightness(0) opacity(.13); }
+.dex-tile .di { height: 52px; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+.dex-tile .di img { max-height: 52px; max-width: 92%; height: auto; }
+.dex-tile.locked .di img { filter: brightness(0) opacity(.13); }
 .dex-tile.locked .dnm { color: #aab4c4; }
 .dex-tile.secret { border-color: var(--gold); background: #fffaf0; }
 .dex-tile.secret .dsec { font-size: 8px; color: #b57800; font-weight: 900; letter-spacing: .12em; margin-top: 1px; }

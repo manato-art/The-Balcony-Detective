@@ -200,17 +200,18 @@ const manifest = [];
 for (const [id, look] of Object.entries(CHAR_LOOKS))
   manifest.push({ id, dir: 'chars', size: '1024x1024', transparent: false, prompt: charPrompt(look) });
 // ベランダは近接・柵なし・背景/風景なしの専用vibe（外観facadeとは別。壁の質感だけ描写）
+// マンションの格が一目で分かるよう、壁材・色 / 戸のスタイル / 床 / 雰囲気まで描き分ける。
 const BALCONY_VIBES = {
-  boro: "The walls are shabby, cracked and worn, a cheap dim old apartment.",
-  gakusei: "The walls are plain, simple and basic, a cheap student apartment.",
-  hankagai: "The walls have a slightly gaudy nightlife feel with soft colorful neon light, an urban night mood.",
-  tawaman: "The walls are sleek, modern and luxurious with a big clean glass door, upscale.",
-  kogai: "The walls are cozy, warm and homey with a cheerful family feel.",
-  designers: "The walls are exposed grey concrete, minimalist and stylish, cool-toned.",
-  shataku: "The walls are plain functional pale concrete, a retro danchi apartment feel.",
-  koukyu: "The walls are elegant and refined cream, tasteful and quietly upscale.",
-  zakkyo: "The walls are grimy, worn and run-down, a shady moody dim apartment.",
-  resort: "The walls are light sandy and airy with a warm breezy tropical resort feel.",
+  boro: "Shabby cheap old apartment: a cracked stained beige plaster wall, an old worn wooden-framed sliding door with a faded plain curtain, a scuffed grey concrete floor, dim and run-down.",
+  gakusei: "Cheap student apartment: a plain flat white wall, a basic thin aluminium-framed sliding door with a cheap plain curtain, a plain pale vinyl floor, bare and casual.",
+  hankagai: "Flashy nightlife apartment: a dark wall glowing with soft pink and purple neon reflections, a glass door with a gaudy shiny curtain, a dark glossy floor, moody urban night mood.",
+  tawaman: "High-end luxury tower: a sleek refined white wall, a big elegant floor-to-ceiling glass sliding door with a clean slim white frame and a tasteful sheer curtain, a glossy pale marble-look floor, bright airy and clearly upscale.",
+  kogai: "Cozy suburban family home: a warm cream wall, a homey wooden sliding door with a cheerful gingham patterned curtain, a warm honey-wood floor, bright and welcoming.",
+  designers: "Stylish designer flat: an exposed grey concrete wall, a sleek black-framed glass door with a minimalist grey curtain, a polished concrete floor, cool-toned and chic.",
+  shataku: "Retro danchi company housing: a plain pale functional concrete wall, a simple dated sliding door with a plain beige curtain, a worn pale-green floor, plain and old-fashioned.",
+  koukyu: "Quietly upscale residence: a refined elegant cream wall with subtle molding, a classy sliding door with a tasteful cream curtain, a warm parquet wood floor, calm and tasteful.",
+  zakkyo: "Grimy shady mixed-use building: a dingy stained grey wall, a grubby old sliding door with a dark heavy curtain, a dirty dim concrete floor, moody and run-down.",
+  resort: "Breezy tropical resort: a light sandy airy wall, a bright open glass door with a light gauzy curtain, a light wooden deck floor, warm sunny and relaxed.",
 };
 const balconies = [];
 for (const [id, vibe] of Object.entries(BALCONY_VIBES))
