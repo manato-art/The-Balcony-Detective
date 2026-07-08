@@ -6,7 +6,7 @@ import sys, os
 import numpy as np
 from PIL import Image, ImageFilter
 DENY = {'calendar','papers','mail','namecards','flyer','resume','manuscript','books','box_dice','cobweb','tarot','ofuda_v',
-        'futon','towel','towel_white','towel_sport','dakimakura'}  # 格子/キルティング等の明るい模様は誤検出源
+        'futon','towel','towel_white','towel_sport','dakimakura','tripod'}  # 格子/キルティング等の明るい模様は誤検出源
 DIR = sys.argv[1]
 for f in sorted(os.listdir(DIR)):
     if not f.endswith('.png'): continue

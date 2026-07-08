@@ -352,10 +352,10 @@
       '<div class="room-chip">' + t.room + '号室</div>' +
       '</div>' +
       '<div class="scene-box" id="sceneBox"><div id="scene"></div><div class="scene-tip" id="sceneTip"></div></div>' +
-      '<div class="final-q">' + t.room + '号室の住人はこの中の誰だ？<br>容疑者をタップで即回答！</div>' +
+      '<div class="final-q">' + t.room + '号室の住人はこの中の誰だ？<br>住人をタップで即回答！</div>' +
       '<div class="suspects">' +
       t.choices.map((c, i) =>
-        '<button class="suspect" onclick="UI.finalChoose(' + i + ')">' + AV(c.id, 34) + '<span>' + c.name + '</span></button>').join('') +
+        '<button class="suspect" onclick="UI.finalChoose(' + i + ')">' + AV(c.id, 56) + '<span>' + c.name + '</span></button>').join('') +
       '</div>';
     renderScene();
     window.scrollTo(0, 0);

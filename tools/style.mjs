@@ -24,7 +24,7 @@ export const charPrompt = (desc) =>
 
 export const itemPrompt = (desc) =>
   `${ITEM_STYLE} A single everyday object drawn as a clean game item icon: ${desc}. ` +
-  `Centered, gentle three-quarter view, soft contact shadow, isolated on a transparent background, no text, no people, no hands.`;
+  `Centered, gentle three-quarter view, isolated on a fully transparent background. NO drop shadow, NO contact shadow, NO ground, NO floor under it. No text, no people, no hands.`;
 
 // ベランダ画角はそのまま（balconyPromptと同じ壁・戸・床・物干し竿）で、真ん中のガラス戸のカーテンだけが開いて奥に室内が見える版。
 export const roomPrompt = (wallVibe, roomHint) =>

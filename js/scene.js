@@ -226,6 +226,7 @@
     [/間接照明|深夜だけ電気/, 'lamp'],  // 照明系ヒント→ランプ（⚠注意板だと意味不明なため）
     [/隕石/, 'meteor', ['alert']],       // 宇宙人: 隕石っぽい石→隕石（⚠板だと意味不明）
     [/アンテナ/, 'antenna', ['alert']],  // 宇宙人: アンテナが3本→アンテナ
+    [/三脚/, 'tripod', ['camera']],      // 三脚→三脚（カメラ絵だと意味が違う）
     // --- 既存 ---
     [/レース/, 'lace'],
     [/ドレス|ワンピース|衣装|ガウン|着物/, 'dress'],
@@ -385,12 +386,12 @@
     suitcase:1.19, surf:1.4, tank:1.1, tapioca:0.5, tarot:0.45, teddy:0.75,
     testtube:0.55, tomato:0.85, towel:1.17, towel_sport:1.17, towel_white:1.12, tricycle:1.6,
     trophy:0.68, tube:1.08, uchiwa:0.58, umbrella:1.05, uwabaki:0.55, wig:0.62,
-    wine:0.85, workwear:1.22, yogamat:1.4,
+    wine:0.85, workwear:1.22, yogamat:1.4, tripod:1.35,
   };
   // 各アイテム画像のアスペクト比(w/h)。高さ係数×アスペクトで表示幅%を出す（縦長の絵が巨大化しない）。
   const ASPECT = {
     alert:0.91, antenna:0.61, apron:0.67, apron_black:0.62, ashtray:1.21, bag:0.88,
-    bag_brand:0.95, bag_conv:0.83, beads:0.98, bike:1.15, bonsai:0.89, books:1.04,
+    bag_brand:0.95, bag_conv:0.83, beads:0.98, bike:1.21, bonsai:0.89, books:1.04,
     bottles:0.91, bouquet:0.97, bowls:0.9, box:1.01, box_air:1.1, box_baby:0.95,
     box_bottles:1.06, box_case:1.3, box_cat:1.05, box_coffee:0.81, box_cool:1.12, box_cosme:1,
     box_crate:0.9, box_dice:1.22, box_figure:0.85, box_gadget:1.06, box_gift:0.98, box_glasses:1.09,
@@ -408,11 +409,11 @@
     pcase:1.05, petbowl:1.26, plant:0.75, plant_big:0.84, protein:0.73, resume:0.9,
     ring:1.32, rod:0.77, sack:0.96, sake:0.69, salt:1.24, sandal:1.24,
     sandal_leopard:1.25, sandal_white:1.37, scrub:0.82, sec_chest:1.14, sec_goldhato:0.73, sec_ufo:1.27,
-    skate:1.33, skirt:0.89, slide_toy:1.07, star:0.83, stroller:0.81, suit:0.74,
+    skate:1.33, skirt:0.89, slide_toy:1.07, star:0.83, stroller:0.96, suit:0.74,
     suitcase:0.61, surf:0.41, tank:0.66, tapioca:0.66, tarot:1.09, teddy:0.76,
-    testtube:1.11, tomato:0.7, towel:1.14, towel_sport:1.15, towel_white:0.98, tricycle:1.11,
+    testtube:1.11, tomato:0.7, towel:1.14, towel_sport:1.15, towel_white:0.98, tricycle:1.26,
     trophy:0.87, tube:1.26, uchiwa:0.77, umbrella:0.58, uwabaki:1.23, wig:1.02,
-    wine:0.47, workwear:1.23, yogamat:1.37,
+    wine:0.47, workwear:1.23, yogamat:1.37, tripod:0.56,
   };
 
   // 「N着/N枚/N本…」や「大量」を絵の個数に反映（最大3）。既に山/タワー等で複数を表す絵は増やさない。
