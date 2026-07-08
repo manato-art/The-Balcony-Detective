@@ -318,7 +318,7 @@
   // 生成イラスト assets/chars/{id}.png を表示。読み込み失敗時は旧SVGにフォール。
   function avatar(id, size) {
     size = size || 96;
-    return '<img class="av-img" src="assets/chars/' + id + '.png" width="' + size + '" height="' + size + '" alt="" ' +
+    return '<img class="av-img" src="assets/chars/' + id + '.webp" width="' + size + '" height="' + size + '" alt="" ' +
       'style="object-fit:cover;display:block;border-radius:12px" ' +
       'onerror="this.onerror=null;this.outerHTML=VT_avatarSVG(\'' + id + '\',' + size + ')">';
   }
@@ -484,7 +484,7 @@
   function facade(mansion, room, size) {
     const mid = mansion.id;
     const p = roomPos(room, mid); // 対象部屋にハイライト枠（この部屋のベランダを調べる、の意味）
-    return '<img class="facade-img" src="assets/facade/' + mid + '.png" alt="" ' +
+    return '<img class="facade-img" src="assets/facade/' + mid + '.webp" alt="" ' +
       'onerror="this.onerror=null;this.parentNode.innerHTML=VT_facadeSVG({accent:\'' + mansion.accent + '\',id:\'' + mid + '\'},\'' + room + '\',' + (size || 300) + ')">' +
       '<div class="facade-target" style="left:' + p.x + '%;top:' + p.y + '%"></div>';
   }

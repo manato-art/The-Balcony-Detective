@@ -1,0 +1,16 @@
+[
+  {
+    "id": "meteor",
+    "dir": "items",
+    "size": "1024x1024",
+    "transparent": true,
+    "prompt": "Very simple, deformed, flat cartoon game-item icon for a cute, warm casual mobile game. Flat solid colors with only a subtle hint of soft shading, thick clean rounded outlines, big rounded simple shapes, minimal detail, cute and appealing, cohesive consistent style. Not realistic, no gradients, no photorealism, no text. A single everyday object drawn as a clean game item icon: a small dark grey space meteorite rock with a rough bumpy cratered surface and a few faint glowing orange cracks. Centered, gentle three-quarter view, soft contact shadow, isolated on a transparent background, no text, no people, no hands."
+  },
+  {
+    "id": "antenna",
+    "dir": "items",
+    "size": "1024x1024",
+    "transparent": true,
+    "prompt": "Very simple, deformed, flat cartoon game-item icon for a cute, warm casual mobile game. Flat solid colors with only a subtle hint of soft shading, thick clean rounded outlines, big rounded simple shapes, minimal detail, cute and appealing, cohesive consistent style. Not realistic, no gradients, no photorealism, no text. A single everyday object drawn as a clean game item icon: a small set of three thin tall silver radio antennas / aerials sticking up from a little base. Centered, gentle three-quarter view, soft contact shadow, isolated on a transparent background, no text, no people, no hands."
+  }
+]

@@ -3,3 +3,6 @@ node_modules/
 .env
 .env.*
 !.env.example
+
+# 生成PNGはローカル作業用（bg除去/トリミング/ギャラリー用）。配信はwebpのみ＝deploy軽量化
+assets/**/*.png

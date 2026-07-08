@@ -224,6 +224,8 @@
     [/登山靴/, 'hiking_boots', ['sandal']],
     [/小枝|どう見ても巣/, 'nest', ['plant']],
     [/間接照明|深夜だけ電気/, 'lamp'],  // 照明系ヒント→ランプ（⚠注意板だと意味不明なため）
+    [/隕石/, 'meteor', ['alert']],       // 宇宙人: 隕石っぽい石→隕石（⚠板だと意味不明）
+    [/アンテナ/, 'antenna', ['alert']],  // 宇宙人: アンテナが3本→アンテナ
     // --- 既存 ---
     [/レース/, 'lace'],
     [/ドレス|ワンピース|衣装|ガウン|着物/, 'dress'],
@@ -358,20 +360,59 @@
     resort: 'rgba(255,200,120,.14)',
   };
 
-  // 物体ごとの相対サイズ（手鏡=小・ベビーカー=大 等。未定義=0.95の標準）。実物の大小を絵に反映する。
+  // 物体ごとの表示「高さ」係数（実物の高さ基準・独立3レビューの中央値）。幅は cell() でアスペクト比から算出。
   const SIZE = {
-    // 手のひら〜小物
-    mirror: 0.6, eyemask: 0.6, lanyard: 0.62, beads: 0.62, salt: 0.6, ofuda_v: 0.56, tarot: 0.62,
-    crystal: 0.6, chime: 0.66, bulb: 0.56, glow: 0.68, star: 0.68, gamepad: 0.66, teddy: 0.82,
-    mail: 0.72, namecards: 0.62, resume: 0.74, flyer: 0.78, calendar: 0.72,
-    can: 0.68, can_energy: 0.68, bottles: 0.62, flute: 0.6, tapioca: 0.6, mug_pair: 0.72, sake: 0.74,
-    petbowl: 0.62, cat_toy: 0.66, testtube: 0.72, uchiwa: 0.8, tomato: 0.72,
-    box_jewel: 0.62, box_glasses: 0.64, box_med: 0.66, box_coffee: 0.74,
-    hat_item: 0.74, uwabaki: 0.72, dress_shoes: 0.74, sandal: 0.74, dumbbell: 0.82,
-    // 大物
-    futon: 1.32, stroller: 1.3, tricycle: 1.24, bike: 1.3, slide_toy: 1.28, suitcase: 1.16,
-    guitar: 1.28, surf: 1.34, chairs: 1.18, fan_elec: 1.14, plant_big: 1.2, dakimakura: 1.22,
-    keyboardp: 1.12, yogamat: 1.12, box_stack: 1.14, sack: 1.12, ring: 1.05, lamp: 1.05,
+    alert:0.95, antenna:1.25, apron:1.15, apron_black:1.15, ashtray:0.4, bag:0.85,
+    bag_brand:0.88, bag_conv:0.72, beads:0.45, bike:1.65, bonsai:0.75, books:0.58,
+    bottles:0.41, bouquet:1.04, bowls:0.67, box:1, box_air:1.06, box_baby:1.05,
+    box_bottles:0.95, box_case:1.08, box_cat:0.92, box_coffee:0.9, box_cool:1, box_cosme:0.9,
+    box_crate:0.95, box_dice:0.9, box_figure:0.9, box_gadget:1.02, box_gift:0.9, box_glasses:0.9,
+    box_jewel:0.9, box_med:0.9, box_music:1.08, box_open:0.96, box_pizza:0.9, box_stack:1.1,
+    box_tall:1.1, broom:1.3, bucket:1.3, bulb:0.41, calendar:0.8, camera:1.38,
+    can:0.42, can_energy:0.42, can_tower:0.95, candle:0.43, cat_toy:0.65, chairs:1.78,
+    chime:0.55, cobweb:0.55, cosplay_prop:1.18, crystal:0.48, dakimakura:1.35, dress:1.25,
+    dress_shoes:0.9, dryflower:0.82, dumbbell:0.8, eyemask:0.41, fan_elec:1.6, firewood:0.82,
+    flag:1.2, flute:0.72, flyer:0.42, futon:1.4, gamepad:0.47, glow:0.5,
+    golf:1.42, guitar:1.2, happi:1.18, hat_item:0.55, hiking_boots:0.92, jersey:1.22,
+    judo:1.24, keyboardp:1.3, kids:1.07, lace:1.2, lamp:1.2, lantern:0.78,
+    lanyard:0.52, laptop:0.62, laundry:1.15, laundry_black:1.15, laundry_leopard:1.15, laundry_navy:1.15,
+    laundry_pastel:1.15, mail:0.44, manuscript:0.46, megaphone:0.72, meteor:0.58, meter:0.82,
+    mirror:0.5, mug_pair:0.43, namecards:0.4, nest:0.48, ofuda_v:0.5, papers:0.49,
+    pcase:0.9, petbowl:0.4, plant:0.75, plant_big:1.5, protein:1.2, resume:0.4,
+    ring:0.98, rod:1.5, sack:1.4, sake:1, salt:0.4, sandal:0.9,
+    sandal_leopard:0.9, sandal_white:0.9, scrub:1.22, sec_chest:0.58, sec_goldhato:0.58, sec_ufo:0.48,
+    skate:1.12, skirt:1.06, slide_toy:1.8, star:0.95, stroller:1.7, suit:1.24,
+    suitcase:1.19, surf:1.4, tank:1.1, tapioca:0.5, tarot:0.45, teddy:0.75,
+    testtube:0.55, tomato:0.85, towel:1.17, towel_sport:1.17, towel_white:1.12, tricycle:1.6,
+    trophy:0.68, tube:1.08, uchiwa:0.58, umbrella:1.05, uwabaki:0.55, wig:0.62,
+    wine:0.85, workwear:1.22, yogamat:1.4,
+  };
+  // 各アイテム画像のアスペクト比(w/h)。高さ係数×アスペクトで表示幅%を出す（縦長の絵が巨大化しない）。
+  const ASPECT = {
+    alert:0.91, antenna:0.61, apron:0.67, apron_black:0.62, ashtray:1.21, bag:0.88,
+    bag_brand:0.95, bag_conv:0.83, beads:0.98, bike:1.15, bonsai:0.89, books:1.04,
+    bottles:0.91, bouquet:0.97, bowls:0.9, box:1.01, box_air:1.1, box_baby:0.95,
+    box_bottles:1.06, box_case:1.3, box_cat:1.05, box_coffee:0.81, box_cool:1.12, box_cosme:1,
+    box_crate:0.9, box_dice:1.22, box_figure:0.85, box_gadget:1.06, box_gift:0.98, box_glasses:1.09,
+    box_jewel:0.76, box_med:0.96, box_music:0.86, box_open:1.17, box_pizza:0.96, box_stack:0.84,
+    box_tall:0.74, broom:0.79, bucket:0.85, bulb:0.7, calendar:1.03, camera:1.09,
+    can:0.67, can_energy:0.55, can_tower:0.83, candle:1.06, cat_toy:0.96, chairs:1.11,
+    chime:0.52, cobweb:1.01, cosplay_prop:0.75, crystal:0.65, dakimakura:0.58, dress:0.69,
+    dress_shoes:1.4, dryflower:0.72, dumbbell:1.27, eyemask:1.38, fan_elec:0.71, firewood:1.17,
+    flag:0.83, flute:0.37, flyer:0.97, futon:1.42, gamepad:1.37, glow:0.89,
+    golf:0.63, guitar:0.67, happi:1.06, hat_item:1.45, hiking_boots:1.12, jersey:0.79,
+    judo:0.77, keyboardp:1.5, kids:0.73, lace:0.67, lamp:0.48, lantern:0.54,
+    lanyard:0.65, laptop:1.03, laundry:0.85, laundry_black:0.84, laundry_leopard:0.93, laundry_navy:0.9,
+    laundry_pastel:0.86, mail:1.14, manuscript:1.17, megaphone:0.87, meteor:1.04, meter:0.77,
+    mirror:0.69, mug_pair:1.9, namecards:1.33, nest:1.25, ofuda_v:0.77, papers:1.06,
+    pcase:1.05, petbowl:1.26, plant:0.75, plant_big:0.84, protein:0.73, resume:0.9,
+    ring:1.32, rod:0.77, sack:0.96, sake:0.69, salt:1.24, sandal:1.24,
+    sandal_leopard:1.25, sandal_white:1.37, scrub:0.82, sec_chest:1.14, sec_goldhato:0.73, sec_ufo:1.27,
+    skate:1.33, skirt:0.89, slide_toy:1.07, star:0.83, stroller:0.81, suit:0.74,
+    suitcase:0.61, surf:0.41, tank:0.66, tapioca:0.66, tarot:1.09, teddy:0.76,
+    testtube:1.11, tomato:0.7, towel:1.14, towel_sport:1.15, towel_white:0.98, tricycle:1.11,
+    trophy:0.87, tube:1.26, uchiwa:0.77, umbrella:0.58, uwabaki:1.23, wig:1.02,
+    wine:0.47, workwear:1.23, yogamat:1.37,
   };
 
   // 「N着/N枚/N本…」や「大量」を絵の個数に反映（最大3）。既に山/タワー等で複数を表す絵は増やさない。
@@ -397,16 +438,17 @@
       const cls = 'sc-i' + (o.it.fresh ? ' fresh' : '') + (o.it.strong ? ' strong' : '');
       const rot = [-2, 3, -3, 2, -4, 3, -1][k % 7];    // 軽い傾き(deg)
       const jit = [1, 0.97, 1.04, 0.98, 1.02, 0.96][k % 6]; // 軽い揺らぎ
-      const sz = (SIZE[key] || 0.95) * jit;            // 物体固有サイズ × 揺らぎ
+      // 表示高さ係数(実物基準) × 画像アスペクト(w/h) → 表示幅%。縦長の絵が縦に巨大化しない。
+      const w = Math.max(4, Math.min(38, (SIZE[key] || 0.9) * (ASPECT[key] || 1) * 18 * jit));
       const dy = [0, 3, -2, 4, 1, -3][k % 6];          // 接地の微上下(%)
-      const src = 'assets/items/' + key + '.png';
+      const src = 'assets/items/' + key + '.webp';
       const n = itemCount(o.it.label, key);            // 個数（1〜3）をヒント文から
       const OFF = [-32, 34, -60];                       // 追加コピーの横オフセット%
       let extra = '';
       for (let i = 0; i < n - 1 && i < OFF.length; i++) {
         extra += '<img class="' + cls + ' sc-x" style="--exx:' + OFF[i] + '%" src="' + src + '" alt="" onerror="this.style.visibility=\'hidden\'">';
       }
-      return '<div class="sc-cell' + (n > 1 ? ' sc-multi' : '') + '" style="--rot:' + rot + 'deg;--sz:' + sz + ';--dy:' + dy + '%" onclick="UI.itemTap(' + o.i + ')">' +
+      return '<div class="sc-cell' + (n > 1 ? ' sc-multi' : '') + '" style="--w:' + w.toFixed(1) + '%;--rot:' + rot + 'deg;--dy:' + dy + '%" onclick="UI.itemTap(' + o.i + ')">' +
         '<span class="sc-sh"></span>' + extra +
         '<img class="' + cls + '" src="' + src + '" alt="" onerror="this.style.visibility=\'hidden\'">' +
         '</div>';
@@ -420,7 +462,7 @@
     if (s.silhouette) fx += '<div class="sc-fx sc-sil"></div>';
     if (s.rain) fx += '<div class="sc-fx sc-rain"></div>';
     if (roomOpen && !s.curtainShown) fx += '<div class="sc-open"><span class="sc-cl-l"></span><span class="sc-cl-r"></span></div>';
-    return '<div class="sc-wrap" style="background-image:url(assets/' + bgDir + '/' + mid + '.png)">' +
+    return '<div class="sc-wrap" style="background-image:url(assets/' + bgDir + '/' + mid + '.webp)">' +
       '<div class="sc-row sc-hang">' + hang.map(cell).join('') + '</div>' +
       '<div class="sc-row sc-floor">' + floor.map(cell).join('') + '</div>' +
       fx + '</div>';

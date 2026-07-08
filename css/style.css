@@ -241,8 +241,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .sc-row { position: absolute; left: 0; right: 0; display: flex; justify-content: center; align-items: flex-end; gap: 1.5%; padding: 0 6%; pointer-events: none; }
 .sc-hang { top: 6%; align-items: flex-start; }
 .sc-floor { bottom: 8%; }
-.sc-cell { position: relative; flex: 0 0 auto; width: calc(23% * var(--sz, 1)); max-width: 150px; transform: translateY(var(--dy, 0)); pointer-events: auto; cursor: pointer; }
-.sc-hang .sc-cell { width: calc(16% * var(--sz, 1)); }
+.sc-cell { position: relative; flex: 0 0 auto; width: var(--w, 18%); transform: translateY(var(--dy, 0)); pointer-events: auto; cursor: pointer; }
 .sc-cell img { width: 100%; height: auto; display: block; position: relative; z-index: 2; transform: rotate(var(--rot, 0)); transform-origin: bottom center; }
 .sc-sh { position: absolute; left: 50%; bottom: -4%; transform: translateX(-50%); width: 88%; height: 16%; border-radius: 50%; background: radial-gradient(closest-side, rgba(20, 12, 4, .38), rgba(20, 12, 4, 0)); z-index: 1; pointer-events: none; }
 .sc-hang .sc-sh { display: none; }
