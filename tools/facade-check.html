@@ -1,0 +1,15 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><base href="/"><title>枠グリッド確認(個別)</title>
+<style>body{margin:0;background:#eee;font-family:system-ui}.g{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px;max-width:900px;margin:0 auto}
+.fc{position:relative;background:#fff;border-radius:10px;overflow:hidden}.fc img{width:100%;display:block}
+.fc .lab{position:absolute;top:4px;left:6px;background:#0008;color:#fff;font-size:11px;padding:1px 6px;border-radius:6px;z-index:3}
+.dot{position:absolute;width:20%;height:15%;transform:translate(-50%,-50%);border:2px solid #ff9600;background:rgba(255,150,0,.14);border-radius:6px;box-sizing:border-box}
+.dot b{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:5px;height:5px;background:#ff3b00;border-radius:50%}</style>
+</head><body><div class="g" id="g"></div>
+<script>
+var COL=[30,50,70];
+var FY={boro:[83,66,47,28],gakusei:[83,65,47,29],hankagai:[76,61,44,28],tawaman:[71,56,40,25],kogai:[81,64,46,27],designers:[80,63,44,24],shataku:[80,63,47,30],koukyu:[82,64,46,28],zakkyo:[80,63,46,28],resort:[82,66,48,30]};
+var M=Object.keys(FY);var h='';
+M.forEach(function(m){var dots='';FY[m].forEach(function(y){COL.forEach(function(x){dots+='<div class="dot" style="left:'+x+'%;top:'+y+'%"><b></b></div>';});});
+  h+='<div class="fc"><span class="lab">'+m+'</span><img src="assets/facade/'+m+'.png">'+dots+'</div>';});
+document.getElementById('g').innerHTML=h;
+</script></body></html>

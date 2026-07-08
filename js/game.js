@@ -78,6 +78,12 @@
   G.startTurn = function () {
     const s = G.state;
     if (!s || s.turnNo >= s.queue.length) return null;
+    // マンションはターン（＝プレイヤー・回数）ごとにランダム。直前と同じは避けて必ず変化を出す。
+    if (MANSIONS.length > 1) {
+      const prev = s.mansion && s.mansion.id;
+      const cands = MANSIONS.filter((m) => m.id !== prev);
+      s.mansion = pick(cands.length ? cands : MANSIONS);
+    }
     if (s.roomsLeft.length === 0) s.roomsLeft = shuffle(ROOMS);
     const room = s.roomsLeft.pop();
     let res = weightedPick(s.mansion.pool);

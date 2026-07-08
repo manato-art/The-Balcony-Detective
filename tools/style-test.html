@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>スタイルテスト — ベランダ探偵</title>
+<style>
+  :root { --chk:#e7e2ee; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:"Hiragino Maru Gothic ProN","Hiragino Sans",system-ui,sans-serif; background:#faf7fb; color:#3a3442; padding:24px 16px 60px; }
+  .wrap { max-width:960px; margin:0 auto; }
+  h1 { text-align:center; font-size:22px; margin:0 0 4px; }
+  .lead { text-align:center; color:#8a8593; font-size:13px; margin:0 0 24px; line-height:1.7; }
+  h2 { font-size:14px; letter-spacing:.1em; color:#6a6478; border-left:5px solid #58cc02; padding-left:10px; margin:30px 0 12px; }
+  .chars { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .card { background:#fff; border-radius:18px; box-shadow:0 8px 22px rgba(60,40,80,.08); overflow:hidden; text-align:center; }
+  .card img { width:100%; aspect-ratio:1/1; object-fit:cover; display:block; }
+  .card .nm { padding:10px 6px; font-size:14px; font-weight:800; }
+  .balcony img { width:100%; border-radius:18px; box-shadow:0 10px 26px rgba(60,40,80,.1); display:block; }
+  .items { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .item { border-radius:18px; overflow:hidden; box-shadow:0 8px 22px rgba(60,40,80,.08);
+    background-image:
+      linear-gradient(45deg,var(--chk) 25%,transparent 25%),
+      linear-gradient(-45deg,var(--chk) 25%,transparent 25%),
+      linear-gradient(45deg,transparent 75%,var(--chk) 75%),
+      linear-gradient(-45deg,transparent 75%,var(--chk) 75%);
+    background-size:22px 22px; background-position:0 0,0 11px,11px -11px,-11px 0; background-color:#fff; text-align:center; }
+  .item img { width:100%; aspect-ratio:1/1; object-fit:contain; display:block; }
+  .item .nm { padding:8px 6px; font-size:12.5px; font-weight:800; color:#6a6478; background:#fff; }
+  .note { max-width:680px; margin:24px auto 0; padding:14px 18px; background:#fff; border-radius:14px; font-size:12.5px; color:#8a8593; line-height:1.8; box-shadow:0 8px 24px rgba(60,40,80,.05); }
+  .note b { color:#6a6478; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>スタイルテスト（7枚）</h1>
+    <p class="lead">gpt-image-2 / low画質 / このスタイルでOKか、もっとフラット寄りにするかを判断してください。</p>
+
+    <h2>キャラ（3体・スクショと同じ人物で比較）</h2>
+    <div class="chars">
+      <div class="card"><img src="/assets/chars/host.png" alt="ホスト"><div class="nm">ホスト</div></div>
+      <div class="card"><img src="/assets/chars/nurse_night.png" alt="夜勤看護師"><div class="nm">夜勤看護師</div></div>
+      <div class="card"><img src="/assets/chars/kinniku.png" alt="筋肉兄貴"><div class="nm">筋肉兄貴</div></div>
+    </div>
+
+    <h2>ベランダ背景（リゾート風・空舞台）</h2>
+    <div class="balcony"><img src="/assets/balcony/resort.png" alt="リゾート風ベランダ"></div>
+
+    <h2>小物（透過PNG・市松模様＝透明が効いている証拠）</h2>
+    <div class="items">
+      <div class="item"><img src="/assets/items/food_pizza.png" alt="ピザ箱"><div class="nm">ピザ箱</div></div>
+      <div class="item"><img src="/assets/items/gym_dumbbell.png" alt="ダンベル"><div class="nm">ダンベル</div></div>
+      <div class="item"><img src="/assets/items/laundry_lace.png" alt="黒レース"><div class="nm">黒レース</div></div>
+    </div>
+
+    <div class="note">
+      <b>チェックしてほしいこと：</b><br>
+      ① このタッチ（絵の雰囲気）で世界観としてOKか？　② スクショの“フラットで丸っこい親しみ系”に寄せたいか？<br>
+      ③ キャラ・小物・背景でテイストが揃っているか？　④ 小物の透過は正しく抜けているか？<br>
+      OKなら量産へ。寄せたい方向があれば言ってくれれば、スタイル指定を調整して数枚だけ再生成して見比べます。
+    </div>
+  </div>
+</body>
+</html>

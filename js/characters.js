@@ -308,11 +308,19 @@
     return '';
   }
 
-  function avatar(id, size) {
+  // 旧SVGアバター（生成PNG欠落時のフォールバック用）
+  function avatarSVG(id, size) {
     size = size || 96;
     const cfg = AVATARS[id];
     const inner = !cfg ? buildSpecial('empty') : (cfg.special ? buildSpecial(cfg.special) : buildStandard(cfg));
     return '<svg viewBox="0 0 120 150" width="' + size + '" height="' + Math.round(size * 1.25) + '" aria-hidden="true">' + inner + '</svg>';
+  }
+  // 生成イラスト assets/chars/{id}.png を表示。読み込み失敗時は旧SVGにフォール。
+  function avatar(id, size) {
+    size = size || 96;
+    return '<img class="av-img" src="assets/chars/' + id + '.png" width="' + size + '" height="' + size + '" alt="" ' +
+      'style="object-fit:cover;display:block;border-radius:12px" ' +
+      'onerror="this.onerror=null;this.outerHTML=VT_avatarSVG(\'' + id + '\',' + size + ')">';
   }
 
   /* ================= マンション デフォルメイラスト ================= */
@@ -418,13 +426,30 @@
     return { x: 40 + c * 50, y: 42 + (4 - f) * 52, w: 42, h: 44 };
   }
 
-  // ズーム原点（%）
-  function roomPos(room) {
-    const cl = facadeCell(room);
-    return { x: Math.round((cl.x + cl.w / 2) / 320 * 100), y: Math.round((cl.y + cl.h / 2) / 292 * 100) };
+  // AI生成外観PNGの窓グリッドに枠を合わせる（実測した共通座標。列3・階4）。
+  // 生成画像は列≈30/50/70%で概ね一致。階はマンションで段数が違うため寛容な共通値＋個別上書き。
+  const FACADE_COL_X = [30, 50, 70];               // 左/中/右の窓 中心x%（全マンション共通）
+  const FACADE_FLOOR_Y_DEFAULT = [82, 64, 47, 29]; // 1F..4F の窓 中心y%（フォール）
+  // マンションごとに外観PNGのバルコニー位置を実測（段数・位置が画像で違うため個別）。1F..4F。
+  const FACADE_FLOOR_Y = {
+    boro: [83, 66, 47, 28], gakusei: [83, 65, 47, 29], hankagai: [76, 61, 44, 28],
+    tawaman: [71, 56, 40, 25], kogai: [81, 64, 46, 27], designers: [80, 63, 44, 24],
+    shataku: [80, 63, 47, 30], koukyu: [82, 64, 46, 28], zakkyo: [80, 63, 46, 28],
+    resort: [82, 66, 48, 30],
+  };
+  const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
+  // 部屋番号(f=100の位, r=1の位)→枠の中心%。5部屋を3列にスナップして必ず窓に乗せる。
+  function roomPos(room, mansionId) {
+    const n = parseInt(room, 10);
+    const r = n % 10;              // 1..5
+    const f = Math.floor(n / 100); // 1..4
+    const col = [0, 0, 1, 2, 2][clamp(r - 1, 0, 4)];
+    const ys = FACADE_FLOOR_Y[mansionId] || FACADE_FLOOR_Y_DEFAULT;
+    return { x: FACADE_COL_X[col], y: ys[clamp(f - 1, 0, 3)] };
   }
 
-  function facade(mansion, room, size) {
+  // 旧SVG建物全景（生成facade PNG欠落時のフォールバック用）
+  function facadeSVG(mansion, room, size) {
     size = size || 300;
     const sky = FACADE_SKY[mansion.accent] || '#ddf4ff';
     const roof = FACADE_ROOF[mansion.accent] || '#6fb9e8';
@@ -455,10 +480,21 @@
       '</svg>';
   }
 
+  // 生成イラスト assets/facade/{mansionId}.png を表示し、対象部屋にハイライトを重ねる。読み込み失敗時は旧SVGにフォール。
+  function facade(mansion, room, size) {
+    const mid = mansion.id;
+    const p = roomPos(room, mid); // 対象部屋にハイライト枠（この部屋のベランダを調べる、の意味）
+    return '<img class="facade-img" src="assets/facade/' + mid + '.png" alt="" ' +
+      'onerror="this.onerror=null;this.parentNode.innerHTML=VT_facadeSVG({accent:\'' + mansion.accent + '\',id:\'' + mid + '\'},\'' + room + '\',' + (size || 300) + ')">' +
+      '<div class="facade-target" style="left:' + p.x + '%;top:' + p.y + '%"></div>';
+  }
+
   root.VT_mascot = mascot;
   root.VT_facade = facade;
+  root.VT_facadeSVG = facadeSVG;
   root.VT_roomPos = roomPos;
   root.VT_avatar = avatar;
+  root.VT_avatarSVG = avatarSVG;
   root.VT_AVATARS = AVATARS;
   root.VT_building = building;
   root.VT_BUILDINGS = BUILDINGS;

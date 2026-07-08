@@ -192,9 +192,42 @@
 
   // [正規表現, バリアント名, 対象kind（省略=全kind）]
   const RULES = [
+    // --- 色指定バリアント（基準色と違う色を明示するヒント専用。最優先で色を拾う） ---
+    [/真っ白なタオル|白いタオル/, 'towel_white', ['laundry']],
+    [/黒のサロンエプロン|黒.*エプロン/, 'apron_black', ['laundry']],
+    [/黒シャツ|黒Tシャツ|黒T|黒い服|黒キャップ/, 'laundry_black', ['laundry']],
+    [/紺色/, 'laundry_navy', ['laundry']],
+    [/パステル/, 'laundry_pastel', ['laundry']],
+    [/ヒョウ柄/, 'laundry_leopard', ['laundry']],
+    [/白スニーカー/, 'sandal_white', ['sandal']],
+    [/ヒョウ柄/, 'sandal_leopard', ['sandal']],
+    // --- 追加バリアント（集約されすぎた汎用画から「描き分けられる別物」を切り出し。順序=最優先） ---
+    [/エプロン/, 'apron', ['laundry']],
+    [/作業着|軍手|白手袋/, 'workwear', ['laundry']],
+    [/抱き枕/, 'dakimakura', ['laundry']],
+    [/スポーツタオル|部活タオル|ライブのタオル/, 'towel_sport', ['laundry']],
+    [/ベビーカー/, 'stroller', ['bike']],
+    [/三輪車|補助輪/, 'tricycle', ['bike']],
+    [/ペアのマグ|タンブラー/, 'mug_pair', ['can']],
+    [/試験管/, 'testtube', ['can']],
+    [/カレンダー|ラジオ体操のカード/, 'calendar', ['mail']],
+    [/原稿|校正刷り|学会ポスター/, 'manuscript', ['mail']],
+    [/名刺/, 'namecards', ['mail']],
+    [/履歴書|シフト表/, 'resume', ['mail']],
+    [/うちわ/, 'uchiwa', ['star']],
+    [/すべり台/, 'slide_toy', ['star']],
+    [/灰皿/, 'ashtray', ['star']],
+    [/猫用おもちゃ/, 'cat_toy', ['star']],
+    [/小道具|武器っぽい/, 'cosplay_prop', ['star']],
+    [/上履き/, 'uwabaki', ['sandal']],
+    [/革靴/, 'dress_shoes', ['sandal']],
+    [/登山靴/, 'hiking_boots', ['sandal']],
+    [/小枝|どう見ても巣/, 'nest', ['plant']],
+    [/間接照明|深夜だけ電気/, 'lamp'],  // 照明系ヒント→ランプ（⚠注意板だと意味不明なため）
+    // --- 既存 ---
     [/レース/, 'lace'],
     [/ドレス|ワンピース|衣装|ガウン|着物/, 'dress'],
-    [/タオル|背景布|抱き枕/, 'towel'],
+    [/タオル|背景布/, 'towel'],
     [/ジャージ|ユニフォーム|体操服/, 'jersey'],
     [/タンクトップ/, 'tank'],
     [/布団|テント|寝袋|毛布/, 'futon'],
@@ -274,6 +307,8 @@
     [/メーター/, 'meter', ['alert']],
     [/お札|御札/, 'ofuda_v', ['alert']],
     [/ウィッグ/, 'wig', ['mirror']],
+    // チラシ/DM/フライヤー束（郵便の中で「封筒じゃない紙束」だけ最後にまとめて切り出し） ---
+    [/チラシ|フライヤー|DM|ＤＭ/, 'flyer', ['mail']],
   ];
 
   function classify(text, kind) {
@@ -313,62 +348,82 @@
       draw(it.color) + hit + '</g></g></g>';
   }
 
-  const WALLS = {
-    amber: '#f6ead2', pink: '#fbe3ee', cyan: '#e2f1fb', purple: '#efe6fb', green: '#e8f6e0',
+  // accent→代表マンション（mansionId未指定時のフォール）
+  const ACCENT_MANSION = { amber: 'boro', cyan: 'gakusei', pink: 'hankagai', purple: 'tawaman', green: 'resort' };
+  // マンションごとの環境光（小物と背景を同じ光でなじませる薄いオーバーレイ）
+  const LIGHT = {
+    boro: 'rgba(190,150,70,.16)', gakusei: 'rgba(210,205,180,.09)', hankagai: 'rgba(255,80,175,.20)',
+    tawaman: 'rgba(120,175,255,.12)', kogai: 'rgba(255,205,130,.12)', designers: 'rgba(185,195,215,.11)',
+    shataku: 'rgba(205,175,120,.12)', koukyu: 'rgba(255,222,150,.12)', zakkyo: 'rgba(120,85,165,.20)',
+    resort: 'rgba(255,200,120,.14)',
   };
 
-  // s: { accent, curtain:{color,label}|null, curtainClosed, light, rain, silhouette, items:[...] }
+  // 物体ごとの相対サイズ（手鏡=小・ベビーカー=大 等。未定義=0.95の標準）。実物の大小を絵に反映する。
+  const SIZE = {
+    // 手のひら〜小物
+    mirror: 0.6, eyemask: 0.6, lanyard: 0.62, beads: 0.62, salt: 0.6, ofuda_v: 0.56, tarot: 0.62,
+    crystal: 0.6, chime: 0.66, bulb: 0.56, glow: 0.68, star: 0.68, gamepad: 0.66, teddy: 0.82,
+    mail: 0.72, namecards: 0.62, resume: 0.74, flyer: 0.78, calendar: 0.72,
+    can: 0.68, can_energy: 0.68, bottles: 0.62, flute: 0.6, tapioca: 0.6, mug_pair: 0.72, sake: 0.74,
+    petbowl: 0.62, cat_toy: 0.66, testtube: 0.72, uchiwa: 0.8, tomato: 0.72,
+    box_jewel: 0.62, box_glasses: 0.64, box_med: 0.66, box_coffee: 0.74,
+    hat_item: 0.74, uwabaki: 0.72, dress_shoes: 0.74, sandal: 0.74, dumbbell: 0.82,
+    // 大物
+    futon: 1.32, stroller: 1.3, tricycle: 1.24, bike: 1.3, slide_toy: 1.28, suitcase: 1.16,
+    guitar: 1.28, surf: 1.34, chairs: 1.18, fan_elec: 1.14, plant_big: 1.2, dakimakura: 1.22,
+    keyboardp: 1.12, yogamat: 1.12, box_stack: 1.14, sack: 1.12, ring: 1.05, lamp: 1.05,
+  };
+
+  // 「N着/N枚/N本…」や「大量」を絵の個数に反映（最大3）。既に山/タワー等で複数を表す絵は増やさない。
+  const MULTI_SKIP = { box_stack: 1, can_tower: 1, chairs: 1, firewood: 1, bowls: 1, sack: 1, papers: 1, box_bottles: 1 };
+  function itemCount(label, key) {
+    if (MULTI_SKIP[key] || !label) return 1;
+    const m = label.match(/(\d+)\s*(着|枚|本|足|個|台|匹|冊|杯|箱|束|袋|色|セット)/);
+    if (m) return Math.min(Math.max(parseInt(m[1], 10), 1), 3);
+    if (/大量|たくさん|いっぱい|複数/.test(label)) return 3;
+    return 1;
+  }
+
+  // s: { accent, mansionId, curtain, curtainClosed, light, rain, silhouette, items:[...] }
+  // 背景=assets/balcony/{mansionId}.png / 小物=assets/items/{variant||kind}.png。1アイテム=1セル(接地影＋微ゆらぎ)。
   function scene(s) {
-    const wall = WALLS[s.accent] || '#eef1f5';
-    const glass = s.light ? '#ffe9a8' : '#bcd6e8';
-    const cc = (s.curtain && s.curtain.color) || '#eceff3';
-    // カーテン: closed=左右で窓を覆う / open=端に寄る
-    const curtW = s.curtainClosed ? 70 : 16;
-    const curtAttr = s.curtain ? ' class="sc-item" onclick="UI.itemTap(-1)"' : '';
-    let svg = '<svg viewBox="0 0 360 280" width="100%" aria-hidden="true">' +
-      '<rect x="0" y="0" width="360" height="280" fill="' + wall + '"/>' +
-      '<rect x="0" y="0" width="360" height="8" fill="#00000010"/>' +
-      // 窓
-      '<rect x="30" y="22" width="160" height="106" rx="4" fill="#fff"/>' +
-      '<rect x="38" y="30" width="144" height="90" fill="' + glass + '"/>' +
-      '<path d="M110 30 v90" stroke="#fff" stroke-width="4"/>' +
-      (s.silhouette
-        ? '<g class="sil-in"><circle cx="110" cy="66" r="13" fill="#3c3450"/><path d="M88 120 q0 -26 22 -26 t22 26 Z" fill="#3c3450"/></g>'
-        : '') +
-      '<g' + curtAttr + '>' +
-      '<rect x="38" y="30" width="' + curtW + '" height="90" fill="' + cc + '"/>' +
-      '<rect x="' + (182 - curtW) + '" y="30" width="' + curtW + '" height="90" fill="' + cc + '"/>' +
-      '<path d="M38 30 h144" stroke="#c8ccd4" stroke-width="3"/>' +
-      (s.curtainClosed ? '<path d="M' + (38 + curtW / 2) + ' 34 v82 M' + (182 - curtW / 2) + ' 34 v82" stroke="#00000014" stroke-width="6"/>' : '') +
-      '</g>' +
-      // 物干しロープ
-      '<path d="M198 52 L354 52" stroke="#9aa3b5" stroke-width="3"/>' +
-      '<path d="M198 52 v-10 M354 52 v-10" stroke="#9aa3b5" stroke-width="4" stroke-linecap="round"/>' +
-      // 床
-      '<rect x="0" y="232" width="360" height="48" fill="#d7dade"/>' +
-      '<path d="M0 232 h360" stroke="#b9bec7" stroke-width="2"/>';
-
-    // アイテム（後列→前列の順に描画）
-    const backM = [], frontM = [];
-    (s.items || []).forEach((it, i) => {
-      ((it.zone === 'back') ? backM : frontM).push(itemMarkup(it, i));
-    });
-    svg += backM.join('') + frontM.join('');
-
-    // 手すり（低め・薄めでアイテムを隠さない）
-    svg += '<rect x="0" y="240" width="360" height="34" fill="#cfe6f4" opacity=".35"/>' +
-      '<rect x="0" y="234" width="360" height="7" rx="3.5" fill="#aebccb"/>' +
-      '<path d="M46 241 v33 M136 241 v33 M226 241 v33 M316 241 v33" stroke="#aebccb" stroke-width="4" opacity=".5"/>';
-
-    // 雨
-    if (s.rain) {
-      svg += '<rect x="0" y="0" width="360" height="280" fill="#4a6fa5" opacity=".16"/>';
-      const drops = [20, 55, 95, 130, 170, 205, 245, 280, 315, 345];
-      drops.forEach((dx, i) => {
-        svg += '<path d="M' + dx + ' ' + (14 + (i % 3) * 60) + ' l-6 18" stroke="#7cb3e8" stroke-width="2.5" stroke-linecap="round" opacity=".8"/>';
-      });
-    }
-    return svg + '</svg>';
+    const mid = s.mansionId || ACCENT_MANSION[s.accent] || 'resort';
+    const items = s.items || [];
+    const isHang = (it) => (it.zone || (it.hang ? 'hang' : 'floor')) === 'hang';
+    const hang = [], floor = [];
+    items.forEach((it, i) => { (isHang(it) ? hang : floor).push({ it, i }); });
+    const cell = (o, k) => {
+      const key = o.it.variant || o.it.kind || 'box';
+      const cls = 'sc-i' + (o.it.fresh ? ' fresh' : '') + (o.it.strong ? ' strong' : '');
+      const rot = [-2, 3, -3, 2, -4, 3, -1][k % 7];    // 軽い傾き(deg)
+      const jit = [1, 0.97, 1.04, 0.98, 1.02, 0.96][k % 6]; // 軽い揺らぎ
+      const sz = (SIZE[key] || 0.95) * jit;            // 物体固有サイズ × 揺らぎ
+      const dy = [0, 3, -2, 4, 1, -3][k % 6];          // 接地の微上下(%)
+      const src = 'assets/items/' + key + '.png';
+      const n = itemCount(o.it.label, key);            // 個数（1〜3）をヒント文から
+      const OFF = [-32, 34, -60];                       // 追加コピーの横オフセット%
+      let extra = '';
+      for (let i = 0; i < n - 1 && i < OFF.length; i++) {
+        extra += '<img class="' + cls + ' sc-x" style="--exx:' + OFF[i] + '%" src="' + src + '" alt="" onerror="this.style.visibility=\'hidden\'">';
+      }
+      return '<div class="sc-cell' + (n > 1 ? ' sc-multi' : '') + '" style="--rot:' + rot + 'deg;--sz:' + sz + ';--dy:' + dy + '%" onclick="UI.itemTap(' + o.i + ')">' +
+        '<span class="sc-sh"></span>' + extra +
+        '<img class="' + cls + '" src="' + src + '" alt="" onerror="this.style.visibility=\'hidden\'">' +
+        '</div>';
+    };
+    // カーテン有り＆開いた時は背景を室内イラストに切替。初回だけカーテンが左右に開く演出。
+    const roomOpen = !!(s.curtain && !s.curtainClosed);
+    const bgDir = roomOpen ? 'room' : 'balcony';
+    let fx = '';
+    if (LIGHT[mid]) fx += '<div class="sc-fx sc-tint" style="background:' + LIGHT[mid] + '"></div>';
+    if (s.light && !roomOpen) fx += '<div class="sc-fx sc-glow"></div>';
+    if (s.silhouette) fx += '<div class="sc-fx sc-sil"></div>';
+    if (s.rain) fx += '<div class="sc-fx sc-rain"></div>';
+    if (roomOpen && !s.curtainShown) fx += '<div class="sc-open"><span class="sc-cl-l"></span><span class="sc-cl-r"></span></div>';
+    return '<div class="sc-wrap" style="background-image:url(assets/' + bgDir + '/' + mid + '.png)">' +
+      '<div class="sc-row sc-hang">' + hang.map(cell).join('') + '</div>' +
+      '<div class="sc-row sc-floor">' + floor.map(cell).join('') + '</div>' +
+      fx + '</div>';
   }
 
   // 単体アイテムのSVG（ギャラリー/デバッグ用）

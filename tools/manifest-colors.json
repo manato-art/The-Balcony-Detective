@@ -1,0 +1,58 @@
+[
+  {
+    "id": "towel_white",
+    "dir": "items",
+    "size": "1024x1024",
+    "transparent": true,
+    "prompt": "Very simple, deformed, flat cartoon game-item icon for a cute, warm casual mobile game. Flat solid colors with only a subtle hint of soft shading, thick clean rounded outlines, big rounded simple shapes, minimal detail, cute and appealing, cohesive consistent style. Not realistic, no gradients, no photorealism, no text. A single everyday object drawn as a clean game item icon: a pure clean white fluffy bath towel hanging on a pole. Centered, gentle three-quarter view, soft contact shadow, isolated on a transparent background, no text, no people, no hands."
+  },
+  {
+    "id": "laundry_black",
+    "dir": "items",
+    "size": "1024x1024",
+    "transparent": true,
+    "prompt": "Very simple, deformed, flat cartoon game-item icon for a cute, warm casual mobile game. Flat solid colors with only a subtle hint of soft shading, thick clean rounded outlines, big rounded simple shapes, minimal detail, cute and appealing, cohesive consistent style. Not realistic, no gradients, no photorealism, no text. A single everyday object drawn as a clean game item icon: a plain solid black t-shirt hanging on a clothes hanger. Centered, gentle three-quarter view, soft contact shadow, isolated on a transparent background, no text, no people, no hands."
+  },
+  {
+    "id": "laundry_navy",
+    "dir": "items",
+    "size": "1024x1024",
+    "transparent": true,
+    "prompt": "Very simple, deformed, flat cartoon game-item icon for a cute, warm casual mobile game. Flat solid colors with only a subtle hint of soft shading, thick clean rounded outlines, big rounded simple shapes, minimal detail, cute and appealing, cohesive consistent style. Not realistic, no gradients, no photorealism, no text. A single everyday object drawn as a clean game item icon: a navy blue collared shirt hanging on a clothes hanger. Centered, gentle three-quarter view, soft contact shadow, isolated on a transparent background, no text, no people, no hands."
+  },
+  {
+    "id": "laundry_pastel",
+    "dir": "items",
+    "size": "1024x1024",
+    "transparent": true,
+    "prompt": "Very simple, deformed, flat cartoon game-item icon for a cute, warm casual mobile game. Flat solid colors with only a subtle hint of soft shading, thick clean rounded outlines, big rounded simple shapes, minimal detail, cute and appealing, cohesive consistent style. Not realistic, no gradients, no photorealism, no text. A single everyday object drawn as a clean game item icon: soft pastel pink and mint colored clothes hanging on a clothes hanger. Centered, gentle three-quarter view, soft contact shadow, isolated on a transparent background, no text, no people, no hands."
+  },
+  {
+    "id": "laundry_leopard",
+    "dir": "items",
+    "size": "1024x1024",
+    "transparent": true,
+    "prompt": "Very simple, deformed, flat cartoon game-item icon for a cute, warm casual mobile game. Flat solid colors with only a subtle hint of soft shading, thick clean rounded outlines, big rounded simple shapes, minimal detail, cute and appealing, cohesive consistent style. Not realistic, no gradients, no photorealism, no text. A single everyday object drawn as a clean game item icon: a leopard-print patterned top hanging on a clothes hanger. Centered, gentle three-quarter view, soft contact shadow, isolated on a transparent background, no text, no people, no hands."
+  },
+  {
+    "id": "apron_black",
+    "dir": "items",
+    "size": "1024x1024",
+    "transparent": true,
+    "prompt": "Very simple, deformed, flat cartoon game-item icon for a cute, warm casual mobile game. Flat solid colors with only a subtle hint of soft shading, thick clean rounded outlines, big rounded simple shapes, minimal detail, cute and appealing, cohesive consistent style. Not realistic, no gradients, no photorealism, no text. A single everyday object drawn as a clean game item icon: a solid black work apron hanging on a wall hook. Centered, gentle three-quarter view, soft contact shadow, isolated on a transparent background, no text, no people, no hands."
+  },
+  {
+    "id": "sandal_white",
+    "dir": "items",
+    "size": "1024x1024",
+    "transparent": true,
+    "prompt": "Very simple, deformed, flat cartoon game-item icon for a cute, warm casual mobile game. Flat solid colors with only a subtle hint of soft shading, thick clean rounded outlines, big rounded simple shapes, minimal detail, cute and appealing, cohesive consistent style. Not realistic, no gradients, no photorealism, no text. A single everyday object drawn as a clean game item icon: a pair of clean plain white sneakers. Centered, gentle three-quarter view, soft contact shadow, isolated on a transparent background, no text, no people, no hands."
+  },
+  {
+    "id": "sandal_leopard",
+    "dir": "items",
+    "size": "1024x1024",
+    "transparent": true,
+    "prompt": "Very simple, deformed, flat cartoon game-item icon for a cute, warm casual mobile game. Flat solid colors with only a subtle hint of soft shading, thick clean rounded outlines, big rounded simple shapes, minimal detail, cute and appealing, cohesive consistent style. Not realistic, no gradients, no photorealism, no text. A single everyday object drawn as a clean game item icon: a pair of leopard-print patterned sandals. Centered, gentle three-quarter view, soft contact shadow, isolated on a transparent background, no text, no people, no hands."
+  }
+]

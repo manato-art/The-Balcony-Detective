@@ -1,0 +1,31 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<base href="/"><title>新アイテム実シーン確認</title>
+<link rel="stylesheet" href="css/style.css">
+<style>body{margin:0;background:#f3eef7;font-family:system-ui,sans-serif}.pv{max-width:760px;margin:14px auto;padding:0 12px}.pv h2{font-size:15px;color:#3a3442;margin:14px 4px 6px}.card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 24px rgba(60,40,80,.1)}</style>
+</head><body><div class="pv">
+<h2>■ ファミリー（新: ベビーカー・三輪車・すべり台）</h2>
+<div class="card"><div id="s1"></div></div>
+<h2>■ ガチオタク（新: 抱き枕カバー・推しうちわ）</h2>
+<div class="card"><div id="s2"></div></div>
+</div>
+<script src="js/scene.js"></script>
+<script>
+var HK = window.VT_HANG_KINDS||[];
+function build(hints){
+  var seen={}, hangN=0, items=[];
+  hints.forEach(function(h){
+    var kind=h[1], label=h[0], v=window.VT_classify(label,kind), vkey=v||kind;
+    if(seen[vkey]) return; seen[vkey]=1;
+    var vdef=v&&window.VT_VARIANTS[v];
+    var wantHang=vdef?!!vdef.hang:HK.indexOf(kind)!==-1;
+    var zone=(wantHang&&hangN<3)?(hangN++,'hang'):'floor';
+    items.push({kind:kind,variant:v,label:label,zone:zone,fresh:false,strong:false});
+  });
+  return items;
+}
+var family=[['サイズ違いの子供服が大量','kids'],['ベビーカーの雨カバー','bike'],['補助輪付き自転車','bike'],['おもちゃのすべり台','star'],['おむつの大箱','box'],['キャラもののバスタオル','laundry']];
+var otaku=[['抱き枕カバーが干してある','laundry'],['痛うちわ','star'],['フィギュアの箱の山','box'],['ペンライトが数本','star'],['アニメTシャツが大量','laundry'],['遠征用キャリーの箱','box']];
+document.getElementById('s1').innerHTML = window.VT_scene({mansionId:'kogai', items:build(family)});
+document.getElementById('s2').innerHTML = window.VT_scene({mansionId:'zakkyo', items:build(otaku)});
+</script>
+</body></html>

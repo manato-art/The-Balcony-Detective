@@ -137,7 +137,7 @@
     const t = G.startTurn();
     const s = G.state;
     const name = s.players[t.playerIdx].name;
-    const pos = RP(t.room);
+    const pos = RP(t.room, s.mansion.id);
     $('#scr-pass').innerHTML =
       '<div class="pass-top">' + bubbleRow('point', 86, '「<b>' + t.room + '号室</b>のベランダを調べて、<br>住人を当てて！」') + '</div>' +
       '<div class="facade-wrap" id="facadeWrap" style="transform-origin:' + pos.x + '% ' + pos.y + '%">' + F(s.mansion, t.room, 320) + '</div>' +
@@ -181,7 +181,7 @@
       '<div class="play-guide">' +
       '<div class="pg-turn">' + I('user') + '<b>' + esc(name) + '</b>の番' +
       (s.combo >= 2 ? '<span class="combo-pill">' + I('star') + s.combo + 'コンボ中</span>' : '') + '</div>' +
-      '<div class="pg-main"><div class="pg-fig">' + M('point', 56) + '</div>' +
+      '<div class="pg-main"><div class="pg-fig">' + M('point', 80) + '</div>' +
       '<div class="pg-txt">' +
       '<div class="pg-mansion" style="--mc:' + (MANSION_COLOR[s.mansion.accent] || '#5b6675') + '">' + I(s.mansion.icon) + '<b>' + s.mansion.name + '</b><small>' + s.mansion.desc + '</small></div>' +
       '<div class="pg-q"><span class="pg-room">' + t.room + '号室</span>の住人はだれ？</div>' +
@@ -189,7 +189,7 @@
       '</div></div></div>' +
       '<div class="suspect-strip" id="suspects">' +
       t.choices.map((c) =>
-        '<button class="suspect-mini" onclick="UI.openAnswer()"><span class="sm-av">' + AV(c.id, 32) + '</span><span class="sm-nm">' + c.name + '</span></button>').join('') +
+        '<button class="suspect-mini" onclick="UI.openAnswer()"><span class="sm-av">' + AV(c.id, 62) + '</span><span class="sm-nm">' + c.name + '</span></button>').join('') +
       '</div>' +
       '<div class="scene-box" id="sceneBox"><div id="scene"></div><div class="scene-tip" id="sceneTip"></div></div>' +
       '<p class="scene-note">気になるアイテムはタップで確認</p>' +
@@ -370,6 +370,7 @@
   function newScene(t, s) {
     scene = {
       accent: s.mansion.accent,
+      mansionId: s.mansion.id,
       curtain: null, curtainClosed: false,
       light: false, rain: false, silhouette: false,
       items: [], freeHang: [0, 1, 2], freeFloor: [0, 1, 2, 3, 4], freeBack: [0, 1, 2, 3],
@@ -395,6 +396,9 @@
       return;
     }
     const variant = window.VT_classify(label, kind);
+    const vkey = variant || kind;
+    // 同じ見た目のアイテムは重複させない（中身が違っても同フォルムなら1つだけ表示）
+    if (scene.items.some((it) => (it.variant || it.kind) === vkey)) return;
     const vdef = variant && window.VT_VARIANTS[variant];
     const wantHang = vdef ? !!vdef.hang : HK.indexOf(kind) !== -1;
     let zone, slot;
@@ -410,6 +414,7 @@
   function renderScene() {
     $('#scene').innerHTML = SC(scene);
     scene.items.forEach((it) => { it.fresh = false; });
+    if (scene.curtain && !scene.curtainClosed) scene.curtainShown = true; // 開演出は初回のみ
   }
   UI.itemTap = function (i) {
     const label = i === -1
@@ -480,7 +485,12 @@
     } else if (ev.type === 'hints' || ev.type === 'strong') {
       addLog(ev.text, 'good');
       S.sfx(ev.type === 'strong' ? 'strong' : 'pop');
-      if (ev.id === 'curtain') { scene.curtainClosed = false; scene.light = true; }
+      if (ev.id === 'curtain') {
+        // カーテンヒントが無い住人でも「開いて室内が見える」演出を発火（scene.curtain 未設定なら補完）
+        if (!scene.curtain) scene.curtain = { color: '#ffe0b3', label: '' };
+        scene.curtainClosed = false;
+        scene.light = true;
+      }
       if (ev.id === 'light') scene.light = true;
       (ev.hints || []).forEach((h) => pushItem(h, ev.type === 'strong', true));
       renderScene();
