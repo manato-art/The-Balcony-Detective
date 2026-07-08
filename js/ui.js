@@ -181,7 +181,7 @@
       '<div class="play-guide">' +
       '<div class="pg-turn">' + I('user') + '<b>' + esc(name) + '</b>の番' +
       (s.combo >= 2 ? '<span class="combo-pill">' + I('star') + s.combo + 'コンボ中</span>' : '') + '</div>' +
-      '<div class="pg-main"><div class="pg-fig">' + M('point', 80) + '</div>' +
+      '<div class="pg-main"><div class="pg-fig">' + M('point', 54) + '</div>' +
       '<div class="pg-txt">' +
       '<div class="pg-mansion" style="--mc:' + (MANSION_COLOR[s.mansion.accent] || '#5b6675') + '">' + I(s.mansion.icon) + '<b>' + s.mansion.name + '</b><small>' + s.mansion.desc + '</small></div>' +
       '<div class="pg-q"><span class="pg-room">' + t.room + '号室</span>の住人はだれ？</div>' +

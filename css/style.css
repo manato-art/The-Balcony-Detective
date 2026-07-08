@@ -71,7 +71,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .tag.red { color: var(--red-t); background: var(--red-l); }
 .tag.gold { color: #b57800; background: #fff1c8; }
 
-.section-label { font-size: 12px; font-weight: 900; color: var(--text2); letter-spacing: .14em; margin: 18px 0 8px; }
+.section-label { font-size: 12px; font-weight: 900; color: var(--text2); letter-spacing: .14em; margin: 9px 0 5px; }
 .section-label.pl-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; max-width: 340px; }
 .reset-players { flex: none; border: none; background: transparent; color: var(--text2); font: inherit; font-size: 11px; font-weight: 800; letter-spacing: .04em; cursor: pointer; padding: 3px 6px; border-radius: 8px; text-decoration: underline; text-underline-offset: 2px; }
 .reset-players:active { color: var(--blue); transform: translateY(1px); }
@@ -179,7 +179,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 
 /* ---------- 捜査画面 ---------- */
 #scr-play { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
-.prog { height: 14px; border-radius: 8px; background: var(--border); overflow: hidden; margin-bottom: 12px; }
+.prog { height: 12px; border-radius: 8px; background: var(--border); overflow: hidden; margin-bottom: 7px; }
 .prog-fill { height: 100%; border-radius: 8px; background: var(--green); transition: width .4s ease; }
 .prog-fill.hot { background: var(--gold); }
 
@@ -194,11 +194,12 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .turn-badge .icon { width: 17px; height: 17px; color: var(--blue); }
 
 /* 捜査画面のゴール（常時表示） */
-.play-guide { display: flex; flex-direction: column; gap: 7px; background: linear-gradient(180deg, #f3ffe8, #eafbdc); border: 2px solid #cdeeae; border-radius: 16px; padding: 10px 13px 11px; margin-bottom: 12px; }
+.play-guide { display: flex; flex-direction: column; gap: 4px; background: linear-gradient(180deg, #f3ffe8, #eafbdc); border: 2px solid #cdeeae; border-radius: 14px; padding: 7px 12px 8px; margin-bottom: 8px; }
 .play-guide .pg-main { display: flex; align-items: center; gap: 9px; }
-.play-guide .pg-fig { flex: none; width: 80px; height: 80px; }
+.play-guide .pg-fig { flex: none; width: 54px; height: 54px; }
+.play-guide .pg-fig svg { display: block; width: 100%; height: 100%; }
 .play-guide .pg-txt { flex: 1; min-width: 0; }
-.play-guide .pg-turn { align-self: flex-start; display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; color: var(--blue-d); background: #fff; border-radius: 999px; padding: 3px 11px; }
+.play-guide .pg-turn { align-self: flex-start; display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: var(--blue-d); background: #fff; border-radius: 999px; padding: 2px 9px; }
 .play-guide .pg-turn b { font-weight: 900; }
 .play-guide .pg-turn .icon { width: 14px; height: 14px; color: var(--blue); }
 .play-guide .pg-turn .combo-pill { margin-left: 5px; }
@@ -208,9 +209,9 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .play-guide .pg-mansion .icon { width: 15px; height: 15px; color: var(--mc); flex: none; }
 .play-guide .pg-mansion b { font-weight: 900; color: var(--mc); }
 .play-guide .pg-mansion small { font-weight: 700; font-size: 10.5px; color: var(--text2); }
-.play-guide .pg-q { font-size: 18px; font-weight: 900; color: var(--text); line-height: 1.35; }
-.play-guide .pg-instr { font-size: 11.5px; font-weight: 700; color: var(--green-t); line-height: 1.45; margin-top: 2px; }
-.play-guide .pg-room { font-size: 22px; font-weight: 900; color: var(--green-t); background: rgba(88, 204, 2, .16); border-radius: 7px; padding: 1px 8px; }
+.play-guide .pg-q { font-size: 15.5px; font-weight: 900; color: var(--text); line-height: 1.3; }
+.play-guide .pg-instr { font-size: 11px; font-weight: 700; color: var(--green-t); line-height: 1.4; margin-top: 1px; }
+.play-guide .pg-room { font-size: 17px; font-weight: 900; color: var(--green-t); background: rgba(88, 204, 2, .16); border-radius: 6px; padding: 1px 7px; }
 
 /* 初回チュートリアル（スポットライト） */
 .tut-back { position: fixed; inset: 0; z-index: 200; cursor: pointer; }
@@ -289,7 +290,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .hint-chip.strong .icon { color: var(--orange); }
 
 /* 捜査画面の容疑者ストリップ（ゴール直下・横1列4枚） */
-.suspect-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+.suspect-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 8px; }
 .suspect-mini { display: flex; flex-direction: column; align-items: center; gap: 3px; background: #fff; border: 2px solid var(--border); border-bottom-width: 4px; border-radius: 12px; padding: 7px 3px 6px; font: inherit; cursor: pointer; transition: transform .1s ease; min-width: 0; }
 .suspect-mini:active { transform: translateY(2px); border-color: var(--blue); }
 .suspect-mini .sm-av { width: 100%; display: flex; align-items: center; justify-content: center; }
@@ -306,6 +307,13 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .suspect .av-img, .suspect svg { flex: none; width: 56px; height: auto; }
 .suspect:active { transform: translateY(2px); border-color: var(--blue); }
 .suspect svg { flex: none; }
+
+/* iPhone実機はSafariバーで可視域が狭い(~700px)。回答画面を1画面に収めるためモバイルでシーン/カードを微圧縮 */
+@media (max-width: 480px) {
+  .scene-box .sc-wrap { aspect-ratio: 5 / 3; }
+  .suspect-mini { padding: 5px 3px 5px; }
+  .suspect-mini .sm-av img { max-width: 60px; }
+}
 
 .log { display: flex; flex-direction: column; gap: 6px; height: 62px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 .log.scrollable { -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, .12) 9px, #000 30px); mask-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, .12) 9px, #000 30px); }
