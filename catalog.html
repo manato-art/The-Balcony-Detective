@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ベランダ探偵 — イラスト図鑑（ベランダ10種・アイテム264種）</title>
+<meta name="description" content="ベランダ探偵に登場する全10種のベランダと全264種のアイテムのイラスト一覧。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#eaf4ff; --surface:#fff; --border:#e5e5e5; --text:#3c3c3c; --text2:#6f7a8a;
+    --green:#58cc02; --green-d:#46a302; --green-t:#58a700; --blue:#1cb0f6; --gold:#ffc800; --pink:#ff86d0; --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:linear-gradient(180deg,#eaf4ff,#f4faff 340px,#f7fbff);color:var(--text);
+    font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
+    font-weight:800;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 16px 64px;}
+  /* ヘッダー */
+  header.top{text-align:center;padding:34px 16px 22px;}
+  .badge{display:inline-block;background:#fff;border:2px solid var(--green-l,#d7ffb8);color:var(--green-t);
+    font-size:12.5px;font-weight:900;letter-spacing:.08em;border-radius:999px;padding:5px 14px;box-shadow:0 2px 0 #cdeeae;}
+  header.top h1{font-size:clamp(24px,6vw,38px);font-weight:900;margin:14px 0 6px;color:var(--text);}
+  header.top p{margin:0 auto;max-width:560px;color:var(--text2);font-weight:800;font-size:14px;}
+  .counts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px;}
+  .counts a{display:flex;align-items:center;gap:8px;text-decoration:none;background:#fff;border:2px solid var(--border);
+    border-bottom-width:4px;border-radius:14px;padding:9px 16px;color:var(--text);font-weight:900;transition:transform .1s;}
+  .counts a:active{transform:translateY(2px);}
+  .counts a .n{color:var(--green-t);font-size:20px;}
+  .counts a svg{width:20px;height:20px;color:var(--blue);}
+  /* セクション見出し */
+  .sec-h{display:flex;align-items:center;gap:10px;margin:40px 0 14px;padding-top:8px;flex-wrap:wrap;}
+  .sec-h .ic{flex:none;width:30px;height:30px;color:#fff;background:var(--green);border-radius:9px;padding:5px;box-shadow:0 3px 0 var(--green-d);}
+  .sec-h.blue .ic{background:var(--blue);box-shadow:0 3px 0 #1899d6;}
+  .sec-h h2{font-size:20px;font-weight:900;margin:0;white-space:nowrap;}
+  .sec-h span{color:var(--text2);font-weight:800;font-size:13px;flex:1 1 100%;padding-left:40px;margin-top:-4px;}
+  /* ベランダ */
+  .bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+  .bcard{background:#fff;border:2px solid var(--border);border-bottom-width:4px;border-radius:var(--radius);overflow:hidden;}
+  .bimgs{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);}
+  .bimgs figure{margin:0;position:relative;background:#fff;}
+  .bimgs img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;}
+  .bimgs figcaption{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.5);color:#fff;font-size:10px;font-weight:900;padding:2px 7px;border-radius:999px;}
+  .bmeta{padding:10px 14px 12px;}
+  .bmeta h3{margin:0;font-size:16px;font-weight:900;}
+  .bmeta p{margin:2px 0 0;font-size:12.5px;color:var(--text2);font-weight:800;}
+  /* アイテム */
+  .cat{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:900;color:var(--green-t);margin:26px 0 12px;}
+  .cat span{background:var(--green-l,#d7ffb8);color:var(--green-t);font-size:11.5px;border-radius:999px;padding:1px 9px;}
+  .igrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px;}
+  .icell{margin:0;background:#fff;border:2px solid var(--border);border-bottom-width:4px;border-radius:14px;padding:8px 5px 7px;text-align:center;}
+  .icell.sec{border-color:var(--gold);background:#fffaf0;}
+  .ibox{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;}
+  .ibox img{max-width:100%;max-height:100%;width:auto;height:auto;}
+  .icell figcaption{margin-top:4px;font-size:10.5px;font-weight:800;line-height:1.3;color:var(--text);
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .icell.sec figcaption b{display:block;color:#b57800;font-size:8px;letter-spacing:.12em;}
+  footer{text-align:center;color:var(--text2);font-size:12px;font-weight:800;margin-top:48px;}
+  @media (max-width:560px){
+    .igrid{grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;}
+    .bgrid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <span class="badge">ベランダ探偵 — イラスト図鑑</span>
+    <h1>ぜんぶのベランダとアイテム</h1>
+    <p>ゲームに登場する全10種のベランダと、全264種のアイテムのイラスト一覧です。</p>
+    <nav class="counts">
+      <a href="#balcony"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="n">10</span>ベランダ</a>
+      <a href="#items"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-4 9 4-9 4-9-4Z"/><path d="M3 8v8l9 4 9-4V8"/><path d="M12 12v8"/></svg><span class="n">264</span>アイテム</a>
+    </nav>
+  </header>
+
+  <section id="balcony">
+    <div class="sec-h"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg></span><h2>ベランダ</h2><span>10種（各マンション：ベランダ／カーテンを開けた室内）</span></div>
+    <div class="bgrid">
+      <article class="bcard">
+        <div class="bimgs">
+          <figure><img loading="lazy" src="assets/balcony/boro.webp" width="300" height="200" alt="ボロアパートのベランダ"><figcaption>ベランダ</figcaption></figure>
+          <figure><img loading="lazy" src="assets/room/boro.webp" width="300" height="200" alt="ボロアパートの室内(カーテンを開けた状態)"><figcaption>カーテンオープン</figcaption></figure>
+        </div>
+        <div class="bmeta"><h3>ボロアパート</h3><p>家賃3万。壁は紙。</p></div>
+      </article>
+      <article class="bcard">
+        <div class="bimgs">
+          <figure><img loading="lazy" src="assets/balcony/gakusei.webp" width="300" height="200" alt="学生マンションのベランダ"><figcaption>ベランダ</figcaption></figure>
+          <figure><img loading="lazy" src="assets/room/gakusei.webp" width="300" height="200" alt="学生マンションの室内(カーテンを開けた状態)"><figcaption>カーテンオープン</figcaption></figure>
+        </div>
+        <div class="bmeta"><h3>学生マンション</h3><p>単位と青春の巣窟。</p></div>
+      </article>
+      <article class="bcard">
+        <div class="bimgs">
+          <figure><img loading="lazy" src="assets/balcony/hankagai.webp" width="300" height="200" alt="繁華街ワンルームのベランダ"><figcaption>ベランダ</figcaption></figure>
+          <figure><img loading="lazy" src="assets/room/hankagai.webp" width="300" height="200" alt="繁華街ワンルームの室内(カーテンを開けた状態)"><figcaption>カーテンオープン</figcaption></figure>
+        </div>
+        <div class="bmeta"><h3>繁華街ワンルーム</h3><p>夜が本番の街。</p></div>
+      </article>
+      <article class="bcard">
+        <div class="bimgs">
+          <figure><img loading="lazy" src="assets/balcony/tawaman.webp" width="300" height="200" alt="港区タワマンのベランダ"><figcaption>ベランダ</figcaption></figure>
+          <figure><img loading="lazy" src="assets/room/tawaman.webp" width="300" height="200" alt="港区タワマンの室内(カーテンを開けた状態)"><figcaption>カーテンオープン</figcaption></figure>
+        </div>
+        <div class="bmeta"><h3>港区タワマン</h3><p>家賃=あなたの年収。</p></div>
+      </article>
+      <article class="bcard">
+        <div class="bimgs">
+          <figure><img loading="lazy" src="assets/balcony/kogai.webp" width="300" height="200" alt="郊外ファミリーマンションのベランダ"><figcaption>ベランダ</figcaption></figure>
+          <figure><img loading="lazy" src="assets/room/kogai.webp" width="300" height="200" alt="郊外ファミリーマンションの室内(カーテンを開けた状態)"><figcaption>カーテンオープン</figcaption></figure>
+        </div>
+        <div class="bmeta"><h3>郊外ファミリーマンション</h3><p>日曜の朝はラジオ体操。</p></div>
+      </article>
+      <article class="bcard">
+        <div class="bimgs">
+          <figure><img loading="lazy" src="assets/balcony/designers.webp" width="300" height="200" alt="デザイナーズマンションのベランダ"><figcaption>ベランダ</figcaption></figure>
+          <figure><img loading="lazy" src="assets/room/designers.webp" width="300" height="200" alt="デザイナーズマンションの室内(カーテンを開けた状態)"><figcaption>カーテンオープン</figcaption></figure>
+        </div>
+        <div class="bmeta"><h3>デザイナーズマンション</h3><p>コンクリ打ちっぱなし。冬は寒い。</p></div>
+      </article>
+      <article class="bcard">
+        <div class="bimgs">
+          <figure><img loading="lazy" src="assets/balcony/shataku.webp" width="300" height="200" alt="社宅・団地のベランダ"><figcaption>ベランダ</figcaption></figure>
+          <figure><img loading="lazy" src="assets/room/shataku.webp" width="300" height="200" alt="社宅・団地の室内(カーテンを開けた状態)"><figcaption>カーテンオープン</figcaption></figure>
+        </div>
+        <div class="bmeta"><h3>社宅・団地</h3><p>人事異動と共に人が入れ替わる。</p></div>
+      </article>
+      <article class="bcard">
+        <div class="bimgs">
+          <figure><img loading="lazy" src="assets/balcony/koukyu.webp" width="300" height="200" alt="高級低層マンションのベランダ"><figcaption>ベランダ</figcaption></figure>
+          <figure><img loading="lazy" src="assets/room/koukyu.webp" width="300" height="200" alt="高級低層マンションの室内(カーテンを開けた状態)"><figcaption>カーテンオープン</figcaption></figure>
+        </div>
+        <div class="bmeta"><h3>高級低層マンション</h3><p>静かで上品。住人は謎。</p></div>
+      </article>
+      <article class="bcard">
+        <div class="bimgs">
+          <figure><img loading="lazy" src="assets/balcony/zakkyo.webp" width="300" height="200" alt="怪しい雑居ビル風マンションのベランダ"><figcaption>ベランダ</figcaption></figure>
+          <figure><img loading="lazy" src="assets/room/zakkyo.webp" width="300" height="200" alt="怪しい雑居ビル風マンションの室内(カーテンを開けた状態)"><figcaption>カーテンオープン</figcaption></figure>
+        </div>
+        <div class="bmeta"><h3>怪しい雑居ビル風マンション</h3><p>2階から上が謎。</p></div>
+      </article>
+      <article class="bcard">
+        <div class="bimgs">
+          <figure><img loading="lazy" src="assets/balcony/resort.webp" width="300" height="200" alt="リゾート風マンションのベランダ"><figcaption>ベランダ</figcaption></figure>
+          <figure><img loading="lazy" src="assets/room/resort.webp" width="300" height="200" alt="リゾート風マンションの室内(カーテンを開けた状態)"><figcaption>カーテンオープン</figcaption></figure>
+        </div>
+        <div class="bmeta"><h3>リゾート風マンション</h3><p>常夏。ただし千葉。</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="items">
+    <div class="sec-h blue"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-4 9 4-9 4-9-4Z"/><path d="M3 8v8l9 4 9-4V8"/><path d="M12 12v8"/></svg></span><h2>アイテム</h2><span>264種（ヒントに対応した専用イラスト）</span></div>
+    
+      <h3 class="cat">洗濯物・衣類<span>43</span></h3>
+      <div class="igrid">
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/apron.webp" width="120" height="120" alt="エプロンが数枚"></div><figcaption>エプロンが数枚</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/laundry.webp" width="120" height="120" alt="おしゃれな古着"></div><figcaption>おしゃれな古着</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/tapestry.webp" width="120" height="120" alt="カラフルなタペストリー"></div><figcaption>カラフルなタペストリー</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/towel.webp" width="120" height="120" alt="キャラもののバスタオル"></div><figcaption>キャラもののバスタオル</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/jersey.webp" width="120" height="120" alt="サークルのジャージ"></div><figcaption>サークルのジャージ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/dress.webp" width="120" height="120" alt="シルクのガウン"></div><figcaption>シルクのガウン</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/stage_costume.webp" width="120" height="120" alt="ステージ衣装っぽい服が1着"></div><figcaption>ステージ衣装っぽい服が1着</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/sailor_uniform.webp" width="120" height="120" alt="セーラー服っぽい衣装"></div><figcaption>セーラー服っぽい衣装</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/tank.webp" width="120" height="120" alt="タンクトップが5枚"></div><figcaption>タンクトップが5枚</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/tent.webp" width="120" height="120" alt="テントが干してある"></div><figcaption>テントが干してある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/scrub.webp" width="120" height="120" alt="ナース服っぽい衣装"></div><figcaption>ナース服っぽい衣装</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/necktie.webp" width="120" height="120" alt="ネクタイが一本だけ干してある"></div><figcaption>ネクタイが一本だけ干してある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/laundry_pastel.webp" width="120" height="120" alt="パステルカラーの洗濯物"></div><figcaption>パステルカラーの洗濯物</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/laundry_leopard.webp" width="120" height="120" alt="ヒョウ柄の何かが干してある"></div><figcaption>ヒョウ柄の何かが干してある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/fan_towel.webp" width="120" height="120" alt="ライブのタオルが干してある"></div><figcaption>ライブのタオルが干してある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/leggings.webp" width="120" height="120" alt="レギンスが数枚"></div><figcaption>レギンスが数枚</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/vacuum_bag.webp" width="120" height="120" alt="圧縮袋に入った布団"></div><figcaption>圧縮袋に入った布団</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/spacesuit.webp" width="120" height="120" alt="銀色の謎のスーツが干してある"></div><figcaption>銀色の謎のスーツが干してある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/work_gloves.webp" width="120" height="120" alt="軍手が干してある"></div><figcaption>軍手が干してある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/apron_black.webp" width="120" height="120" alt="黒のサロンエプロン"></div><figcaption>黒のサロンエプロン</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/lace.webp" width="120" height="120" alt="黒レース風の洗濯物"></div><figcaption>黒レース風の洗濯物</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/laundry_navy.webp" width="120" height="120" alt="紺色の何かが干してある"></div><figcaption>紺色の何かが干してある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/happi.webp" width="120" height="120" alt="祭りの法被が干してある"></div><figcaption>祭りの法被が干してある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/workwear.webp" width="120" height="120" alt="作業着が2着"></div><figcaption>作業着が2着</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/backdrop_cloth.webp" width="120" height="120" alt="撮影用の背景布"></div><figcaption>撮影用の背景布</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/laundry_pole.webp" width="120" height="120" alt="錆びた物干し竿"></div><figcaption>錆びた物干し竿</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/judo.webp" width="120" height="120" alt="柔道着が干してある"></div><figcaption>柔道着が干してある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/sleeping_bag.webp" width="120" height="120" alt="寝袋が干してある"></div><figcaption>寝袋が干してある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/empty_clothesline.webp" width="120" height="120" alt="洗濯物が一切ない"></div><figcaption>洗濯物が一切ない</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/towel_sport.webp" width="120" height="120" alt="息子の部活タオル"></div><figcaption>息子の部活タオル</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/gloves.webp" width="120" height="120" alt="単発バイトの軍手"></div><figcaption>単発バイトの軍手</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/kimono.webp" width="120" height="120" alt="着物が干してある"></div><figcaption>着物が干してある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/laundry_black.webp" width="120" height="120" alt="同じ黒い服ばかり"></div><figcaption>同じ黒い服ばかり</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/futon.webp" width="120" height="120" alt="猫の毛だらけの毛布"></div><figcaption>猫の毛だらけの毛布</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/laundry_white.webp" width="120" height="120" alt="白Tシャツもう1枚"></div><figcaption>白Tシャツもう1枚</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/towel_white.webp" width="120" height="120" alt="白いタオルが大量"></div><figcaption>白いタオルが大量</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/suit.webp" width="120" height="120" alt="白スーツが3着"></div><figcaption>白スーツが3着</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/white_gloves.webp" width="120" height="120" alt="白手袋の替えが大量"></div><figcaption>白手袋の替えが大量</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/white_robe.webp" width="120" height="120" alt="白装束っぽい何か"></div><figcaption>白装束っぽい何か</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/clothesline_rope.webp" width="120" height="120" alt="物干し竿がなくロープ1本"></div><figcaption>物干し竿がなくロープ1本</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/hat_item.webp" width="120" height="120" alt="変装用の帽子"></div><figcaption>変装用の帽子</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/dakimakura.webp" width="120" height="120" alt="抱き枕カバーが干してある"></div><figcaption>抱き枕カバーが干してある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/clothespins.webp" width="120" height="120" alt="名前入りの洗濯バサミ"></div><figcaption>名前入りの洗濯バサミ</figcaption></figure>
+      </div>
+      <h3 class="cat">箱・荷物・通販<span>64</span></h3>
+      <div class="igrid">
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/cd_stack.webp" width="120" height="120" alt="CD-Rの束が届いてる"></div><figcaption>CD-Rの束が届いてる</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/eyemask.webp" width="120" height="120" alt="アイマスクのパック"></div><figcaption>アイマスクのパック</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/chairs.webp" width="120" height="120" alt="アウトドアチェア"></div><figcaption>アウトドアチェア</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_baby.webp" width="120" height="120" alt="おむつの大箱"></div><figcaption>おむつの大箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_incense.webp" width="120" height="120" alt="お香の箱"></div><figcaption>お香の箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_cosme.webp" width="120" height="120" alt="カラコンの箱"></div><figcaption>カラコンの箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/synth_keyboard.webp" width="120" height="120" alt="キーボードが立てかけてある"></div><figcaption>キーボードが立てかけてある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_cool.webp" width="120" height="120" alt="クーラーボックス"></div><figcaption>クーラーボックス</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_cake.webp" width="120" height="120" alt="ケーキの箱（夜勤明けの自分用）"></div><figcaption>ケーキの箱（夜勤明けの自分用）</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_coffee.webp" width="120" height="120" alt="コーヒー豆の箱"></div><figcaption>コーヒー豆の箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_iron.webp" width="120" height="120" alt="コテ・アイロンの箱"></div><figcaption>コテ・アイロンの箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/trash_bag.webp" width="120" height="120" alt="ゴミ袋が巨大"></div><figcaption>ゴミ袋が巨大</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_books.webp" width="120" height="120" alt="サイン用の本の箱"></div><figcaption>サイン用の本の箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_champagne_glass.webp" width="120" height="120" alt="シャンパングラスの箱"></div><figcaption>シャンパングラスの箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_champagne.webp" width="120" height="120" alt="シャンパンの空き箱"></div><figcaption>シャンパンの空き箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_crate.webp" width="120" height="120" alt="シャンパンの木箱"></div><figcaption>シャンパンの木箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_spice.webp" width="120" height="120" alt="スパイスの箱"></div><figcaption>スパイスの箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_pizza.webp" width="120" height="120" alt="チートデイ用ピザの箱"></div><figcaption>チートデイ用ピザの箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_shoes.webp" width="120" height="120" alt="ナースシューズの通販箱"></div><figcaption>ナースシューズの通販箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/bucket.webp" width="120" height="120" alt="バケツとモップ"></div><figcaption>バケツとモップ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/breadcrumbs.webp" width="120" height="120" alt="パンくずの山"></div><figcaption>パンくずの山</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/magazines.webp" width="120" height="120" alt="ファッション雑誌の山"></div><figcaption>ファッション雑誌の山</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_figure.webp" width="120" height="120" alt="フィギュアの箱の山"></div><figcaption>フィギュアの箱の山</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_glasses.webp" width="120" height="120" alt="ブルーライトカット眼鏡の箱"></div><figcaption>ブルーライトカット眼鏡の箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/keyboardp.webp" width="120" height="120" alt="ボイトレ用のキーボード"></div><figcaption>ボイトレ用のキーボード</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/broom.webp" width="120" height="120" alt="ほうきとちりとり"></div><figcaption>ほうきとちりとり</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_dice.webp" width="120" height="120" alt="ボードゲームの箱"></div><figcaption>ボードゲームの箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/poster_tube.webp" width="120" height="120" alt="ポスターの筒"></div><figcaption>ポスターの筒</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_gadget.webp" width="120" height="120" alt="ミシンの箱"></div><figcaption>ミシンの箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/director_chair.webp" width="120" height="120" alt="ロケ用の折りたたみ椅子"></div><figcaption>ロケ用の折りたたみ椅子</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_bottles.webp" width="120" height="120" alt="ワインセラーの配送箱"></div><figcaption>ワインセラーの配送箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_gift.webp" width="120" height="120" alt="引き出物っぽい箱"></div><figcaption>引き出物っぽい箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_music.webp" width="120" height="120" alt="演歌CDの箱"></div><figcaption>演歌CDの箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_carry.webp" width="120" height="120" alt="遠征用キャリーの箱"></div><figcaption>遠征用キャリーの箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_open.webp" width="120" height="120" alt="開いた段ボール箱"></div><figcaption>開いた段ボール箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_case.webp" width="120" height="120" alt="機材っぽい銀色の箱"></div><figcaption>機材っぽい銀色の箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/stepladder.webp" width="120" height="120" alt="脚立が立てかけてある"></div><figcaption>脚立が立てかけてある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_hairdye.webp" width="120" height="120" alt="業務用カラー剤の箱"></div><figcaption>業務用カラー剤の箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_photo.webp" width="120" height="120" alt="結婚式の写真の配送箱"></div><figcaption>結婚式の写真の配送箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/books.webp" width="120" height="120" alt="献本の山"></div><figcaption>献本の山</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_photos.webp" width="120" height="120" alt="古い写真の箱"></div><figcaption>古い写真の箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/toolbox.webp" width="120" height="120" alt="工具箱"></div><figcaption>工具箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_watch.webp" width="120" height="120" alt="高級時計の空箱"></div><figcaption>高級時計の空箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_intl.webp" width="120" height="120" alt="国際便の段ボール"></div><figcaption>国際便の段ボール</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_cushion.webp" width="120" height="120" alt="腰痛クッションの箱"></div><figcaption>腰痛クッションの箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_fruit.webp" width="120" height="120" alt="差し入れの高級フルーツ箱"></div><figcaption>差し入れの高級フルーツ箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_veggie.webp" width="120" height="120" alt="実家からの野菜の箱"></div><figcaption>実家からの野菜の箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/bowls.webp" width="120" height="120" alt="出前の器が積んである"></div><figcaption>出前の器が積んである</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/firewood.webp" width="120" height="120" alt="薪の束"></div><figcaption>薪の束</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_air.webp" width="120" height="120" alt="薪の定期便"></div><figcaption>薪の定期便</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_fan.webp" width="120" height="120" alt="扇子の箱"></div><figcaption>扇子の箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/cleaning_set.webp" width="120" height="120" alt="掃除道具がきれいに並ぶ"></div><figcaption>掃除道具がきれいに並ぶ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/empty_corner.webp" width="120" height="120" alt="段ボールが1つもない"></div><figcaption>段ボールが1つもない</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_stack.webp" width="120" height="120" alt="通販の段ボールが2つ"></div><figcaption>通販の段ボールが2つ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box.webp" width="120" height="120" alt="爪とぎの箱"></div><figcaption>爪とぎの箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/bulb.webp" width="120" height="120" alt="電球の買い置き"></div><figcaption>電球の買い置き</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_tall.webp" width="120" height="120" alt="特大の鍋の箱"></div><figcaption>特大の鍋の箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/metal_box.webp" width="120" height="120" alt="謎の金属の箱"></div><figcaption>謎の金属の箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_cat.webp" width="120" height="120" alt="猫の段ボール"></div><figcaption>猫の段ボール</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/diary.webp" width="120" height="120" alt="病み期の日記帳"></div><figcaption>病み期の日記帳</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/sack.webp" width="120" height="120" alt="米の宅配袋"></div><figcaption>米の宅配袋</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/bento_box.webp" width="120" height="120" alt="弁当箱が干してある"></div><figcaption>弁当箱が干してある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_jewel.webp" width="120" height="120" alt="万年筆の箱"></div><figcaption>万年筆の箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_med.webp" width="120" height="120" alt="目薬の箱"></div><figcaption>目薬の箱</figcaption></figure>
+      </div>
+      <h3 class="cat">郵便・紙もの<span>22</span></h3>
+      <div class="igrid">
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/mail.webp" width="120" height="120" alt="PTAの封筒"></div><figcaption>PTAの封筒</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/med_notebook.webp" width="120" height="120" alt="お薬手帳が窓際に"></div><figcaption>お薬手帳が窓際に</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/alien_goo.webp" width="120" height="120" alt="ポストが謎の液体で塞がっている"></div><figcaption>ポストが謎の液体で塞がっている</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/mail_air.webp" width="120" height="120" alt="ポストにエアメール"></div><figcaption>ポストにエアメール</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/postcard.webp" width="120" height="120" alt="ポストにライブの当選ハガキ"></div><figcaption>ポストにライブの当選ハガキ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/catalog.webp" width="120" height="120" alt="ポストに会社の社内報"></div><figcaption>ポストに会社の社内報</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/tickets.webp" width="120" height="120" alt="ポストに公演チケットの余り"></div><figcaption>ポストに公演チケットの余り</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/magnet.webp" width="120" height="120" alt="ポストに出前のマグネットが大量"></div><figcaption>ポストに出前のマグネットが大量</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/flyer.webp" width="120" height="120" alt="ポストに大学の紀要"></div><figcaption>ポストに大学の紀要</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/taiso_card.webp" width="120" height="120" alt="ラジオ体操のカード"></div><figcaption>ラジオ体操のカード</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/kairanban.webp" width="120" height="120" alt="回覧板が置いてある"></div><figcaption>回覧板が置いてある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/rolled_poster.webp" width="120" height="120" alt="丸めた学会ポスター"></div><figcaption>丸めた学会ポスター</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/papers.webp" width="120" height="120" alt="業界紙の束"></div><figcaption>業界紙の束</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/namecards.webp" width="120" height="120" alt="業者の名刺の束"></div><figcaption>業者の名刺の束</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/newspaper.webp" width="120" height="120" alt="経済新聞の束"></div><figcaption>経済新聞の束</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/calendar.webp" width="120" height="120" alt="月齢カレンダー"></div><figcaption>月齢カレンダー</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/manuscript.webp" width="120" height="120" alt="原稿の束"></div><figcaption>原稿の束</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/map.webp" width="120" height="120" alt="聖地巡礼の地図"></div><figcaption>聖地巡礼の地図</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/nameplate.webp" width="120" height="120" alt="表札が明らかに偽名"></div><figcaption>表札が明らかに偽名</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/delivery_notice.webp" width="120" height="120" alt="不在票が大量（昼は寝てる）"></div><figcaption>不在票が大量（昼は寝てる）</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/mailbox.webp" width="120" height="120" alt="郵便物がほぼゼロ"></div><figcaption>郵便物がほぼゼロ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/resume.webp" width="120" height="120" alt="履歴書の束"></div><figcaption>履歴書の束</figcaption></figure>
+      </div>
+      <h3 class="cat">飲みもの・空き容器<span>14</span></h3>
+      <div class="igrid">
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/can_energy.webp" width="120" height="120" alt="エナドリの空き缶"></div><figcaption>エナドリの空き缶</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/tumbler.webp" width="120" height="120" alt="お洒落なタンブラー"></div><figcaption>お洒落なタンブラー</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/cupnoodle_tower.webp" width="120" height="120" alt="カップ麺の空き容器タワー"></div><figcaption>カップ麺の空き容器タワー</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/bottles.webp" width="120" height="120" alt="スムージーのボトル"></div><figcaption>スムージーのボトル</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/tapioca.webp" width="120" height="120" alt="タピオカの空きカップ"></div><figcaption>タピオカの空きカップ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/mug_pair.webp" width="120" height="120" alt="ペアのマグカップ"></div><figcaption>ペアのマグカップ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/wine.webp" width="120" height="120" alt="ワインの空き瓶"></div><figcaption>ワインの空き瓶</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/sake.webp" width="120" height="120" alt="一升瓶が並んでいる"></div><figcaption>一升瓶が並んでいる</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/testtube.webp" width="120" height="120" alt="液体の入った謎の試験管"></div><figcaption>液体の入った謎の試験管</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/can_ashtray.webp" width="120" height="120" alt="灰皿代わりの空き缶"></div><figcaption>灰皿代わりの空き缶</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/can.webp" width="120" height="120" alt="缶ビール2本だけ"></div><figcaption>缶ビール2本だけ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/toothbrush_cup.webp" width="120" height="120" alt="歯ブラシが5本刺さったコップ"></div><figcaption>歯ブラシが5本刺さったコップ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/cat_food_can.webp" width="120" height="120" alt="猫缶の空き缶が整列"></div><figcaption>猫缶の空き缶が整列</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/can_tower.webp" width="120" height="120" alt="発泡酒の空き缶タワー"></div><figcaption>発泡酒の空き缶タワー</figcaption></figure>
+      </div>
+      <h3 class="cat">植物・ガーデン<span>11</span></h3>
+      <div class="igrid">
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/dryflower.webp" width="120" height="120" alt="ハーブが吊るしてある"></div><figcaption>ハーブが吊るしてある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/tomato.webp" width="120" height="120" alt="プランターのミニトマト"></div><figcaption>プランターのミニトマト</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/plant_big.webp" width="120" height="120" alt="観葉植物が多め"></div><figcaption>観葉植物が多め</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/glowing_plant.webp" width="120" height="120" alt="見たことのない光る植物"></div><figcaption>見たことのない光る植物</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/bouquet.webp" width="120" height="120" alt="紅白の花"></div><figcaption>紅白の花</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/sakaki_branch.webp" width="120" height="120" alt="榊の枝が置いてある"></div><figcaption>榊の枝が置いてある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/plant.webp" width="120" height="120" alt="小ぶりの観葉植物"></div><figcaption>小ぶりの観葉植物</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/twigs.webp" width="120" height="120" alt="小枝が山ほど集めてある"></div><figcaption>小枝が山ほど集めてある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/wall_green.webp" width="120" height="120" alt="造花のウォールグリーン"></div><figcaption>造花のウォールグリーン</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/petbowl.webp" width="120" height="120" alt="猫のごはん皿"></div><figcaption>猫のごはん皿</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/bonsai.webp" width="120" height="120" alt="盆栽"></div><figcaption>盆栽</figcaption></figure>
+      </div>
+      <h3 class="cat">バッグ・履きもの<span>24</span></h3>
+      <div class="igrid">
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/golf.webp" width="120" height="120" alt="ゴルフバッグ"></div><figcaption>ゴルフバッグ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/empty_doormat.webp" width="120" height="120" alt="サンダルすらない"></div><figcaption>サンダルすらない</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/gym_bag.webp" width="120" height="120" alt="ジムバッグ"></div><figcaption>ジムバッグ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/suitcase.webp" width="120" height="120" alt="スーツケース"></div><figcaption>スーツケース</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/bag_delivery.webp" width="120" height="120" alt="デリバリーの袋"></div><figcaption>デリバリーの袋</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/bag.webp" width="120" height="120" alt="デリバリーの袋が溜まってる"></div><figcaption>デリバリーの袋が溜まってる</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/delivery_bag.webp" width="120" height="120" alt="デリバリー袋が大量"></div><figcaption>デリバリー袋が大量</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/nurse_shoes.webp" width="120" height="120" alt="ナースシューズが干してある"></div><figcaption>ナースシューズが干してある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/candy_bag.webp" width="120" height="120" alt="のど飴の大袋"></div><figcaption>のど飴の大袋</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/sandal.webp" width="120" height="120" alt="ビーサン"></div><figcaption>ビーサン</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/dress_shoes.webp" width="120" height="120" alt="ピカピカに磨かれた革靴"></div><figcaption>ピカピカに磨かれた革靴</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/sandal_leopard.webp" width="120" height="120" alt="ヒョウ柄のサンダル"></div><figcaption>ヒョウ柄のサンダル</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/bag_brand.webp" width="120" height="120" alt="ブランド紙袋が複数"></div><figcaption>ブランド紙袋が複数</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/amenity_bag.webp" width="120" height="120" alt="ホテルのアメニティ袋"></div><figcaption>ホテルのアメニティ袋</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/sandal_glitter.webp" width="120" height="120" alt="ラメ入りのサンダル"></div><figcaption>ラメ入りのサンダル</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/shoe_pile.webp" width="120" height="120" alt="靴が玄関からあふれてる"></div><figcaption>靴が玄関からあふれてる</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/platform_shoes.webp" width="120" height="120" alt="厚底靴がズラッと並ぶ"></div><figcaption>厚底靴がズラッと並ぶ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/box_perfume.webp" width="120" height="120" alt="香水の箱が積んである"></div><figcaption>香水の箱が積んである</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/bag_conv.webp" width="120" height="120" alt="差し入れのお菓子袋"></div><figcaption>差し入れのお菓子袋</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/uwabaki.webp" width="120" height="120" alt="子どもの上履き"></div><figcaption>子どもの上履き</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/cooler_bag.webp" width="120" height="120" alt="手作り弁当の保冷バッグ"></div><figcaption>手作り弁当の保冷バッグ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/slippers.webp" width="120" height="120" alt="前住人のスリッパ"></div><figcaption>前住人のスリッパ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/hiking_boots.webp" width="120" height="120" alt="登山靴"></div><figcaption>登山靴</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/sandal_white.webp" width="120" height="120" alt="白スニーカーが2足"></div><figcaption>白スニーカーが2足</figcaption></figure>
+      </div>
+      <h3 class="cat">趣味・推し活・機材<span>42</span></h3>
+      <div class="igrid">
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/pcase.webp" width="120" height="120" alt="PCケース"></div><figcaption>PCケース</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/welcome_board.webp" width="120" height="120" alt="ウェルカムボードの残骸"></div><figcaption>ウェルカムボードの残骸</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/slide_toy.webp" width="120" height="120" alt="おもちゃのすべり台"></div><figcaption>おもちゃのすべり台</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/camera.webp" width="120" height="120" alt="カメラ"></div><figcaption>カメラ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/guitar.webp" width="120" height="120" alt="ギター"></div><figcaption>ギター</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/guitar_case.webp" width="120" height="120" alt="ギターケースがベランダに"></div><figcaption>ギターケースがベランダに</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/swim_ring.webp" width="120" height="120" alt="キャラものの浮き輪"></div><figcaption>キャラものの浮き輪</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/glow_bracelet.webp" width="120" height="120" alt="クラブの光るブレスレット"></div><figcaption>クラブの光るブレスレット</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/ashtray.webp" width="120" height="120" alt="クリスタルの灰皿"></div><figcaption>クリスタルの灰皿</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/gateball_mallet.webp" width="120" height="120" alt="ゲートボールのスティック"></div><figcaption>ゲートボールのスティック</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/gamepad.webp" width="120" height="120" alt="コントローラーが2個"></div><figcaption>コントローラーが2個</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/surf.webp" width="120" height="120" alt="サーフボード"></div><figcaption>サーフボード</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/champagne_glass.webp" width="120" height="120" alt="シャンパングラスが窓際に"></div><figcaption>シャンパングラスが窓際に</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/star.webp" width="120" height="120" alt="スター（推しマーク）"></div><figcaption>スター（推しマーク）</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/tarot.webp" width="120" height="120" alt="タロットカードの外箱"></div><figcaption>タロットカードの外箱</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/tube.webp" width="120" height="120" alt="チューブ（絵の具など）"></div><figcaption>チューブ（絵の具など）</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/nest.webp" width="120" height="120" alt="どう見ても巣"></div><figcaption>どう見ても巣</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/party_decor.webp" width="120" height="120" alt="パーティー飾りの残り"></div><figcaption>パーティー飾りの残り</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/flute.webp" width="120" height="120" alt="フルート"></div><figcaption>フルート</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/deterrent_disc.webp" width="120" height="120" alt="フン対策のキラキラ円盤（効いてない）"></div><figcaption>フン対策のキラキラ円盤（効いてない）</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/lantern.webp" width="120" height="120" alt="ランタン"></div><figcaption>ランタン</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/alien_disc.webp" width="120" height="120" alt="円盤型の謎の物体"></div><figcaption>円盤型の謎の物体</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/lanyard.webp" width="120" height="120" alt="会社の名札ストラップ"></div><figcaption>会社の名札ストラップ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/feathers.webp" width="120" height="120" alt="灰色の羽根が散らばっている"></div><figcaption>灰色の羽根が散らばっている</figcaption></figure>
+        <figure class="icell sec"><div class="ibox"><img loading="lazy" src="assets/items/sec_goldhato.webp" width="120" height="120" alt="金のハト像"></div><figcaption>金のハト像<b>SECRET</b></figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/ring_light.webp" width="120" height="120" alt="撮影用ライト"></div><figcaption>撮影用ライト</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/tripod.webp" width="120" height="120" alt="三脚が立てっぱなし"></div><figcaption>三脚が立てっぱなし</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/flag.webp" width="120" height="120" alt="祝日に国旗が出る"></div><figcaption>祝日に国旗が出る</figcaption></figure>
+        <figure class="icell sec"><div class="ibox"><img loading="lazy" src="assets/items/sec_ufo.webp" width="120" height="120" alt="小さなUFO"></div><figcaption>小さなUFO<b>SECRET</b></figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/uchiwa.webp" width="120" height="120" alt="推しのうちわが窓際に"></div><figcaption>推しのうちわが窓際に</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/teddy.webp" width="120" height="120" alt="推しのぬいぐるみが窓に"></div><figcaption>推しのぬいぐるみが窓に</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/penlight.webp" width="120" height="120" alt="推しのペンライト"></div><figcaption>推しのペンライト</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/crystal.webp" width="120" height="120" alt="水晶玉が窓際に"></div><figcaption>水晶玉が窓際に</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/beads.webp" width="120" height="120" alt="数珠が干してある"></div><figcaption>数珠が干してある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/clothespin.webp" width="120" height="120" alt="洗濯バサミを崇拝している形跡"></div><figcaption>洗濯バサミを崇拝している形跡</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/uchiwa_ita.webp" width="120" height="120" alt="痛うちわ"></div><figcaption>痛うちわ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/rod.webp" width="120" height="120" alt="釣り竿が立てかけてある"></div><figcaption>釣り竿が立てかけてある</figcaption></figure>
+        <figure class="icell sec"><div class="ibox"><img loading="lazy" src="assets/items/sec_chest.webp" width="120" height="120" alt="謎の宝箱"></div><figcaption>謎の宝箱<b>SECRET</b></figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/sun_cushion.webp" width="120" height="120" alt="日向ぼっこ用クッション"></div><figcaption>日向ぼっこ用クッション</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/cat_toy.webp" width="120" height="120" alt="猫用おもちゃ"></div><figcaption>猫用おもちゃ</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/cosplay_prop.webp" width="120" height="120" alt="武器っぽい小道具（作り物）"></div><figcaption>武器っぽい小道具（作り物）</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/chime.webp" width="120" height="120" alt="風がないのに風鈴が鳴る"></div><figcaption>風がないのに風鈴が鳴る</figcaption></figure>
+      </div>
+      <h3 class="cat">運動・筋トレ<span>5</span></h3>
+      <div class="igrid">
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/protein.webp" width="120" height="120" alt="ソイプロテイン"></div><figcaption>ソイプロテイン</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/dumbbell.webp" width="120" height="120" alt="ダンベル"></div><figcaption>ダンベル</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/pullup_bar.webp" width="120" height="120" alt="ベランダに懸垂バー"></div><figcaption>ベランダに懸垂バー</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/yogamat.webp" width="120" height="120" alt="ヨガマットが2本"></div><figcaption>ヨガマットが2本</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/gym_gloves.webp" width="120" height="120" alt="ワークアウトグローブ"></div><figcaption>ワークアウトグローブ</figcaption></figure>
+      </div>
+      <h3 class="cat">子ども・乗りもの<span>7</span></h3>
+      <div class="igrid">
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/skate.webp" width="120" height="120" alt="スケボーが立てかけてある"></div><figcaption>スケボーが立てかけてある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/stroller.webp" width="120" height="120" alt="ベビーカーの雨カバー"></div><figcaption>ベビーカーの雨カバー</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/tricycle.webp" width="120" height="120" alt="三輪車が隅にある"></div><figcaption>三輪車が隅にある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/kids.webp" width="120" height="120" alt="子どもの体操服"></div><figcaption>子どもの体操服</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/bike.webp" width="120" height="120" alt="自転車"></div><figcaption>自転車</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/skirt.webp" width="120" height="120" alt="制服っぽいスカート"></div><figcaption>制服っぽいスカート</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/gym_uniform_kids.webp" width="120" height="120" alt="娘の体操服（二度洗い済み）"></div><figcaption>娘の体操服（二度洗い済み）</figcaption></figure>
+      </div>
+      <h3 class="cat">美容・身だしなみ<span>7</span></h3>
+      <div class="igrid">
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/sunglasses.webp" width="120" height="120" alt="サングラスが3本"></div><figcaption>サングラスが3本</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/scissor_case.webp" width="120" height="120" alt="シザーケースが見える"></div><figcaption>シザーケースが見える</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/eyelash_case.webp" width="120" height="120" alt="つけまつげのケースが窓際"></div><figcaption>つけまつげのケースが窓際</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/mirror.webp" width="120" height="120" alt="姿見が窓越しに見える"></div><figcaption>姿見が窓越しに見える</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/ring.webp" width="120" height="120" alt="指輪"></div><figcaption>指輪</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/nail_case.webp" width="120" height="120" alt="派手なネイルチップのケース"></div><figcaption>派手なネイルチップのケース</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/wig.webp" width="120" height="120" alt="練習用ウィッグが窓際に"></div><figcaption>練習用ウィッグが窓際に</figcaption></figure>
+      </div>
+      <h3 class="cat">生活感・その他<span>25</span></h3>
+      <div class="igrid">
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/trophy.webp" width="120" height="120" alt="「No.1」のトロフィーが窓際"></div><figcaption>「No.1」のトロフィーが窓際</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/alert.webp" width="120" height="120" alt="「点検中」の札"></div><figcaption>「点検中」の札</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/vacancy_sign.webp" width="120" height="120" alt="「入居者募集」の看板"></div><figcaption>「入居者募集」の看板</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/candle.webp" width="120" height="120" alt="アロマキャンドル"></div><figcaption>アロマキャンドル</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/antenna.webp" width="120" height="120" alt="アンテナが3本"></div><figcaption>アンテナが3本</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/ofuda_v.webp" width="120" height="120" alt="お札が窓に貼ってある"></div><figcaption>お札が窓に貼ってある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/glow.webp" width="120" height="120" alt="ゲーミングっぽい光が漏れる"></div><figcaption>ゲーミングっぽい光が漏れる</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/laptop.webp" width="120" height="120" alt="ノートPCが窓際に"></div><figcaption>ノートPCが窓際に</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/dust_layer.webp" width="120" height="120" alt="ベランダに砂埃が積もってる"></div><figcaption>ベランダに砂埃が積もってる</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/pigeon.webp" width="120" height="120" alt="ベランダの主の風格"></div><figcaption>ベランダの主の風格</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/monitor.webp" width="120" height="120" alt="モニターの光が窓に反射"></div><figcaption>モニターの光が窓に反射</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/empty_shelf.webp" width="120" height="120" alt="何も置かれていない棚"></div><figcaption>何も置かれていない棚</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/megaphone.webp" width="120" height="120" alt="拡声器が置いてある"></div><figcaption>拡声器が置いてある</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/window_dark.webp" width="120" height="120" alt="室内に何も見えない"></div><figcaption>室内に何も見えない</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/lamp.webp" width="120" height="120" alt="深夜だけ点く間接照明"></div><figcaption>深夜だけ点く間接照明</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/salt.webp" width="120" height="120" alt="盛り塩がベランダの四隅に"></div><figcaption>盛り塩がベランダの四隅に</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/fan_elec.webp" width="120" height="120" alt="扇風機が出しっぱなし"></div><figcaption>扇風機が出しっぱなし</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/incense.webp" width="120" height="120" alt="線香の束"></div><figcaption>線香の束</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/cobweb.webp" width="120" height="120" alt="蜘蛛の巣が張っている"></div><figcaption>蜘蛛の巣が張っている</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/meter.webp" width="120" height="120" alt="電気メーターが止まってる"></div><figcaption>電気メーターが止まってる</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/safety_net.webp" width="120" height="120" alt="網戸に脱走防止ネット"></div><figcaption>網戸に脱走防止ネット</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/condensation.webp" width="120" height="120" alt="夜だけ結露がすごい"></div><figcaption>夜だけ結露がすごい</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/egg.webp" width="120" height="120" alt="卵があたたかい"></div><figcaption>卵があたたかい</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/umbrella.webp" width="120" height="120" alt="和傘"></div><figcaption>和傘</figcaption></figure>
+        <figure class="icell"><div class="ibox"><img loading="lazy" src="assets/items/meteor.webp" width="120" height="120" alt="隕石っぽい石"></div><figcaption>隕石っぽい石</figcaption></figure>
+      </div>
+  </section>
+
+  <footer>ベランダ探偵 — the-balcony-detective</footer>
+</div>
+</body>
+</html>
