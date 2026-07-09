@@ -36,6 +36,8 @@ async function gen(item) {
     prompt: item.prompt,
     size: '1024x1024',
     quality: 'low',
+    background: 'transparent',
+    output_format: 'png',
     n: 1,
   };
   const res = await fetch('https://api.openai.com/v1/images/generations', {
