@@ -18,7 +18,7 @@ const ITEMS = [
   },
   {
     id: 'hint_post',
-    prompt: `${FLAT_STYLE} A cute flat cartoon illustration of a classic Japanese red mailbox (post box) with the 〒 postal symbol on its front panel. The mailbox is chunky and round-topped, bright red with a mail slot. A small cream-colored envelope with a simple triangular flap is poking out or floating near the top. Golden sparkle stars around it. Transparent background. No text except the 〒 symbol. Centered, clean, simple, cute game icon style.`,
+    prompt: `${FLAT_STYLE} A cute flat cartoon illustration of a home-installed American-style residential mailbox, bright red, with a rounded top and a small red flag on the side raised up. A cream-colored envelope is sticking out of the open front. The mailbox sits on a short post. Golden sparkle stars around it. Transparent background. No text, no letters, no signs, no numbers. Centered, clean, simple, cute game icon style.`,
   },
   {
     id: 'hint_neighbor',
@@ -36,8 +36,6 @@ async function gen(item) {
     prompt: item.prompt,
     size: '1024x1024',
     quality: 'low',
-    background: 'transparent',
-    output_format: 'png',
     n: 1,
   };
   const res = await fetch('https://api.openai.com/v1/images/generations', {

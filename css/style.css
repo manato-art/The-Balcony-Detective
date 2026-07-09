@@ -325,7 +325,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 
 .hint-label { display: flex; align-items: center; justify-content: space-between; }
 .hint-label .icon { width: 14px; height: 14px; vertical-align: -2px; margin-right: 2px; }
-.hint-once { font-size: 10px; font-weight: 700; color: var(--text2); letter-spacing: .04em; }
+.hint-once { font-size: 11px; font-weight: 800; color: #e53935; background: #fce4ec; padding: 2px 8px; border-radius: 8px; letter-spacing: .04em; }
 .action-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .action-card {
   background: #fff; border: 2px solid var(--border); border-bottom-width: 4px; border-radius: 14px;
@@ -350,6 +350,15 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .action-card.a-neighbor .risk { background: #ec407a; }
 .ac-desc { font-size: 10px; color: var(--text2); margin-top: 4px; line-height: 1.4; font-weight: 600; }
 .action-card.used, .action-card:disabled { opacity: .35; pointer-events: none; }
+.hint-locked .action-card:not(.used) { opacity: .35; cursor: not-allowed; }
+.hint-toast {
+  position: fixed; top: 18%; left: 50%; transform: translateX(-50%) translateY(-8px);
+  background: #e53935; color: #fff; font-size: 14px; font-weight: 800;
+  padding: 10px 20px; border-radius: 12px; z-index: 999;
+  opacity: 0; transition: opacity .25s ease, transform .25s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,.25); pointer-events: none; text-align: center;
+}
+.hint-toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 .cta-bar {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;

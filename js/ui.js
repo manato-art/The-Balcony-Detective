@@ -458,14 +458,28 @@
     const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     log.scrollIntoView({ block: 'center', behavior: smooth ? 'smooth' : 'auto' });
   }
+  function showHintWarn() {
+    const el = document.createElement('div');
+    el.className = 'hint-toast';
+    el.textContent = 'ヒントを選べるのは1回だけです';
+    document.body.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('on'));
+    setTimeout(() => { el.classList.remove('on'); setTimeout(() => el.remove(), 400); }, 2200);
+    vibrate([40]);
+  }
   function lockActions() {
     document.querySelectorAll('.action-card').forEach((b) => b.classList.add('used'));
     $('#answerBtn').classList.add('urge');
   }
   UI.act = function (kind) {
+    if ($('#actions').classList.contains('hint-locked')) {
+      showHintWarn();
+      return;
+    }
     const ev = G.doAction(kind);
     if (!ev) return;
     $('#act-' + kind).classList.add('used');
+    $('#actions').classList.add('hint-locked');
     if (ev.type === 'caught') {
       addLog(ev.text, 'bad');
       $('#sceneBox').classList.add('shake');
