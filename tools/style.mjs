@@ -26,24 +26,29 @@ export const itemPrompt = (desc) =>
   `${ITEM_STYLE} A single everyday object drawn as a clean game item icon: ${desc}. ` +
   `Centered, gentle three-quarter view, isolated on a fully transparent background. NO drop shadow, NO contact shadow, NO ground, NO floor under it. No text, no people, no hands.`;
 
-// ベランダ画角はそのまま（balconyPromptと同じ壁・戸・床・物干し竿）で、真ん中のガラス戸のカーテンだけが開いて奥に室内が見える版。
+// balconyPromptと同じ固定レイアウト(左下=エアコン室外機/上=物干し竿/左=ガラス戸)で、左のガラス戸のカーテンだけ開いて奥に室内が見える版。
 export const roomPrompt = (wallVibe, roomHint) =>
-  `${FLAT_STYLE} A FLAT, head-on view of an apartment balcony, filling the frame edge to edge, composed like a flat stage backdrop for a 2D side-scroller game — NOT a boxed-in room. ${wallVibe} ` +
-  `Show only the apartment back wall facing the viewer flat-on with a large sliding glass door in the middle, a horizontal metal clothesline pole across the upper part, and the balcony floor as a flat strip along the very bottom. ` +
-  `The door's curtains are pulled fully OPEN and tied back to the far left and right sides of the doorway, ` +
-  `so through the open glass door you can clearly see the cozy room inside: ${roomHint}, a warm lamp glowing and inviting light spilling out. ` +
-  `Keep it FLAT and open: do NOT draw balcony side walls, a ceiling, room corners, converging perspective, or an enclosed alcove — only the room seen through the doorway may show a hint of depth. ` +
-  `Absolutely NO front railing or guard fence, NO sky, NO outdoor scenery, NO trees, NO city view, NO horizon. ` +
-  `Empty balcony stage: no people, no laundry, no objects on the balcony floor. Simple flat shapes, warm flat colors, no text, no signs.`;
+  `${FLAT_STYLE} A cute simple FLAT, head-on illustration of a Japanese apartment BALCONY, like a 2D game backdrop, filling the frame edge to edge. ${wallVibe} ` +
+  `KEEP THE SAME FIXED BALCONY LAYOUT: ` +
+  `(1) an air-conditioner OUTDOOR UNIT — a boxy metal aircon box with a big round fan grille and a pipe up to the wall — sits in the BOTTOM-LEFT corner; ` +
+  `(2) a large sliding glass door is set into the wall on the LEFT side, right behind and above the outdoor unit, and HERE its curtains are pulled fully OPEN and tied back to the sides, so through the open glass door you clearly see the cozy room inside: ${roomHint}, a warm lamp glowing and inviting light spilling out; ` +
+  `(3) a horizontal metal clothesline pole runs across the TOP; ` +
+  `(4) the remaining apartment wall and a flat balcony floor fill the rest. ` +
+  `Match the wall/door/floor/mood to this mansion. Keep it FLAT and head-on: no balcony side walls, no ceiling, no converging box perspective — only the room seen through the open doorway may show a hint of depth. ` +
+  `NO sky or city view, NO outdoor scenery, NO plants or trees outside. Empty balcony stage: nothing on the pole, no objects on the floor except the fixed aircon outdoor unit. Simple flat shapes, warm flat colors, no text, no signs.`;
 
 export const facadePrompt = (vibe) =>
   `${FLAT_STYLE} A cute simple front view of a small multi-story apartment building exterior with about four floors and a few windows and small balconies per floor, ${vibe}. ` +
   `Show the whole building facade straight from the front, centered, standing on a bit of ground with a plain simple sky behind. Simple flat shapes, warm flat colors, no text, no signs.`;
 
 export const balconyPrompt = (vibe) =>
-  `${FLAT_STYLE} A FLAT, head-on view of an apartment balcony, filling the frame edge to edge, composed like a flat stage backdrop for a 2D side-scroller game — NOT a boxed-in room. ${vibe} ` +
-  `Show only the apartment back wall facing the viewer flat-on (a sliding glass door and a curtain are set into it), a horizontal metal clothesline pole across the upper part for hanging laundry, and the balcony floor as a flat strip along the very bottom. ` +
-  `Keep it FLAT and open: do NOT draw side walls, a ceiling, room corners, converging perspective, or an enclosed alcove — it must not look like standing inside a box. ` +
-  `Give this mansion its OWN distinct look (wall material & color, door style, floor, and mood should clearly differ from other mansions and match the building's class). ` +
-  `Absolutely NO front railing or guard fence, NO sky, NO outdoor scenery, NO trees, NO city view, NO horizon. ` +
-  `Empty stage: no people, no laundry, no objects on the floor. Simple flat shapes, warm flat colors, no text, no signs.`;
+  `${FLAT_STYLE} A cute simple FLAT, head-on illustration of a Japanese apartment BALCONY, like a 2D game backdrop, filling the frame edge to edge. ${vibe} ` +
+  `KEEP THIS FIXED BALCONY LAYOUT exactly (it must be identical across every mansion): ` +
+  `(1) an air-conditioner OUTDOOR UNIT — a boxy metal aircon compressor box with a big round fan grille on its front, standing on the floor with a pipe running up to the wall — sits in the BOTTOM-LEFT corner; ` +
+  `(2) a large sliding glass door with a curtain is set into the wall on the LEFT side, right behind and above the outdoor unit (the entrance from the room); ` +
+  `(3) a horizontal metal clothesline pole runs across the TOP of the scene for hanging laundry; ` +
+  `(4) the remaining apartment back wall and a simple flat balcony floor fill the rest. ` +
+  `The aircon outdoor unit (bottom-left) and the clothesline pole (top) are permanent fixtures — ALWAYS include both, in these positions. ` +
+  `Match the wall material and color, the sliding-door style, the floor and the overall mood to THIS mansion (per the description above) so each mansion looks distinct. ` +
+  `Keep it FLAT and head-on like a stage backdrop: no room side walls, no ceiling, no converging box perspective, no enclosed alcove, no tilt. NO sky or city view, NO outdoor scenery, NO plants, NO trees. ` +
+  `Empty stage: nothing hanging on the pole, no objects on the floor except the fixed aircon outdoor unit. Simple flat shapes, warm flat colors, thick clean outlines, no text, no signs.`;

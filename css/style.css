@@ -240,7 +240,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 /* ---------- ベランダシーン（生成イラスト: 背景PNG + 小物PNG） ---------- */
 .sc-wrap { position: relative; width: 100%; aspect-ratio: 3 / 2; background-size: cover; background-position: center; }
 .sc-row { position: absolute; left: 0; right: 0; display: flex; justify-content: center; align-items: flex-end; gap: 1.5%; padding: 0 5%; pointer-events: none; }
-.sc-hang { top: 11%; align-items: flex-start; }
+.sc-hang { top: 6.5%; align-items: flex-start; }
 .sc-floor { bottom: 8%; }
 /* flex:0 1 auto + min-width:0 → 幅の合計がフレームを超えたら各アイテムが比率を保って縮み、端が見切れない（点数が少ない時は指定幅のまま） */
 .sc-cell { position: relative; flex: 0 1 auto; min-width: 0; width: var(--w, 18%); transform: translateY(var(--dy, 0)); pointer-events: auto; cursor: pointer; }
