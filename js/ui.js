@@ -160,12 +160,10 @@
 
   /* ============ 捜査画面 ============ */
   const ACTIONS = [
-    { k: 'observe', icon: 'eye', nm: '観察', risk: '安全' },
-    { k: 'post', icon: 'post', nm: 'ポスト', risk: '発覚50%' },
-    { k: 'wait', icon: 'clock', nm: '待つ', risk: '？？？' },
-    { k: 'neighbor', icon: 'chat', nm: '聞き込み', risk: '嘘かも' },
+    { k: 'observe', icon: 'eye', nm: '観察', risk: '小リスク・小リターン', desc: '少し待って\n変化を見る' },
+    { k: 'post', icon: 'post', nm: 'ポスト確認', risk: '中リスク・中リターン', desc: '玄関側の\nポストを見る' },
+    { k: 'neighbor', icon: 'chat', nm: '聞き込み', risk: '大リスク・大リターン', desc: '近隣から噂を聞く\n※嘘あり' },
   ];
-  // ポストの発覚率ラベルはゲーム設定に追従（他は固定）
   function actionRisk(a) {
     return a.k === 'post' ? '発覚' + Math.round(gameCfg.post * 100) + '%' : a.risk;
   }
@@ -193,11 +191,14 @@
       '</div>' +
       '<div class="scene-box" id="sceneBox"><div id="scene"></div><div class="scene-tip" id="sceneTip"></div></div>' +
       '<p class="scene-note">気になるアイテムはタップで確認</p>' +
-      '<div class="section-label">追加でヒントを集める（任意・各1回）</div>' +
+      '<div class="section-label hint-label"><span>' + I('search') + ' 追加ヒントを選ぶ</span><span class="hint-once">各プレイヤー1回だけ</span></div>' +
       '<div class="action-grid" id="actions">' +
       ACTIONS.map((a) =>
         '<button class="action-card a-' + a.k + '" id="act-' + a.k + '" onclick="UI.act(\'' + a.k + '\')">' +
-        I(a.icon) + '<div class="nm">' + a.nm + '</div><div class="risk">' + actionRisk(a) + '</div></button>').join('') +
+        '<div class="ac-icon-wrap"><img src="assets/ui/hint_' + a.k + '.webp" alt="' + a.nm + '"></div>' +
+        '<div class="ac-body"><div class="nm">' + a.nm + '</div>' +
+        '<div class="risk">' + actionRisk(a) + '</div>' +
+        '<div class="ac-desc">' + a.desc.replace('\n', '<br>') + '</div></div></button>').join('') +
       '</div>' +
       '<div class="section-label">捜査ログ</div>' +
       '<div class="log" id="log"><div class="log-line">' + t.room + '号室の張り込みを開始した。</div></div>' +
@@ -806,7 +807,7 @@
       const steps = [
         ['ミッションを受け取る', 'マンションはランダムに決まる。「<b>402号室の住人を当てて！</b>」のように部屋が指定されるので、張り込み開始でその部屋にズームイン。', figFacade],
         ['ベランダで推理する', '干してある服・置いてあるモノが手がかり。ただし<b>黒レース＝キャバ嬢とは限らない</b>のがこのゲームの罠。アイテムはタップで名前が見える。', figScene],
-        ['追加調査でヒントを増やす', '各1回まで。<b>観察</b>は安全、<b>ポスト</b>は50%で管理人に発覚（一口＋強制回答）、<b>待つ</b>は帰宅・雨・カメラ等なにかが起きる、<b>聞き込み</b>は嘘が混ざる。', figActs],
+        ['追加調査でヒントを増やす', '各1回まで。<b>観察</b>は小リスク・小リターン、<b>ポスト確認</b>は中リスクで管理人に発覚の恐れ、<b>聞き込み</b>は大リスク・大リターンだが嘘が混ざる。', figActs],
         ['容疑者から回答する', '4人の容疑者から1人を選ぶ。<b>自信満々</b>宣言で正解+50点、外したら二口。連続正解でコンボボーナス。', figSus],
         ['ハプニングに耐える', '張り込み開始直後、たまに住人が帰ってくる。目が合ったら飲んで逃げるしかない。誰が飲むかはその時次第（本人／右隣／左隣／全員）。', figCutin],
         ['飲みと結果発表', '正解=セーフ、不正解=一口。全員が回し終えたら結果発表。最後に「一番偏見がキモかった人」を全員で同時に指差して一口。', figResult],
