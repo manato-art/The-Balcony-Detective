@@ -156,23 +156,22 @@
     let ev;
 
     if (kind === 'observe') {
-      const got = [];
-      for (let i = 0; i < 2; i++) {
-        const h = t.hintQueue.shift();
-        if (h) got.push(h);
-      }
-      ev = got.length
-        ? { type: 'hints', text: 'ベランダをじっくり観察した。', hints: got }
+      const h = t.hintQueue.shift();
+      ev = h
+        ? { type: 'hints', text: 'ベランダをじっくり観察した。', hints: [h] }
         : { type: 'none', text: 'これ以上ベランダから読み取れるものはない。' };
-      got.forEach((h) => t.shown.push(h));
+      if (h) t.shown.push(h);
     } else if (kind === 'post') {
       const caughtP = Math.min(G.config.postCaught + (t.alerted ? 0.3 : 0), 0.95);
       if (rng() < 1 - caughtP) {
-        const p = popHint(t);
-        ev = p
-          ? { type: 'strong', text: 'ポスト周りを確認した。決定的な情報だ。', hints: [p.hint] }
+        const got = [];
+        const weak = t.hintQueue.shift();
+        if (weak) { got.push(weak); t.shown.push(weak); }
+        const strong = t.strongQueue.shift();
+        if (strong) { got.push(strong); t.shown.push(strong); }
+        ev = got.length
+          ? { type: 'strong', text: 'ポスト周りを確認した。決定的な情報だ。', hints: got }
           : { type: 'none', text: 'ポストからは何も読み取れなかった。' };
-        if (p) t.shown.push(p.hint);
       } else {
         t.locked = true;
         t.caughtSips += 1;
