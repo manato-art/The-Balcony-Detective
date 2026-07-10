@@ -428,7 +428,10 @@
 
   // AI生成外観PNGの窓グリッドに枠を合わせる（実測した共通座標。列3・階4）。
   // 生成画像は列≈30/50/70%で概ね一致。階はマンションで段数が違うため寛容な共通値＋個別上書き。
-  const FACADE_COL_X = [30, 50, 70];               // 左/中/右の窓 中心x%（全マンション共通）
+  const FACADE_COL_X_DEFAULT = [30, 50, 70];        // 左/中/右の窓 中心x%（3列建物向け既定）
+  const FACADE_COL_X = {
+    boro: [33, 50, 67], tawaman: [33, 50, 67], designers: [33, 50, 67],
+  };
   const FACADE_FLOOR_Y_DEFAULT = [82, 64, 47, 29]; // 1F..4F の窓 中心y%（フォール）
   // マンションごとに外観PNGのバルコニー位置を実測（段数・位置が画像で違うため個別）。1F..4F。
   const FACADE_FLOOR_Y = {
@@ -445,7 +448,8 @@
     const f = Math.floor(n / 100); // 1..4
     const col = [0, 0, 1, 2, 2][clamp(r - 1, 0, 4)];
     const ys = FACADE_FLOOR_Y[mansionId] || FACADE_FLOOR_Y_DEFAULT;
-    return { x: FACADE_COL_X[col], y: ys[clamp(f - 1, 0, 3)] };
+    const xs = FACADE_COL_X[mansionId] || FACADE_COL_X_DEFAULT;
+    return { x: xs[col], y: ys[clamp(f - 1, 0, 3)] };
   }
 
   // 旧SVG建物全景（生成facade PNG欠落時のフォールバック用）

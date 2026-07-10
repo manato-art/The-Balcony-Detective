@@ -494,6 +494,7 @@
         extra += '<img class="' + cls + ' sc-x" style="--exx:' + OFF[i] + '%" src="' + src + '" alt="" onerror="this.style.visibility=\'hidden\'">';
       }
       return '<div class="sc-cell' + (n > 1 ? ' sc-multi' : '') + '" style="--w:' + w.toFixed(1) + '%;--rot:' + rot + 'deg;--dy:' + dy + '%" onclick="UI.itemTap(' + o.i + ')">' +
+        '<span class="sc-tap">タップ</span>' +
         '<span class="sc-sh"></span>' + extra +
         '<img class="' + cls + '" src="' + src + '" alt="" onerror="this.style.visibility=\'hidden\'">' +
         '</div>';

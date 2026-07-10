@@ -160,12 +160,19 @@
 
   /* ============ 捜査画面 ============ */
   const ACTIONS = [
-    { k: 'observe', icon: 'eye', nm: '観察', risk: '小リスク・小リターン', desc: '少し待って\n変化を見る' },
-    { k: 'post', icon: 'post', nm: 'ポスト確認', risk: '中リスク・中リターン', desc: '玄関側の\nポストを見る' },
-    { k: 'neighbor', icon: 'chat', nm: '聞き込み', risk: '大リスク・大リターン', desc: '近隣に聞き込む\nハイリスク・ハイリターン' },
+    { k: 'observe', icon: 'eye', nm: '観察', risk: '小リスク・小リターン', desc: '変化を詳しく見る', rl: 1, rt: 1, sc: '#66bb6a' },
+    { k: 'post', icon: 'post', nm: 'ポスト確認', risk: '中リスク・中リターン', desc: '玄関のポストを見る', rl: 2, rt: 2, sc: '#ffa726' },
+    { k: 'neighbor', icon: 'chat', nm: '聞き込み', risk: '大リスク・大リターン', desc: '近隣から情報を得る', rl: 3, rt: 3, sc: '#ec407a' },
   ];
   function actionRisk(a) {
-    return a.k === 'post' ? '発覚' + Math.round(gameCfg.post * 100) + '%' : a.risk;
+    return a.k === 'post' ? '発見率' + Math.round(gameCfg.post * 100) + '%' : a.risk;
+  }
+  var SH_D = 'm12 3 8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6Z';
+  var ST_D = 'm12 3 2.7 5.7 6.3.8-4.6 4.3 1.2 6.2L12 17l-5.6 3 1.2-6.2L3 9.5l6.3-.8Z';
+  function meterSVG(n, color, d) {
+    var h = '';
+    for (var i = 0; i < 3; i++) h += '<svg class="m-ico" viewBox="0 0 24 24"><path d="' + d + '" fill="' + (i < n ? color : '#d5d5d5') + '"/></svg>';
+    return h;
   }
   // マンションaccent→表示色（タイプの識別用）
   const MANSION_COLOR = { amber: '#d99a00', cyan: '#1899d6', pink: '#e0559f', purple: '#a855f7', green: '#46a302' };
@@ -185,21 +192,30 @@
       '<div class="pg-q"><span class="pg-room">' + t.room + '号室</span>の住人はだれ？</div>' +
       '<div class="pg-instr">ベランダの様子から、下の<b>住人</b>を当てよう！</div>' +
       '</div></div></div>' +
-      '<div class="suspect-strip" id="suspects">' +
-      t.choices.map((c) =>
-        '<button class="suspect-mini" onclick="UI.openAnswer()"><span class="sm-av">' + AV(c.id, 62) + '</span><span class="sm-nm">' + c.name + '</span></button>').join('') +
-      '</div>' +
+      '<div class="ev-frame">' +
+      '<div class="sec-head ev-head">' + I('search') + ' ベランダの証拠<span class="ev-hint">アイテムをタップして確認</span></div>' +
       '<div class="scene-box" id="sceneBox"><div id="scene"></div><div class="scene-tip" id="sceneTip"></div></div>' +
-      '<p class="scene-note">気になるアイテムはタップで確認</p>' +
-      '<div class="section-label hint-label"><span>' + I('search') + ' 追加ヒントを選ぶ</span><span class="hint-once">各1回ずつ使える</span></div>' +
+      '</div>' +
+      '<div class="who-section">' +
+      '<div class="sec-head who-head">' + I('user') + ' だれが住んでいる？</div>' +
+      '<div class="suspect-strip" id="suspects">' +
+      t.choices.map((c, ci) =>
+        '<button class="suspect-mini" data-ci="' + ci + '" onclick="UI.selSuspect(' + ci + ')"><span class="sm-check">' + I('check') + '</span><span class="sm-av">' + AV(c.id, 72) + '</span><span class="sm-nm">' + c.name + '</span></button>').join('') +
+      '</div></div>' +
+      '<div class="inv-section">' +
+      '<div class="sec-head inv-head">' + I('sparkle') + ' 追加調査</div>' +
       '<div class="action-grid" id="actions">' +
       ACTIONS.map((a) =>
         '<button class="action-card a-' + a.k + '" id="act-' + a.k + '" onclick="UI.act(\'' + a.k + '\')">' +
         '<div class="ac-icon-wrap"><img src="assets/ui/hint_' + a.k + '.webp" alt="' + a.nm + '"></div>' +
         '<div class="ac-body"><div class="nm">' + a.nm + '</div>' +
         '<div class="risk">' + actionRisk(a) + '</div>' +
-        '<div class="ac-desc">' + a.desc.replace('\n', '<br>') + '</div></div></button>').join('') +
-      '</div>' +
+        '<div class="ac-desc">' + a.desc + '</div>' +
+        '<div class="ac-meters">' +
+        '<div class="ac-meter"><span class="meter-label">リスク</span>' + meterSVG(a.rl, a.sc, SH_D) + '</div>' +
+        '<div class="ac-meter"><span class="meter-label">リターン</span>' + meterSVG(a.rt, '#ffc107', ST_D) + '</div>' +
+        '</div></div></button>').join('') +
+      '</div></div>' +
       '<div class="cta-bar"><button class="btn" id="answerBtn" onclick="UI.openAnswer()">' + I('search') + '回答する</button></div>';
     newScene(t, s);
     renderScene();
@@ -209,6 +225,14 @@
     if (s.turnNo === 0 && playGuidePending()) t.ambush = false;
     if (t.ambush && !t.ambushDone) setTimeout(showAmbush, 750);
     else setTimeout(maybeTutorial, 400);
+  };
+
+  /* ---- 容疑者カード選択 ---- */
+  UI.selSuspect = function (ci) {
+    var strip = $('#suspects');
+    if (!strip) return;
+    var btns = strip.querySelectorAll('.suspect-mini');
+    btns.forEach(function (b, i) { b.classList.toggle('selected', i === ci); });
   };
 
   /* ---- 初回だけの指差しチュートリアル（スポットライト式・画面ごと） ---- */
