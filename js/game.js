@@ -4,7 +4,7 @@
   const CATS_KEYS = ['normal', 'hot', 'trap', 'rare'];
   const MANSIONS = root.VT_MANSIONS;
   const ROOMS = root.VT_ROOMS;
-  const WAIT_TABLE = root.VT_WAIT_TABLE;
+  const NEIGHBOR_TABLE = root.VT_NEIGHBOR_TABLE;
   const CAUGHT_POST = root.VT_CAUGHT_POST;
   const TIMEOUT_ROAST = root.VT_TIMEOUT_ROAST;
 
@@ -34,7 +34,7 @@
   G.setRng = function (fn) { rng = fn || Math.random; };
 
   // ゲーム設定（UIから調整可能）
-  G.config = { ambush: 0.18, postCaught: 0.5, secret: 0.03 };
+  G.config = { ambush: 0.18, postCaught: 0.3, secret: 0.03 };
   G.setConfig = function (c) { Object.assign(G.config, c || {}); };
 
   G.newGame = function ({ players, rounds, mansionId }) {
@@ -48,7 +48,7 @@
       mansion,
       roomsLeft: shuffle(ROOMS),
       queue,
-      waitUsed: [],
+      neighborUsed: [],
       combo: 0,
       turnNo: 0,
       turn: null,
@@ -148,7 +148,7 @@
     return null;
   }
 
-  // 追加調査 kind: observe | post | wait | neighbor
+  // 追加調査 kind: observe | post | neighbor
   G.doAction = function (kind) {
     const t = G.state.turn;
     if (!t || t.done || t.locked || t.timered || t.used[kind]) return null;
@@ -177,17 +177,16 @@
         t.caughtSips += 1;
         ev = { type: 'caught', text: pick(CAUGHT_POST) };
       }
-    } else if (kind === 'wait') {
-      // 同一ゲーム内で全12種を消化するまで重複しない
+    } else if (kind === 'neighbor') {
       const s = G.state;
-      let cands = WAIT_TABLE.filter((e) => s.waitUsed.indexOf(e.id) === -1);
-      if (!cands.length) { s.waitUsed = []; cands = WAIT_TABLE.slice(); }
-      if (t.ambushDone) cands = cands.filter((e) => e.id !== 'kitaku'); // 二重帰宅防止
+      let cands = NEIGHBOR_TABLE.filter((e) => s.neighborUsed.indexOf(e.id) === -1);
+      if (!cands.length) { s.neighborUsed = []; cands = NEIGHBOR_TABLE.slice(); }
+      if (t.ambushDone) cands = cands.filter((e) => e.id !== 'kitaku');
       const total = cands.reduce((a, e) => a + e.w, 0);
       let x = rng() * total;
       let evd = cands[cands.length - 1];
       for (const e of cands) { x -= e.w; if (x < 0) { evd = e; break; } }
-      s.waitUsed.push(evd.id);
+      s.neighborUsed.push(evd.id);
 
       if (evd.type === 'hint' || evd.type === 'strong') {
         const p = evd.type === 'strong' && t.strongQueue.length
@@ -200,7 +199,7 @@
           ev = { type: 'none', text: evd.text + ' …が、新しい発見はなかった。' };
         }
       } else if (evd.type === 'rumor') {
-        ev = { type: 'rumor', text: evd.text + ' 噂: 「' + pick(t.resident.rumor) + '」' };
+        ev = { type: 'rumor', text: evd.text + ' 「' + pick(t.resident.rumor) + '」' };
       } else if (evd.type === 'alert') {
         t.alerted = true;
         ev = { type: 'alert', text: evd.text };
@@ -218,13 +217,6 @@
         ev = { type: 'timer', text: evd.text };
       }
       ev.id = evd.id;
-    } else if (kind === 'neighbor') {
-      if (rng() < 0.65) {
-        ev = { type: 'rumor', text: '隣人の噂: 「' + pick(t.resident.rumor) + '」' };
-      } else {
-        const others = t.choices.filter((c) => c.id !== t.resident.id);
-        ev = { type: 'rumor', text: '隣人の噂: 「' + pick(pick(others).rumor) + '」' };
-      }
     } else {
       return null;
     }

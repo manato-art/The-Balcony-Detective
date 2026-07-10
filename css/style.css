@@ -269,6 +269,34 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .scene-tip { position: absolute; left: 50%; top: 10px; transform: translateX(-50%) scale(.9); background: rgba(60, 60, 60, .94); color: #fff; font-size: 12.5px; font-weight: 800; padding: 6px 15px; border-radius: 999px; opacity: 0; pointer-events: none; transition: opacity .18s ease, transform .18s ease; max-width: 86%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .scene-tip.on { opacity: 1; transform: translateX(-50%) scale(1); }
 .scene-note { font-size: 11px; color: var(--text2); font-weight: 700; margin-top: 6px; text-align: center; }
+
+/* ---------- イベントトースト（聞き込み結果） ---------- */
+.ev-toast {
+  position: absolute; top: 10px; right: -100%; z-index: 8; max-width: 72%;
+  display: flex; border-radius: 4px 10px 10px 4px; overflow: hidden;
+  background: #fff; border: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  pointer-events: none; opacity: 0;
+  transition: right .35s cubic-bezier(.34, 1.2, .64, 1), opacity .25s ease;
+}
+.ev-toast.on { right: 8px; opacity: 1; }
+.ev-toast-ribbon { width: 4px; flex-shrink: 0; }
+.ev-toast-body { padding: 7px 10px; min-width: 0; }
+.ev-toast-text { font-size: 11.5px; font-weight: 700; line-height: 1.5; }
+.ev-toast-tag { display: inline-block; font-size: 9.5px; font-weight: 900; padding: 1px 7px; border-radius: 4px; margin-top: 3px; letter-spacing: .04em; }
+.ev-toast.good .ev-toast-ribbon { background: var(--green); }
+.ev-toast.good .ev-toast-text { color: var(--green-t); }
+.ev-toast.good .ev-toast-tag { background: var(--green-l); color: var(--green-d); }
+.ev-toast.rumor .ev-toast-ribbon { background: var(--purple); }
+.ev-toast.rumor .ev-toast-text { color: var(--purple-d); }
+.ev-toast.rumor .ev-toast-tag { background: #f3e8ff; color: var(--purple-d); }
+.ev-toast.warn .ev-toast-ribbon { background: var(--red); }
+.ev-toast.warn .ev-toast-text { color: var(--red-t); }
+.ev-toast.warn .ev-toast-tag { background: var(--red-l); color: var(--red-d); }
+.ev-toast.none .ev-toast-ribbon { background: var(--border-d); }
+.ev-toast.none .ev-toast-text { color: var(--text2); }
+.ev-toast.none .ev-toast-tag { background: var(--bg2); color: var(--text2); }
+
 .scene-fx { position: absolute; pointer-events: none; z-index: 5; }
 .scene-fx.crow { top: 6px; left: -66px; animation: flyAcross 2.1s linear forwards; }
 @keyframes flyAcross { 0% { transform: translate(0, 30px); } 100% { transform: translate(480px, -14px); } }
@@ -315,13 +343,6 @@ input, textarea { user-select: text; -webkit-user-select: text; }
   .suspect-mini .sm-av img { max-width: 60px; }
 }
 
-.log { display: flex; flex-direction: column; gap: 6px; height: 62px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-.log.scrollable { -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, .12) 9px, #000 30px); mask-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, .12) 9px, #000 30px); }
-.log-line { font-size: 12.5px; font-weight: 700; color: var(--text2); padding-left: 10px; border-left: 3px solid var(--border); animation: cardIn .3s ease-out; }
-.log-line.bad { color: var(--red-t); border-color: var(--red); font-weight: 900; }
-.log-line.good { color: var(--green-t); border-color: var(--green); }
-.log-line.rumor { color: #8b46d9; border-color: var(--purple); }
-.log-line.warn { color: #b57800; border-color: var(--gold); font-weight: 900; }
 
 .hint-label { display: flex; align-items: center; justify-content: space-between; }
 .hint-label .icon { width: 14px; height: 14px; vertical-align: -2px; margin-right: 2px; }
@@ -350,15 +371,6 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .action-card.a-neighbor .risk { background: #ec407a; }
 .ac-desc { font-size: 10px; color: var(--text2); margin-top: 4px; line-height: 1.4; font-weight: 600; }
 .action-card.used, .action-card:disabled { opacity: .35; pointer-events: none; }
-.hint-locked .action-card:not(.used) { opacity: .35; cursor: not-allowed; }
-.hint-toast {
-  position: fixed; top: 18%; left: 50%; transform: translateX(-50%) translateY(-8px);
-  background: #e53935; color: #fff; font-size: 14px; font-weight: 800;
-  padding: 10px 20px; border-radius: 12px; z-index: 999;
-  opacity: 0; transition: opacity .25s ease, transform .25s ease;
-  box-shadow: 0 4px 16px rgba(0,0,0,.25); pointer-events: none; text-align: center;
-}
-.hint-toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 .cta-bar {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;

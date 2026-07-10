@@ -1,20 +1,18 @@
-// ランダムイベント（「しばらく待つ」用）と各種テキスト
-// type: hint=ヒント / strong=強ヒント / rumor=本物の噂 / none=空振り
-//       alert=以後ポスト発覚率UP / rain=洗濯物ヒント打ち止め / caught=発覚 / timer=10秒回答
+// 聞き込みランダムイベント（旧「しばらく待つ」を統合）
+// type: hint=ヒント / strong=強ヒント / rumor=確定噂 / none=空振り
+//       alert=ポスト発覚率UP / rain=ヒント打ち止め / caught=発覚 / timer=10秒回答
 // w: 出現重み。同一ゲーム内では全種類消化するまで同じイベントは出ない。
-const VT_WAIT_TABLE = [
-  { id: 'curtain',  w: 10, type: 'hint',   text: '風でカーテンが開いた！部屋の中が一瞬見えた。' },
-  { id: 'light',    w: 8,  type: 'hint',   text: '部屋の電気がついた。生活パターンが読めるぞ。' },
-  { id: 'mekure',   w: 8,  type: 'hint',   text: '風で洗濯物がめくれて、奥の一枚が見えた。' },
-  { id: 'takuhai',  w: 8,  type: 'strong', text: '宅配業者が来た。荷物のラベルをチラ見できた。' },
-  { id: 'neighbor', w: 9,  type: 'rumor',  text: '隣人がゴミ出しに出てきた。聞いてもいないのに喋り出した。' },
-  { id: 'crow',     w: 8,  type: 'none',   text: 'カラスが洗濯物を荒らして逃げた。収穫なし。' },
-  { id: 'cat',      w: 6,  type: 'none',   text: '猫が通った。かわいい。それだけ。' },
-  { id: 'tv',       w: 6,  type: 'none',   text: '隣の部屋のテレビの音しか聞こえない。' },
-  { id: 'camera',   w: 8,  type: 'alert',  text: '防犯カメラがゆっくりこっちを向いた…マークされた。ポスト調査の発覚率が上がる！' },
-  { id: 'rain',     w: 7,  type: 'rain',   text: '雨が降ってきた！住人が洗濯物を取り込んでしまった…もう新しい洗濯物ヒントは出ない。' },
-  { id: 'kanrinin', w: 12, type: 'caught', text: '管理人が巡回してきた！目が合った。完全に合った。' },
-  { id: 'kitaku',   w: 10, type: 'timer',  text: '住人が帰ってきた！！10秒以内に回答しろ！' },
+const VT_NEIGHBOR_TABLE = [
+  { id: 'chat',     w: 10, type: 'hint',   text: '隣人がペラペラ喋り出した。有力な情報だ。' },
+  { id: 'garbage',  w: 8,  type: 'hint',   text: 'ゴミ捨て場で住人の知り合いと遭遇。つい話してくれた。' },
+  { id: 'phone',    w: 8,  type: 'hint',   text: '住人の電話が漏れ聞こえた。生活が少し見えた。' },
+  { id: 'takuhai',  w: 8,  type: 'strong', text: '宅配業者と雑談できた。決定的な手がかりだ。' },
+  { id: 'idobata',  w: 9,  type: 'rumor',  text: '井戸端会議に混ざれた。確度の高い噂を入手。' },
+  { id: 'granny',   w: 8,  type: 'none',   text: 'おばあちゃんに捕まった。天気の話しかしない。' },
+  { id: 'camera',   w: 8,  type: 'alert',  text: '聞き込みが怪しまれた。ポスト確認の発覚率が上がった。' },
+  { id: 'rain',     w: 7,  type: 'rain',   text: '雨が降り出して全員引っ込んだ。もう新しいヒントは出ない。' },
+  { id: 'kanrinin', w: 12, type: 'caught', text: '聞き込み中に管理人と鉢合わせた！' },
+  { id: 'kitaku',   w: 10, type: 'timer',  text: '住人が帰ってきた！！聞き込みしてる場合じゃない！' },
 ];
 
 const VT_CAUGHT_POST = [
@@ -36,11 +34,11 @@ const VT_DRINK_RULES = [
 ];
 
 if (typeof window !== 'undefined') {
-  window.VT_WAIT_TABLE = VT_WAIT_TABLE;
+  window.VT_NEIGHBOR_TABLE = VT_NEIGHBOR_TABLE;
   window.VT_CAUGHT_POST = VT_CAUGHT_POST;
   window.VT_TIMEOUT_ROAST = VT_TIMEOUT_ROAST;
   window.VT_DRINK_RULES = VT_DRINK_RULES;
 }
 if (typeof module !== 'undefined') {
-  module.exports = { VT_WAIT_TABLE, VT_CAUGHT_POST, VT_TIMEOUT_ROAST, VT_DRINK_RULES };
+  module.exports = { VT_NEIGHBOR_TABLE, VT_CAUGHT_POST, VT_TIMEOUT_ROAST, VT_DRINK_RULES };
 }

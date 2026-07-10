@@ -37,7 +37,7 @@
   let timerLeft = 0;
 
   /* ---- ゲーム設定（localStorage永続・ロジックに反映） ---- */
-  const CFG_DEFAULT = { ambush: 0.18, post: 0.5, secret: 0.03 };
+  const CFG_DEFAULT = { ambush: 0.18, post: 0.3, secret: 0.03 };
   let gameCfg = Object.assign({}, CFG_DEFAULT);
   try {
     const saved = JSON.parse(localStorage.getItem('vt_gamecfg') || 'null');
@@ -162,7 +162,7 @@
   const ACTIONS = [
     { k: 'observe', icon: 'eye', nm: '観察', risk: '小リスク・小リターン', desc: '少し待って\n変化を見る' },
     { k: 'post', icon: 'post', nm: 'ポスト確認', risk: '中リスク・中リターン', desc: '玄関側の\nポストを見る' },
-    { k: 'neighbor', icon: 'chat', nm: '聞き込み', risk: '大リスク・大リターン', desc: '近隣から噂を聞く\n※嘘あり' },
+    { k: 'neighbor', icon: 'chat', nm: '聞き込み', risk: '大リスク・大リターン', desc: '近隣に聞き込む\nハイリスク・ハイリターン' },
   ];
   function actionRisk(a) {
     return a.k === 'post' ? '発覚' + Math.round(gameCfg.post * 100) + '%' : a.risk;
@@ -191,7 +191,7 @@
       '</div>' +
       '<div class="scene-box" id="sceneBox"><div id="scene"></div><div class="scene-tip" id="sceneTip"></div></div>' +
       '<p class="scene-note">気になるアイテムはタップで確認</p>' +
-      '<div class="section-label hint-label"><span>' + I('search') + ' 追加ヒントを選ぶ</span><span class="hint-once">各プレイヤー1回だけ</span></div>' +
+      '<div class="section-label hint-label"><span>' + I('search') + ' 追加ヒントを選ぶ</span><span class="hint-once">各1回ずつ使える</span></div>' +
       '<div class="action-grid" id="actions">' +
       ACTIONS.map((a) =>
         '<button class="action-card a-' + a.k + '" id="act-' + a.k + '" onclick="UI.act(\'' + a.k + '\')">' +
@@ -200,8 +200,6 @@
         '<div class="risk">' + actionRisk(a) + '</div>' +
         '<div class="ac-desc">' + a.desc.replace('\n', '<br>') + '</div></div></button>').join('') +
       '</div>' +
-      '<div class="section-label">捜査ログ</div>' +
-      '<div class="log" id="log"><div class="log-line">' + t.room + '号室の張り込みを開始した。</div></div>' +
       '<div class="cta-bar"><button class="btn" id="answerBtn" onclick="UI.openAnswer()">' + I('search') + '回答する</button></div>';
     newScene(t, s);
     renderScene();
@@ -440,69 +438,78 @@
     box.appendChild(el);
     setTimeout(() => el.remove(), 2300);
   }
-  function addLog(text, cls) {
-    const log = $('#log');
-    const el = document.createElement('div');
-    el.className = 'log-line' + (cls ? ' ' + cls : '');
-    el.textContent = text;
-    log.appendChild(el);
-    log.scrollTop = log.scrollHeight;              // 最新を下端に表示
-    log.classList.toggle('scrollable', log.scrollHeight > log.clientHeight + 2);
-  }
-  // 追加調査を押したら操作ログを画面内に持ってくる（最新＝下端）
-  function scrollToLog() {
-    const log = $('#log');
-    if (!log) return;
-    log.scrollTop = log.scrollHeight;
-    log.classList.toggle('scrollable', log.scrollHeight > log.clientHeight + 2);
-    const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    log.scrollIntoView({ block: 'center', behavior: smooth ? 'smooth' : 'auto' });
-  }
-  function showHintWarn() {
-    const el = document.createElement('div');
-    el.className = 'hint-toast';
-    el.textContent = 'ヒントを選べるのは1回だけです';
-    document.body.appendChild(el);
-    requestAnimationFrame(() => el.classList.add('on'));
-    setTimeout(() => { el.classList.remove('on'); setTimeout(() => el.remove(), 400); }, 2200);
-    vibrate([40]);
-  }
   function lockActions() {
     document.querySelectorAll('.action-card').forEach((b) => b.classList.add('used'));
     $('#answerBtn').classList.add('urge');
   }
+  function showEventToast(text, tag, cls) {
+    const box = $('#sceneBox');
+    if (!box) return;
+    const prev = box.querySelector('.ev-toast');
+    if (prev) prev.remove();
+    const el = document.createElement('div');
+    el.className = 'ev-toast ' + (cls || '');
+    el.innerHTML = '<div class="ev-toast-ribbon"></div>' +
+      '<div class="ev-toast-body"><div class="ev-toast-text">' + text + '</div>' +
+      (tag ? '<span class="ev-toast-tag">' + tag + '</span>' : '') + '</div>';
+    box.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('on'));
+    setTimeout(() => { el.classList.remove('on'); setTimeout(() => el.remove(), 400); }, 3200);
+  }
   UI.act = function (kind) {
-    if ($('#actions').classList.contains('hint-locked')) {
-      showHintWarn();
-      return;
-    }
+    const btn = $('#act-' + kind);
+    if (btn && btn.classList.contains('used')) return;
     const ev = G.doAction(kind);
     if (!ev) return;
-    $('#act-' + kind).classList.add('used');
-    $('#actions').classList.add('hint-locked');
+    btn.classList.add('used');
+
+    if (kind === 'neighbor' && ev.type !== 'caught' && ev.type !== 'timer') {
+      if (ev.type === 'hints' || ev.type === 'strong') {
+        S.sfx(ev.type === 'strong' ? 'strong' : 'pop');
+        (ev.hints || []).forEach((h) => pushItem(h, ev.type === 'strong', true));
+        renderScene();
+        var hintName = (ev.hints && ev.hints[0]) ? ev.hints[0][0] : '';
+        showEventToast(ev.text, hintName, 'good');
+      } else if (ev.type === 'rumor') {
+        S.sfx('rumor');
+        showEventToast(ev.text, '確定噂', 'rumor');
+      } else if (ev.type === 'alert') {
+        S.sfx('warn');
+        vibrate([60]);
+        const r = document.querySelector('#act-post .risk');
+        if (r) r.textContent = '発覚' + Math.round(Math.min(gameCfg.post + 0.3, 0.95) * 100) + '%!';
+        showEventToast(ev.text, '発覚率 UP', 'warn');
+      } else if (ev.type === 'rain') {
+        S.sfx('warn');
+        scene.rain = true;
+        renderScene();
+        showEventToast(ev.text, 'ヒント打ち止め', 'warn');
+      } else {
+        showEventToast(ev.text, '収穫なし', 'none');
+      }
+      var sb = $('#sceneBox');
+      if (sb) sb.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      return;
+    }
+
     if (ev.type === 'caught') {
-      addLog(ev.text, 'bad');
       $('#sceneBox').classList.add('shake');
       vibrate([80, 50, 80]);
       S.sfx('caught');
       lockActions();
       setTimeout(() => showCaughtCutin(ev.text), 550);
     } else if (ev.type === 'timer') {
-      addLog(ev.text, 'bad');
       vibrate([200, 80, 200]);
       S.sfx('alarm');
       lockActions();
-      // 窓に人影＋電気ON→ハト乱入
       scene.silhouette = true;
       scene.light = true;
       scene.curtainClosed = false;
       renderScene();
       setTimeout(showPanic, 700);
     } else if (ev.type === 'hints' || ev.type === 'strong') {
-      addLog(ev.text, 'good');
       S.sfx(ev.type === 'strong' ? 'strong' : 'pop');
       if (ev.id === 'curtain') {
-        // カーテンヒントが無い住人でも「開いて室内が見える」演出を発火（scene.curtain 未設定なら補完）
         if (!scene.curtain) scene.curtain = { color: '#ffe0b3', label: '' };
         scene.curtainClosed = false;
         scene.light = true;
@@ -511,26 +518,21 @@
       (ev.hints || []).forEach((h) => pushItem(h, ev.type === 'strong', true));
       renderScene();
     } else if (ev.type === 'rumor') {
-      addLog(ev.text, 'rumor');
       S.sfx('rumor');
     } else if (ev.type === 'alert') {
-      addLog(ev.text, 'warn');
       S.sfx('warn');
       vibrate([60]);
       const r = document.querySelector('#act-post .risk');
       if (r) r.textContent = '発覚' + Math.round(Math.min(gameCfg.post + 0.3, 0.95) * 100) + '%!';
     } else if (ev.type === 'rain') {
-      addLog(ev.text, 'warn');
       S.sfx('warn');
       scene.rain = true;
       renderScene();
     } else {
-      addLog(ev.text);
       if (ev.id === 'light') { scene.light = true; renderScene(); }
       if (ev.id === 'crow') sceneFx('crow');
       if (ev.id === 'cat') sceneFx('cat');
     }
-    if (ev.type !== 'caught' && ev.type !== 'timer') scrollToLog();
   };
 
   /* ============ タイマー ============ */
@@ -757,7 +759,7 @@
   /* ============ モーダル ============ */
   const CFG_OPTS = {
     ambush: { label: '住人帰宅ハプニング', sub: '張り込み開始直後にカットインが乱入する確率', opts: [['なし', 0], ['たまに', 0.10], ['ふつう', 0.18], ['多め', 0.30], ['地獄', 0.50]] },
-    post: { label: '管理人の厳しさ', sub: 'ポスト調査で見つかる確率（カメラ作動後は+30%）', opts: [['ゆるい', 0.30], ['ふつう', 0.50], ['鬼', 0.70]] },
+    post: { label: '管理人の厳しさ', sub: 'ポスト調査で見つかる確率（カメラ作動後は+30%）', opts: [['ゆるい', 0.10], ['ふつう', 0.30], ['鬼', 0.50]] },
     secret: { label: 'シークレット出現率', sub: 'ハト・宇宙人・金のハト像などのレア遭遇', opts: [['ふつう', 0.03], ['多め', 0.08], ['祭り', 0.15]] },
   };
   function cfgSeg(key) {
@@ -821,7 +823,7 @@
       const steps = [
         ['ミッションを受け取る', 'マンションはランダムに決まる。「<b>402号室の住人を当てて！</b>」のように部屋が指定されるので、張り込み開始でその部屋にズームイン。', figFacade],
         ['ベランダで推理する', '干してある服・置いてあるモノが手がかり。ただし<b>黒レース＝キャバ嬢とは限らない</b>のがこのゲームの罠。アイテムはタップで名前が見える。', figScene],
-        ['追加調査でヒントを増やす', '各1回まで。<b>観察</b>は小リスク・小リターン、<b>ポスト確認</b>は中リスクで管理人に発覚の恐れ、<b>聞き込み</b>は大リスク・大リターンだが嘘が混ざる。', figActs],
+        ['追加調査でヒントを増やす', '各1回まで。<b>観察</b>は小リスク・小リターン、<b>ポスト確認</b>は中リスクで管理人に発覚の恐れ、<b>聞き込み</b>は大リスク・大リターンのギャンブル。', figActs],
         ['容疑者から回答する', '4人の容疑者から1人を選ぶ。<b>自信満々</b>宣言で正解+50点、外したら二口。連続正解でコンボボーナス。', figSus],
         ['ハプニングに耐える', '張り込み開始直後、たまに住人が帰ってくる。目が合ったら飲んで逃げるしかない。誰が飲むかはその時次第（本人／右隣／左隣／全員）。', figCutin],
         ['飲みと結果発表', '正解=セーフ、不正解=一口。全員が回し終えたら結果発表。最後に「一番偏見がキモかった人」を全員で同時に指差して一口。', figResult],
