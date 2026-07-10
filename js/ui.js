@@ -216,7 +216,14 @@
         '<div class="ac-meter"><span class="meter-label">リターン</span>' + meterSVG(a.rt, '#ffc107', ST_D) + '</div>' +
         '</div></div></button>').join('') +
       '</div></div>' +
-      '<div class="cta-bar"><button class="btn" id="answerBtn" onclick="UI.openAnswer()">' + I('search') + '回答する</button></div>';
+      '<div class="cta-bar"><div class="cta-pair">' +
+      '<button class="btn cta-normal" id="answerBtn" onclick="UI.submitAnswer(false)">' +
+      '<span class="cta-title">' + I('search') + '回答する</span>' +
+      '<span class="cta-rule cta-rule-g">不正解 一口飲む</span></button>' +
+      '<button class="btn cta-conf" id="confBtn" onclick="UI.submitAnswer(true)">' +
+      '<span class="cta-title">' + I('star') + '自信満々で回答！</span>' +
+      '<span class="cta-rule cta-rule-y">正解+50pt / 不正解 二口</span></button>' +
+      '</div></div>';
     newScene(t, s);
     renderScene();
     show('play');
@@ -235,11 +242,33 @@
     btns.forEach(function (b, i) { b.classList.toggle('selected', i === ci); });
   };
 
+  function getSelectedSuspect() {
+    var strip = $('#suspects');
+    if (!strip) return -1;
+    var btns = strip.querySelectorAll('.suspect-mini');
+    for (var i = 0; i < btns.length; i++) { if (btns[i].classList.contains('selected')) return i; }
+    return -1;
+  }
+
+  UI.submitAnswer = function (confident) {
+    var t = G.state.turn;
+    if (!t || t.done) return;
+    var ci = getSelectedSuspect();
+    if (ci < 0) {
+      var sec = document.querySelector('.who-section');
+      if (sec) { sec.classList.remove('shake'); void sec.offsetWidth; sec.classList.add('shake'); }
+      return;
+    }
+    stopTimer();
+    var r = G.answer(ci, confident);
+    if (r) renderReveal(r);
+  };
+
   /* ---- 初回だけの指差しチュートリアル（スポットライト式・画面ごと） ---- */
   const TUT_STEPS = [
     { sel: '#sceneBox', text: 'まずは<b>ベランダ</b>を調査！干してある服や置いてある物が手がかり。' },
     { sel: '.suspect-strip', text: 'この中の<b>誰か</b>が住人。ヒントと見比べて推理しよう。' },
-    { sel: '#answerBtn', text: '決めたら<b>「回答する」</b>！　4人から1人を選ぶよ。' },
+    { sel: '.cta-pair', text: '容疑者を選んで<b>回答</b>！<b>自信満々</b>なら高得点を狙えるよ。' },
   ];
   const SETUP_STEPS = [
     { sel: '#playerList', text: 'まず<b>遊ぶ人の名前</b>を入れてね。タップで書き換えできるよ。' },
