@@ -240,6 +240,8 @@
     if (!strip) return;
     var btns = strip.querySelectorAll('.suspect-mini');
     btns.forEach(function (b, i) { b.classList.toggle('selected', i === ci); });
+    var cb = document.querySelector('.cta-conf');
+    if (cb) cb.classList.add('mf-press');
   };
 
   function getSelectedSuspect() {
@@ -546,11 +548,15 @@
     }
 
     if (ev.type === 'caught') {
+      var wEl = document.createElement('div');
+      wEl.className = 'mf-warn';
+      wEl.innerHTML = '<div class="wpul"><svg class="wtri" viewBox="0 0 64 60"><path class="ws" d="M32 5L60 53H4z"/><rect class="wb" x="29.2" y="21" width="5.6" height="15" rx="2.8"/><circle class="wd" cx="32" cy="44" r="3"/></svg></div>';
+      $('#sceneBox').appendChild(wEl);
       $('#sceneBox').classList.add('shake');
       vibrate([80, 50, 80]);
       S.sfx('caught');
       lockActions();
-      setTimeout(() => showCaughtCutin(ev.text), 550);
+      setTimeout(function() { if (wEl.parentNode) wEl.remove(); showCaughtCutin(ev.text); }, 550);
     } else if (ev.type === 'timer') {
       vibrate([200, 80, 200]);
       S.sfx('alarm');
@@ -602,15 +608,18 @@
   }
   // カウントダウン表示: 回答シートを開いている間は大きなバナー、無ければ上部ピル
   function drawTimer() {
+    var circ = 138.2;
+    var off = circ * (1 - timerLeft / 10);
+    var rg = '<div class="mf-ring"><svg viewBox="0 0 52 52"><circle class="rtrk" cx="26" cy="26" r="22"/><circle class="rbar' + (timerLeft <= 3 ? ' low' : '') + '" cx="26" cy="26" r="22" style="stroke-dashoffset:' + off + '"/></svg><span class="rsec">' + timerLeft + '</span></div>';
     const cd = $('#answerCountdown');
     const ov = $('#timer-overlay');
     if (cd) {
-      cd.innerHTML = I('clock') + '<span>住人帰宅中！ のこり<b>' + timerLeft + '</b>秒で回答！</span>';
+      cd.innerHTML = rg + '<span>住人帰宅中！</span>';
       cd.classList.toggle('urgent', timerLeft <= 3);
       if (ov) ov.classList.add('hidden');
     } else if (ov) {
       ov.classList.remove('hidden');
-      ov.innerHTML = '<div class="timer-pill">' + I('clock') + '残り ' + timerLeft + ' 秒</div>';
+      ov.innerHTML = '<div class="timer-pill">' + rg + '</div>';
     }
   }
   function startTimer(sec) {
@@ -689,6 +698,7 @@
       S.sfx('wrong');
       if (r.sips > 0) setTimeout(() => S.sfx('drink'), 600);
     }
+    var isFirstMeet = D.resCount(r.resident.id) === 0;
     D.unlockResident(r.resident.id);
     const cat = CATS[r.resident.cat];
     const last = G.state.turnNo + 1 >= G.state.queue.length;
@@ -705,12 +715,27 @@
     var mfStreak = r.correct && r.combo >= 2
       ? '<div class="mf-streak"><div class="gs-fbox"><i class="gs-flame"></i><i class="gs-flame gs-inner"></i></div><div class="gs-txt">' + r.combo + '</div><div class="gs-label">連続正解</div></div>'
       : '';
+    var wasConfWrong = !r.correct && !r.timedOut && r.notes.some(function(n) { return n.indexOf('自信満々') >= 0; });
+    var mfDosun = wasConfWrong
+      ? '<div class="mf-dosun"><div class="dd ddl"></div><div class="dd ddr"></div><div class="dw"></div><div class="df"></div></div>'
+      : '';
+    var mfBadge = isFirstMeet
+      ? '<div class="mf-badge"><span class="brb brl"></span><span class="brb brr"></span><i class="brg"></i><div class="bm"><svg class="bst" viewBox="0 0 24 24"><path class="bsp" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg><i class="bsh"></i></div><span class="btx">NEW!</span></div>'
+      : '';
+    var mfName = '';
+    for (var ni = 0; ni < r.resident.name.length; ni++) mfName += '<span class="mf-fu" style="animation-delay:' + (600 + ni * 50) + 'ms">' + esc(r.resident.name[ni]) + '</span>';
+    var tDone = G.state.turnNo + 1, tTotal = G.state.queue.length;
+    var pFrom = Math.round(((tDone - 1) / tTotal) * 100);
+    var pTo = Math.round((tDone / tTotal) * 100);
+    var mfXP = '<div class="mf-xp"><span class="xr">' + tDone + '/' + tTotal + '</span><div class="xt"><div class="xf" style="--from:' + pFrom + '%;--to:' + pTo + '%"><i class="xs"></i></div></div></div>';
     $('#scr-reveal').innerHTML =
       mfConfetti +
+      mfDosun +
       mfMark +
-      '<div class="res-avatar">' + AV(r.resident.id, 150) + '</div>' +
+      '<div class="mf-flip"><div class="flip-card"><div class="flip-front">' + AV(r.resident.id, 150) + '</div><div class="flip-back"><span class="flip-q">?</span></div></div></div>' +
       '<div><span class="tag ' + cat.color + '">' + cat.label + '</span></div>' +
-      '<div class="res-name">' + r.resident.name + '</div>' +
+      mfBadge +
+      '<div class="res-name">' + mfName + '</div>' +
       '<div class="res-desc">' + r.resident.desc + '</div>' +
       '<div class="reveal-mascot">' + bubbleRow(r.correct ? 'happy' : 'shock', 104, r.roast) + '</div>' +
       '<div class="result-banner ' + (r.correct ? 'ok' : 'ng') + '"><div class="inner">' +
@@ -720,6 +745,7 @@
         ? '<div class="drink">' + I('beer') + esc(r.player.name) + ' は ' + r.sips + '口 飲め</div>'
         : '<div class="drink">' + I('check') + 'セーフ。飲まなくてよし</div>') +
       '<div class="pts">獲得 +' + r.points + '点（合計 ' + r.player.score + '点）</div>' +
+      mfXP +
       (r.notes.length ? '<div class="notes">' + r.notes.join(' ／ ') + '</div>' : '') +
       '<button class="btn" onclick="UI.next()">' + I('arrow') + (last ? '結果発表へ' : '次のプレイヤーへ') + '</button>' +
       '</div></div>';
