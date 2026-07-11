@@ -743,6 +743,7 @@
     show('reveal');
   }
   UI.next = function () {
+    $('#scr-reveal').innerHTML = '';
     const n = G.nextTurn();
     if (n.done) renderFinal();
     else beginTurn();
