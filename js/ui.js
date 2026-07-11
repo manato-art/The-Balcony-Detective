@@ -698,14 +698,10 @@
       S.sfx('wrong');
       if (r.sips > 0) setTimeout(() => S.sfx('drink'), 600);
     }
-    var isFirstMeet = D.resCount(r.resident.id) === 0;
     D.unlockResident(r.resident.id);
     const cat = CATS[r.resident.cat];
     const last = G.state.turnNo + 1 >= G.state.queue.length;
     const verdict = r.timedOut ? '時間切れ！' : r.correct ? '正解！' : '不正解…';
-    var mfMark = r.correct
-      ? '<div class="mf-mark"><svg class="mf-check" viewBox="0 0 64 64"><circle class="c-burst" cx="32" cy="32" r="28"/><circle class="c-ring" cx="32" cy="32" r="28"/><path class="c-path" d="M20 33l8 8 16-16"/></svg></div>'
-      : '<div class="mf-mark"><div class="mf-x-shake"><svg class="mf-x" viewBox="0 0 64 64"><circle class="x-ring" cx="32" cy="32" r="28"/><path class="x-l1" d="M22 22l20 20"/><path class="x-l2" d="M42 22L22 42"/></svg></div></div>';
     var mfConfetti = r.correct
       ? '<div class="mf-confetti"><span class="pc c1"></span><span class="pc c2"></span><span class="pc c3"></span><span class="pc c4"></span><span class="pc c5"></span><span class="pc c6"></span><span class="pc c7"></span><span class="pc c8"></span><span class="pc c9"></span><span class="pc c10"></span></div>'
       : '';
@@ -719,9 +715,6 @@
     var mfDosun = wasConfWrong
       ? '<div class="mf-dosun"><div class="dd ddl"></div><div class="dd ddr"></div><div class="dw"></div><div class="df"></div></div>'
       : '';
-    var mfBadge = isFirstMeet
-      ? '<div class="mf-badge"><span class="brb brl"></span><span class="brb brr"></span><i class="brg"></i><div class="bm"><svg class="bst" viewBox="0 0 24 24"><path class="bsp" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg><i class="bsh"></i></div><span class="btx">NEW!</span></div>'
-      : '';
     var mfName = '';
     for (var ni = 0; ni < r.resident.name.length; ni++) mfName += '<span class="mf-fu" style="animation-delay:' + (600 + ni * 50) + 'ms">' + esc(r.resident.name[ni]) + '</span>';
     var tDone = G.state.turnNo + 1, tTotal = G.state.queue.length;
@@ -731,10 +724,8 @@
     $('#scr-reveal').innerHTML =
       mfConfetti +
       mfDosun +
-      mfMark +
       '<div class="mf-flip"><div class="flip-card"><div class="flip-front">' + AV(r.resident.id, 150) + '</div><div class="flip-back"><span class="flip-q">?</span></div></div></div>' +
       '<div><span class="tag ' + cat.color + '">' + cat.label + '</span></div>' +
-      mfBadge +
       '<div class="res-name">' + mfName + '</div>' +
       '<div class="res-desc">' + r.resident.desc + '</div>' +
       '<div class="reveal-mascot">' + bubbleRow(r.correct ? 'happy' : 'shock', 104, r.roast) + '</div>' +
