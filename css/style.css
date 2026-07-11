@@ -621,6 +621,82 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .mute-btn .icon { width: 20px; height: 20px; }
 .mute-btn.off { color: #afafaf; }
 
+/* ---------- Motion Finder 演出 ---------- */
+
+/* 1. ステッガー出現（容疑者カード） */
+.suspect-mini.mf-in { opacity:0; animation:mfIn .45s cubic-bezier(.22,1,.36,1) forwards; }
+@keyframes mfIn { from{opacity:0;transform:translateY(16px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+
+/* 2. 正解チェック SVG描画 */
+#scr-reveal { position:relative; overflow:hidden; }
+.mf-mark { width:80px; height:80px; margin:0 auto 4px; }
+.mf-check { width:100%; height:100%; overflow:visible; opacity:0; animation:mfFadeIn .3s ease forwards; }
+.mf-check .c-burst { fill:none; stroke:var(--green); stroke-width:2; opacity:0; transform-origin:50% 50%; animation:mfBurst .6s ease-out .8s 1 forwards; }
+.mf-check .c-ring { fill:none; stroke:var(--green); stroke-width:4; stroke-linecap:round; stroke-dasharray:176; stroke-dashoffset:176; transform:rotate(-90deg); transform-origin:50% 50%; animation:mfDraw176 .7s ease .1s forwards; }
+.mf-check .c-path { fill:none; stroke:var(--green); stroke-width:5; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:36; stroke-dashoffset:36; animation:mfDraw36 .4s cubic-bezier(.65,0,.45,1) .65s forwards; }
+
+/* 3. 不正解バツ SVG描画 */
+.mf-x-shake { animation:mfShake .5s ease-in-out .85s 1; }
+.mf-x { width:100%; height:100%; overflow:visible; opacity:0; animation:mfFadeIn .3s ease forwards; }
+.mf-x .x-ring { fill:none; stroke:var(--red); stroke-width:4; stroke-linecap:round; stroke-dasharray:176; stroke-dashoffset:176; transform:rotate(-90deg); transform-origin:50% 50%; animation:mfDraw176 .6s ease .1s forwards; }
+.mf-x .x-l1,.mf-x .x-l2 { fill:none; stroke:var(--red); stroke-width:5; stroke-linecap:round; stroke-dasharray:30; stroke-dashoffset:30; }
+.mf-x .x-l1 { animation:mfDraw30 .3s ease .55s forwards; }
+.mf-x .x-l2 { animation:mfDraw30 .3s ease .72s forwards; }
+
+@keyframes mfFadeIn { to{opacity:1} }
+@keyframes mfDraw176 { to{stroke-dashoffset:0} }
+@keyframes mfDraw36 { to{stroke-dashoffset:0} }
+@keyframes mfDraw30 { to{stroke-dashoffset:0} }
+@keyframes mfBurst { 0%{transform:scale(1);opacity:0} 30%{opacity:.6} 100%{transform:scale(1.6);opacity:0} }
+@keyframes mfShake { 0%,100%{transform:translateX(0)} 15%{transform:translateX(-8px)} 30%{transform:translateX(7px)} 45%{transform:translateX(-5px)} 60%{transform:translateX(4px)} 80%{transform:translateX(-2px)} }
+
+/* 4. 紙吹雪 */
+.mf-confetti { position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:4; }
+.mf-confetti .pc { position:absolute; top:-16px; width:7px; height:12px; border-radius:2px; opacity:0; animation:mfFall 3s linear infinite; }
+.mf-confetti .c1{left:10%;background:var(--pink)} .mf-confetti .c2{left:22%;background:var(--blue);animation-delay:.5s}
+.mf-confetti .c3{left:32%;background:var(--gold);animation-delay:.2s} .mf-confetti .c4{left:42%;background:var(--green);animation-delay:.7s}
+.mf-confetti .c5{left:52%;background:var(--red);animation-delay:.1s} .mf-confetti .c6{left:62%;background:var(--purple);animation-delay:.6s}
+.mf-confetti .c7{left:72%;background:var(--blue);animation-delay:.3s} .mf-confetti .c8{left:82%;background:var(--orange);animation-delay:.8s}
+.mf-confetti .c9{left:16%;background:var(--green);animation-delay:1s} .mf-confetti .c10{left:68%;background:var(--pink);animation-delay:1.2s}
+@keyframes mfFall { 0%{transform:translateY(0) rotateZ(0) rotateX(0);opacity:0} 6%{opacity:1} 70%{opacity:1} 100%{transform:translateY(280px) rotateZ(300deg) rotateX(540deg);opacity:0} }
+
+/* 5. コインカウンター */
+.mf-coin { display:flex; align-items:center; justify-content:center; gap:7px; margin:2px 0 6px; }
+.mf-coin .gc-cico { width:22px; height:22px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#ffe9a3,var(--gold) 60%,var(--gold-d)); box-shadow:inset 0 0 0 3px rgba(255,255,255,.35); flex:none; animation:mfCoinSpin 1s ease .3s 1; }
+.mf-coin .gc-odo { display:block; height:28px; overflow:hidden; }
+.mf-coin .gc-reel { display:block; animation:mfCoinReel 1.2s cubic-bezier(.5,0,.3,1) .5s forwards; }
+.mf-coin .gc-n { display:block; height:28px; font:900 22px/28px ui-monospace,Menlo,monospace; }
+.result-banner.ok .mf-coin .gc-n { color:var(--green-t); }
+.result-banner.ng .mf-coin .gc-n { color:var(--red-t); }
+.mf-coin .gc-plus { font:900 18px/1 system-ui,sans-serif; color:var(--gold); opacity:0; animation:mfCoinPlus .8s ease .9s forwards; }
+@keyframes mfCoinSpin { 0%{transform:rotateY(0)} 50%{transform:rotateY(180deg)} 100%{transform:rotateY(360deg)} }
+@keyframes mfCoinReel { from{transform:translateY(0)} to{transform:translateY(-28px)} }
+@keyframes mfCoinPlus { 0%{opacity:0;transform:translateY(4px)} 50%{opacity:1;transform:translateY(-2px)} 100%{opacity:1;transform:translateY(0)} }
+
+/* 6. ストリーク炎（コンボ） */
+.mf-streak { display:flex; align-items:center; gap:6px; justify-content:center; margin:4px 0; }
+.mf-streak .gs-fbox { position:relative; width:36px; height:40px; transform-origin:50% 100%; animation:mfStrGrow .7s cubic-bezier(.34,1.3,.45,1) .2s both; }
+.mf-streak .gs-flame { position:absolute; left:50%; bottom:2px; width:28px; height:28px; margin-left:-14px; border-radius:3px 50% 50% 50%; background:linear-gradient(160deg,var(--gold) 10%,var(--orange) 55%,var(--red)); box-shadow:0 3px 8px rgba(255,150,0,.4); transform:rotate(45deg); animation:mfStrFlick .6s ease-in-out infinite alternate; }
+.mf-streak .gs-inner { width:14px; height:14px; margin-left:-7px; bottom:6px; background:linear-gradient(160deg,#fff3c4,var(--gold) 60%,var(--orange)); box-shadow:none; animation-duration:.5s; animation-delay:.2s; }
+.mf-streak .gs-txt { font:900 20px/1 system-ui,sans-serif; color:var(--gold); animation:mfStrPop .5s cubic-bezier(.34,1.56,.64,1) .4s both; }
+.mf-streak .gs-label { font:800 12px/1 system-ui,sans-serif; color:var(--text2); animation:mfStrPop .4s ease .5s both; }
+@keyframes mfStrFlick { 0%{transform:rotate(45deg) scale(1,1)} 100%{transform:rotate(45deg) scale(1.08,.94)} }
+@keyframes mfStrGrow { from{transform:scale(0)} to{transform:scale(1)} }
+@keyframes mfStrPop { from{transform:scale(.3);opacity:0} to{transform:scale(1);opacity:1} }
+
+/* 7. 優勝レベルアップ */
+.mf-levelup { position:relative; display:flex; align-items:center; justify-content:center; width:160px; height:160px; margin:0 auto; }
+.mf-levelup .glu-rays { position:absolute; inset:0; border-radius:50%; background:repeating-conic-gradient(rgba(255,200,0,.5) 0 9deg,rgba(255,200,0,0) 9deg 30deg); -webkit-mask:radial-gradient(circle,#000 22%,transparent 70%); mask:radial-gradient(circle,#000 22%,transparent 70%); animation:mfLuRays 4s linear infinite; }
+.mf-levelup .glu-wave { position:absolute; width:90px; height:90px; border-radius:50%; border:3px solid var(--gold); opacity:0; animation:mfLuWave 3s ease-out infinite; }
+.mf-levelup .glu-p { position:absolute; transform:rotate(var(--a)); }
+.mf-levelup .glu-dot { display:block; width:8px; height:8px; border-radius:50%; background:var(--c); opacity:0; animation:mfLuDot 3s ease-out infinite; }
+.mf-levelup .glu-p1{--a:-90deg;--c:var(--gold)} .mf-levelup .glu-p2{--a:-30deg;--c:var(--purple)} .mf-levelup .glu-p3{--a:30deg;--c:var(--pink)}
+.mf-levelup .glu-p4{--a:90deg;--c:var(--blue)} .mf-levelup .glu-p5{--a:150deg;--c:var(--green)} .mf-levelup .glu-p6{--a:210deg;--c:var(--pink)}
+.mf-levelup .glu-inner { position:relative; z-index:2; }
+@keyframes mfLuRays { to{transform:rotate(360deg)} }
+@keyframes mfLuWave { 0%{transform:scale(.5);opacity:0} 10%{opacity:.8} 60%,100%{transform:scale(2);opacity:0} }
+@keyframes mfLuDot { 0%{transform:translateX(14px) scale(.4);opacity:0} 10%{opacity:1} 60%,100%{transform:translateX(60px) scale(1);opacity:0} }
+
 /* ---------- motion pref ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }

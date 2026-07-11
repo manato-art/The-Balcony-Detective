@@ -200,7 +200,7 @@
       '<div class="sec-head who-head">' + I('user') + ' だれが住んでいる？</div>' +
       '<div class="suspect-strip" id="suspects">' +
       t.choices.map((c, ci) =>
-        '<button class="suspect-mini" data-ci="' + ci + '" onclick="UI.selSuspect(' + ci + ')"><span class="sm-check">' + I('check') + '</span><span class="sm-av">' + AV(c.id, 72) + '</span><span class="sm-nm">' + c.name + '</span></button>').join('') +
+        '<button class="suspect-mini mf-in" data-ci="' + ci + '" style="animation-delay:' + (ci * 80) + 'ms" onclick="UI.selSuspect(' + ci + ')"><span class="sm-check">' + I('check') + '</span><span class="sm-av">' + AV(c.id, 72) + '</span><span class="sm-nm">' + c.name + '</span></button>').join('') +
       '</div></div>' +
       '<div class="inv-section">' +
       '<div class="sec-head inv-head">' + I('sparkle') + ' 追加調査</div>' +
@@ -693,7 +693,21 @@
     const cat = CATS[r.resident.cat];
     const last = G.state.turnNo + 1 >= G.state.queue.length;
     const verdict = r.timedOut ? '時間切れ！' : r.correct ? '正解！' : '不正解…';
+    var mfMark = r.correct
+      ? '<div class="mf-mark"><svg class="mf-check" viewBox="0 0 64 64"><circle class="c-burst" cx="32" cy="32" r="28"/><circle class="c-ring" cx="32" cy="32" r="28"/><path class="c-path" d="M20 33l8 8 16-16"/></svg></div>'
+      : '<div class="mf-mark"><div class="mf-x-shake"><svg class="mf-x" viewBox="0 0 64 64"><circle class="x-ring" cx="32" cy="32" r="28"/><path class="x-l1" d="M22 22l20 20"/><path class="x-l2" d="M42 22L22 42"/></svg></div></div>';
+    var mfConfetti = r.correct
+      ? '<div class="mf-confetti"><span class="pc c1"></span><span class="pc c2"></span><span class="pc c3"></span><span class="pc c4"></span><span class="pc c5"></span><span class="pc c6"></span><span class="pc c7"></span><span class="pc c8"></span><span class="pc c9"></span><span class="pc c10"></span></div>'
+      : '';
+    var mfCoin = r.correct && r.points > 0
+      ? '<div class="mf-coin"><span class="gc-cico"></span><span class="gc-odo"><span class="gc-reel"><b class="gc-n">' + (r.player.score - r.points) + '</b><b class="gc-n">' + r.player.score + '</b></span></span><span class="gc-plus">+' + r.points + '</span></div>'
+      : '';
+    var mfStreak = r.correct && r.combo >= 2
+      ? '<div class="mf-streak"><div class="gs-fbox"><i class="gs-flame"></i><i class="gs-flame gs-inner"></i></div><div class="gs-txt">' + r.combo + '</div><div class="gs-label">連続正解</div></div>'
+      : '';
     $('#scr-reveal').innerHTML =
+      mfConfetti +
+      mfMark +
       '<div class="res-avatar">' + AV(r.resident.id, 150) + '</div>' +
       '<div><span class="tag ' + cat.color + '">' + cat.label + '</span></div>' +
       '<div class="res-name">' + r.resident.name + '</div>' +
@@ -701,6 +715,7 @@
       '<div class="reveal-mascot">' + bubbleRow(r.correct ? 'happy' : 'shock', 104, r.roast) + '</div>' +
       '<div class="result-banner ' + (r.correct ? 'ok' : 'ng') + '"><div class="inner">' +
       '<h3>' + I(r.correct ? 'check' : 'x') + verdict + (r.correct && r.combo >= 2 ? '　' + r.combo + 'コンボ！' : '') + '</h3>' +
+      mfCoin + mfStreak +
       (r.sips > 0
         ? '<div class="drink">' + I('beer') + esc(r.player.name) + ' は ' + r.sips + '口 飲め</div>'
         : '<div class="drink">' + I('check') + 'セーフ。飲まなくてよし</div>') +
@@ -727,7 +742,10 @@
       '<div class="st">正解 ' + p.correct + ' ／ 飲み ' + p.sips + '口</div></div>' +
       '<div class="sc">' + p.score + '</div></div>').join('');
     $('#scr-final').innerHTML =
-      '<div class="final-mascot">' + M('happy', 140) + '</div>' +
+      '<div class="mf-levelup"><i class="glu-rays"></i><i class="glu-wave"></i>' +
+      '<span class="glu-p glu-p1"><i class="glu-dot"></i></span><span class="glu-p glu-p2"><i class="glu-dot"></i></span><span class="glu-p glu-p3"><i class="glu-dot"></i></span>' +
+      '<span class="glu-p glu-p4"><i class="glu-dot"></i></span><span class="glu-p glu-p5"><i class="glu-dot"></i></span><span class="glu-p glu-p6"><i class="glu-dot"></i></span>' +
+      '<div class="glu-inner">' + M('happy', 120) + '</div></div>' +
       '<h1>捜査終了！</h1>' +
       '<div class="rank-list">' + rows + '</div>' +
       '<div class="badge-row">' +
