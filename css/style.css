@@ -38,7 +38,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 #app { max-width: 430px; margin: 0 auto; min-height: 100dvh; position: relative; }
 
 /* ---------- screens ---------- */
-.screen { display: none; min-height: 100dvh; flex-direction: column; padding: max(16px, env(safe-area-inset-top)) 18px calc(32px + env(safe-area-inset-bottom)); }
+.screen { display: none; min-height: 100dvh; flex-direction: column; padding: max(16px, env(safe-area-inset-top)) 18px calc(52px + env(safe-area-inset-bottom)); }
 .screen.active { display: flex; animation: screenIn .3s ease-out both; }
 @keyframes screenIn { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
 
