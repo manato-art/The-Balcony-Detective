@@ -54,18 +54,20 @@
   function esc(s) {
     return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
-  function syncCtaPad() {
+  function syncFixedPad() {
     var bar = $('#ctaBar'), play = $('#scr-play');
     if (bar && play && !bar.hidden) play.style.paddingBottom = (bar.offsetHeight + 16) + 'px';
+    var banner = document.querySelector('.result-banner'), rev = $('#scr-reveal');
+    if (banner && rev) rev.style.paddingBottom = (banner.offsetHeight + 16) + 'px';
   }
   function show(id) {
     document.querySelectorAll('.screen').forEach((el) => el.classList.remove('active'));
     $('#scr-' + id).classList.add('active');
     var cb = $('#ctaBar'); if (cb) cb.hidden = (id !== 'play');
-    if (id === 'play') requestAnimationFrame(syncCtaPad);
+    if (id === 'play' || id === 'reveal') requestAnimationFrame(syncFixedPad);
     window.scrollTo(0, 0);
   }
-  window.addEventListener('resize', syncCtaPad);
+  window.addEventListener('resize', syncFixedPad);
   function vibrate(p) { if (navigator.vibrate) navigator.vibrate(p); }
   function bubbleRow(pose, size, html) {
     return '<div class="mascot-row"><div class="m-fig">' + M(pose, size) + '</div><div class="bubble">' + html + '</div></div>';
