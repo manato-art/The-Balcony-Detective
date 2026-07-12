@@ -57,6 +57,7 @@
   function show(id) {
     document.querySelectorAll('.screen').forEach((el) => el.classList.remove('active'));
     $('#scr-' + id).classList.add('active');
+    var cb = $('#ctaBar'); if (cb) cb.hidden = (id !== 'play');
     window.scrollTo(0, 0);
   }
   function vibrate(p) { if (navigator.vibrate) navigator.vibrate(p); }
@@ -215,15 +216,16 @@
         '<div class="ac-meter"><span class="meter-label">リスク</span>' + meterSVG(a.rl, a.sc, SH_D) + '</div>' +
         '<div class="ac-meter"><span class="meter-label">リターン</span>' + meterSVG(a.rt, '#ffc107', ST_D) + '</div>' +
         '</div></div></button>').join('') +
-      '</div></div>' +
-      '<div class="cta-bar"><div class="cta-pair">' +
+      '</div></div>';
+    $('#ctaBar').innerHTML =
+      '<div class="cta-pair">' +
       '<button class="btn cta-normal" id="answerBtn" onclick="UI.submitAnswer(false)">' +
       '<span class="cta-title">' + I('search') + '回答する</span>' +
       '<span class="cta-rule cta-rule-g">不正解 一口飲む</span></button>' +
       '<button class="btn cta-conf" id="confBtn" onclick="UI.submitAnswer(true)">' +
       '<span class="cta-title">' + I('star') + '自信満々で回答！</span>' +
       '<span class="cta-rule cta-rule-y">正解+50pt / 不正解 二口</span></button>' +
-      '</div></div>';
+      '</div>';
     newScene(t, s);
     renderScene();
     show('play');
