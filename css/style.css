@@ -30,7 +30,9 @@ body {
   -webkit-user-select: none;
   touch-action: manipulation;
   overflow-x: hidden;
+  overscroll-behavior-x: none;
 }
+html { overflow-x: hidden; }
 input, textarea { user-select: text; -webkit-user-select: text; }
 
 #app { max-width: 430px; margin: 0 auto; min-height: 100dvh; position: relative; }
