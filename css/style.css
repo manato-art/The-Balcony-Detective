@@ -775,11 +775,20 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 #answerCountdown .mf-ring .rsec { font-size:17px; }
 
 /* 15. カード裏返し（正解発表） */
-.mf-flip { perspective:600px; margin:6px auto 0; }
-.mf-flip .flip-card { position:relative; transform-style:preserve-3d; animation:mfFlip .8s ease-out .2s both; }
+.mf-flip { perspective:800px; margin:6px auto 0; }
+.mf-flip .flip-card { position:relative; transform-style:preserve-3d; animation:mfFlip 1.6s cubic-bezier(.4,.0,.2,1) .3s both; }
 .mf-flip .flip-front,.mf-flip .flip-back { backface-visibility:hidden; }
-.mf-flip .flip-back { position:absolute; inset:0; transform:rotateY(180deg); display:grid; place-items:center; border-radius:16px; background:linear-gradient(140deg,var(--blue),var(--purple)); }
-.mf-flip .flip-q { font:900 48px/1 system-ui,sans-serif; color:rgba(255,255,255,.85); padding:20px; }
+.mf-flip .flip-back {
+  position:absolute; inset:0; transform:rotateY(180deg); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
+  border-radius:16px; border:3px solid var(--gold); border-bottom-width:5px;
+  background:repeating-conic-gradient(rgba(255,200,0,.06) 0% 25%, transparent 0% 50%) 0 0/20px 20px, linear-gradient(170deg,#fffbe6 0%,#fff4cc 100%);
+}
+.mf-flip .flip-q {
+  width:72px; height:72px; border-radius:50%; border:3px solid var(--gold);
+  background:#fff; display:flex; align-items:center; justify-content:center;
+}
+.mf-flip .flip-q svg { width:40px; height:40px; color:var(--gold-d); }
+.mf-flip .flip-label { font:900 13px/1 inherit; color:var(--gold-d); letter-spacing:.12em; }
 @keyframes mfFlip { 0%{transform:rotateY(180deg)} 100%{transform:rotateY(0)} }
 
 /* ---------- motion pref ---------- */

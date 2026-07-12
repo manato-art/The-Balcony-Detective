@@ -734,7 +734,7 @@
     $('#scr-reveal').innerHTML =
       mfConfetti +
       mfDosun +
-      '<div class="mf-flip"><div class="flip-card"><div class="flip-front">' + AV(r.resident.id, 150) + '</div><div class="flip-back"><span class="flip-q">?</span></div></div></div>' +
+      '<div class="mf-flip"><div class="flip-card"><div class="flip-front">' + AV(r.resident.id, 150) + '</div><div class="flip-back"><span class="flip-q">' + I('search') + '</span><span class="flip-label">だれ？</span></div></div></div>' +
       '<div><span class="tag ' + cat.color + '">' + cat.label + '</span></div>' +
       '<div class="res-name">' + mfName + '</div>' +
       '<div class="res-desc">' + r.resident.desc + '</div>' +
