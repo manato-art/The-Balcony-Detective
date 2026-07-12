@@ -170,8 +170,8 @@
   /* ============ 捜査画面 ============ */
   const ACTIONS = [
     { k: 'observe', icon: 'eye', nm: '観察', risk: '小リスク・小リターン', desc: '変化を詳しく見る', rl: 1, rt: 1, sc: '#66bb6a' },
-    { k: 'post', icon: 'post', nm: 'ポスト確認', risk: '中リスク・中リターン', desc: '玄関のポストを見る', rl: 2, rt: 2, sc: '#ffa726' },
-    { k: 'neighbor', icon: 'chat', nm: '聞き込み', risk: '大リスク・大リターン', desc: '近隣から情報を得る', rl: 3, rt: 3, sc: '#ec407a' },
+    { k: 'post', icon: 'post', nm: 'ポスト確認', risk: '中リスク・中リターン', desc: '玄関ポストを見る', rl: 2, rt: 2, sc: '#ffa726' },
+    { k: 'neighbor', icon: 'chat', nm: '聞き込み', risk: '大リスク・大リターン', desc: '近隣から情報収集', rl: 3, rt: 3, sc: '#ec407a' },
   ];
   function actionRisk(a) {
     return a.k === 'post' ? '発見率' + Math.round(gameCfg.post * 100) + '%' : a.risk;
