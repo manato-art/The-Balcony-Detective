@@ -119,7 +119,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .head .back .icon { transform: rotate(180deg); }
 .head h1 { font-size: 21px; font-weight: 900; letter-spacing: .04em; }
 
-.player-row { display: flex; gap: 6px; margin-bottom: 6px; }
+.player-row { display: flex; gap: 6px; margin-bottom: 6px; margin-left: 8px; margin-right: 8px; }
 .player-row .pinput { position: relative; flex: 1; display: flex; }
 .player-row input {
   flex: 1; min-height: 44px; border-radius: 12px; border: 2px solid var(--border);
