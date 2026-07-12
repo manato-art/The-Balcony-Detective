@@ -119,11 +119,11 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .head .back .icon { transform: rotate(180deg); }
 .head h1 { font-size: 21px; font-weight: 900; letter-spacing: .04em; }
 
-.player-row { display: flex; gap: 8px; margin-bottom: 10px; }
+.player-row { display: flex; gap: 6px; margin-bottom: 6px; }
 .player-row .pinput { position: relative; flex: 1; display: flex; }
 .player-row input {
-  flex: 1; min-height: 52px; border-radius: 14px; border: 2px solid var(--border);
-  background: #f7f7f7; color: var(--text); font: inherit; font-size: 16px; font-weight: 800; padding: 0 48px 0 14px;
+  flex: 1; min-height: 44px; border-radius: 12px; border: 2px solid var(--border);
+  background: #f7f7f7; color: var(--text); font: inherit; font-size: 15px; font-weight: 800; padding: 0 44px 0 12px;
 }
 .player-row input:focus { outline: none; border-color: var(--blue); background: #fff; }
 .player-row .pcount { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 800; color: var(--text2); pointer-events: none; font-variant-numeric: tabular-nums; }
