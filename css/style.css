@@ -119,16 +119,16 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .head .back .icon { transform: rotate(180deg); }
 .head h1 { font-size: 21px; font-weight: 900; letter-spacing: .04em; }
 
-.player-row { display: flex; gap: 6px; margin-bottom: 6px; margin-left: 8px; margin-right: 8px; }
-.player-row .pinput { position: relative; flex: 1; display: flex; }
+.player-row { display: flex; gap: 6px; margin-bottom: 6px; }
+.player-row .pinput { position: relative; flex: 1; display: flex; min-width: 0; }
 .player-row input {
-  flex: 1; min-height: 44px; border-radius: 12px; border: 2px solid var(--border);
+  flex: 1; min-width: 0; min-height: 44px; border-radius: 12px; border: 2px solid var(--border);
   background: #f7f7f7; color: var(--text); font: inherit; font-size: 15px; font-weight: 800; padding: 0 44px 0 12px;
 }
 .player-row input:focus { outline: none; border-color: var(--blue); background: #fff; }
 .player-row .pcount { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 800; color: var(--text2); pointer-events: none; font-variant-numeric: tabular-nums; }
 .player-row .pcount.max { color: var(--orange); }
-.player-row .del { width: 52px; border-radius: 14px; border: 2px solid var(--border); border-bottom-width: 4px; background: #fff; color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.player-row .del { width: 40px; flex-shrink: 0; border-radius: 12px; border: 2px solid var(--border); border-bottom-width: 4px; background: #fff; color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .add-row { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 48px; border-radius: 14px; border: 2px dashed var(--border-d); background: transparent; color: var(--text2); font: inherit; font-weight: 800; cursor: pointer; }
 
 .stepper { display: flex; align-items: center; gap: 14px; }
