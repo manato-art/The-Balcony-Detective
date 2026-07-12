@@ -178,7 +178,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 @keyframes springIn { 0% { transform: scale(.6) translateY(16px); opacity: 0; } 70% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1) translateY(0); } }
 
 /* ---------- 捜査画面 ---------- */
-#scr-play { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
+#scr-play { padding-bottom: calc(66px + env(safe-area-inset-bottom)); }
 .prog { height: 12px; border-radius: 8px; background: var(--border); overflow: hidden; margin-bottom: 7px; }
 .prog-fill { height: 100%; border-radius: 8px; background: var(--green); transition: width .4s ease; }
 .prog-fill.hot { background: var(--gold); }
@@ -373,7 +373,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .who-head .icon { color: #e91e63; }
 
 /* ---------- 追加調査セクション ---------- */
-.inv-section { background: #f3e5f5; border-radius: 14px; padding: 8px 8px 10px; margin-top: 6px; margin-bottom: 70px; }
+.inv-section { background: #f3e5f5; border-radius: 14px; padding: 8px 8px 10px; margin-top: 6px; }
 .inv-section .sec-head { margin-top: 0; color: #8e24aa; }
 .inv-head .icon { color: #8e24aa; }
 
