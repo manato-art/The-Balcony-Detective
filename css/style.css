@@ -180,7 +180,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 @keyframes springIn { 0% { transform: scale(.6) translateY(16px); opacity: 0; } 70% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1) translateY(0); } }
 
 /* ---------- 捜査画面 ---------- */
-#scr-play { padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px)); }
+#scr-play { padding-bottom: calc(180px + env(safe-area-inset-bottom, 0px)); }
 .prog { height: 12px; border-radius: 8px; background: var(--border); overflow: hidden; margin-bottom: 7px; }
 .prog-fill { height: 100%; border-radius: 8px; background: var(--green); transition: width .4s ease; }
 .prog-fill.hot { background: var(--gold); }
