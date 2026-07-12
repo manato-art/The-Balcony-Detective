@@ -721,10 +721,7 @@
     var mfStreak = r.correct && r.combo >= 2
       ? '<div class="mf-streak"><div class="gs-fbox"><i class="gs-flame"></i><i class="gs-flame gs-inner"></i></div><div class="gs-txt">' + r.combo + '</div><div class="gs-label">連続正解</div></div>'
       : '';
-    var wasConfWrong = !r.correct && !r.timedOut && r.notes.some(function(n) { return n.indexOf('自信満々') >= 0; });
-    var mfDosun = wasConfWrong
-      ? '<div class="mf-dosun"><div class="dd ddl"></div><div class="dd ddr"></div><div class="dw"></div><div class="df"></div></div>'
-      : '';
+    var mfDosun = '';
     var mfName = '';
     for (var ni = 0; ni < r.resident.name.length; ni++) mfName += '<span class="mf-fu" style="animation-delay:' + (600 + ni * 50) + 'ms">' + esc(r.resident.name[ni]) + '</span>';
     var tDone = G.state.turnNo + 1, tTotal = G.state.queue.length;
