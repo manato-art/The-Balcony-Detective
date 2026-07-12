@@ -36,7 +36,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 #app { max-width: 430px; margin: 0 auto; min-height: 100dvh; position: relative; }
 
 /* ---------- screens ---------- */
-.screen { display: none; min-height: 100dvh; flex-direction: column; padding: max(16px, env(safe-area-inset-top)) 18px calc(24px + env(safe-area-inset-bottom)); }
+.screen { display: none; min-height: 100dvh; flex-direction: column; padding: max(16px, env(safe-area-inset-top)) 18px calc(32px + env(safe-area-inset-bottom)); }
 .screen.active { display: flex; animation: screenIn .3s ease-out both; }
 @keyframes screenIn { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
 
@@ -178,7 +178,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 @keyframes springIn { 0% { transform: scale(.6) translateY(16px); opacity: 0; } 70% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1) translateY(0); } }
 
 /* ---------- 捜査画面 ---------- */
-#scr-play { padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
+#scr-play { padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px)); }
 .prog { height: 12px; border-radius: 8px; background: var(--border); overflow: hidden; margin-bottom: 7px; }
 .prog-fill { height: 100%; border-radius: 8px; background: var(--green); transition: width .4s ease; }
 .prog-fill.hot { background: var(--gold); }
@@ -493,7 +493,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 @keyframes pulseT { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.07); } }
 
 /* ---------- 結果発表 ---------- */
-#scr-reveal { text-align: center; gap: 10px; padding-top: max(26px, env(safe-area-inset-top)); padding-bottom: 340px; }
+#scr-reveal { text-align: center; gap: 10px; padding-top: max(26px, env(safe-area-inset-top)); padding-bottom: calc(340px + env(safe-area-inset-bottom, 0px)); }
 .res-avatar { margin: 6px auto 0; animation: springIn .55s cubic-bezier(.34, 1.56, .64, 1); }
 .res-name { font-size: 24px; font-weight: 900; margin-top: 2px; }
 .res-desc { font-size: 12.5px; color: var(--text2); font-weight: 700; }
