@@ -392,7 +392,7 @@ input, textarea { user-select: text; -webkit-user-select: text; }
 .ac-icon-wrap img { width: 40px; height: 40px; object-fit: contain; }
 .ac-body { padding: 0 5px 8px; }
 .action-card .nm { font-size: 13px; font-weight: 900; }
-.action-card .risk { font-size: 9px; color: #fff; margin: 3px 0 2px; font-weight: 800; display: inline-block; padding: 2px 4px; border-radius: 4px; line-height: 1.2; white-space: nowrap; }
+.action-card .risk { font-size: min(9px, 2.1vw); color: #fff; margin: 3px 0 2px; font-weight: 800; display: inline-block; padding: 2px 3px; border-radius: 4px; line-height: 1.2; white-space: nowrap; }
 .action-card.a-observe .risk { background: #43a047; }
 .action-card.a-post .risk { background: #ef6c00; }
 .action-card.a-neighbor .risk { background: #c2185b; }
